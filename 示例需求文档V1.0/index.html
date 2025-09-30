@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>示例需求文档V1.0 - 需求概览</title>
+    <style>
+        :root {
+            --background: 0 0% 100%;
+            --foreground: 222.2 84% 4.9%;
+            --card: 0 0% 100%;
+            --card-foreground: 222.2 84% 4.9%;
+            --primary: 222.2 47.4% 11.2%;
+            --primary-foreground: 210 40% 98%;
+            --secondary: 210 40% 96%;
+            --secondary-foreground: 222.2 84% 4.9%;
+            --muted: 210 40% 96%;
+            --muted-foreground: 215.4 16.3% 46.9%;
+            --accent: 210 40% 96%;
+            --accent-foreground: 222.2 84% 4.9%;
+            --destructive: 0 84.2% 60.2%;
+            --destructive-foreground: 210 40% 98%;
+            --border: 214.3 31.8% 91.4%;
+            --input: 214.3 31.8% 91.4%;
+            --ring: 222.2 84% 4.9%;
+            --radius: 0.5rem;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            line-height: 1.6;
+            color: hsl(var(--foreground));
+            background-color: hsl(var(--background));
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: hsl(var(--card));
+            border: 1px solid hsl(var(--border));
+            border-radius: var(--radius);
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+            padding: 2rem;
+        }
+
+        h1 {
+            color: hsl(var(--primary));
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 1px solid hsl(var(--border));
+        }
+
+        h2 {
+            color: hsl(var(--card-foreground));
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .info-item {
+            background-color: hsl(var(--accent));
+            padding: 1rem;
+            border-radius: calc(var(--radius) - 2px);
+            border: 1px solid hsl(var(--border));
+        }
+
+        .info-label {
+            font-weight: 600;
+            color: hsl(var(--accent-foreground));
+            margin-bottom: 0.25rem;
+        }
+
+        .info-value {
+            color: hsl(var(--muted-foreground));
+        }
+
+        .status-active {
+            color: #16a34a;
+            font-weight: 600;
+        }
+
+        .status-completed {
+            color: #2563eb;
+            font-weight: 600;
+        }
+
+        .status-archived {
+            color: #6b7280;
+            font-weight: 600;
+        }
+
+        .document-links {
+            margin-top: 2rem;
+        }
+
+        .document-links ul {
+            list-style-type: none;
+            padding-left: 0;
+        }
+
+        .document-links li {
+            margin-bottom: 0.75rem;
+        }
+
+        .document-links a {
+            color: hsl(var(--primary));
+            text-decoration: none;
+            padding: 0.5rem 0.75rem;
+            border: 1px solid hsl(var(--border));
+            border-radius: calc(var(--radius) - 2px);
+            display: inline-block;
+            transition: all 0.15s ease;
+            background-color: hsl(var(--background));
+        }
+
+        .document-links a:hover {
+            background-color: hsl(var(--accent));
+            transform: translateY(-1px);
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-bottom: 1rem;
+            color: hsl(var(--muted-foreground));
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.15s ease;
+        }
+
+        .back-link:hover {
+            color: hsl(var(--primary));
+        }
+
+        .version-history {
+            margin-top: 2rem;
+            padding: 1rem;
+            background-color: hsl(var(--muted));
+            border-radius: calc(var(--radius) - 2px);
+            border: 1px solid hsl(var(--border));
+        }
+
+        .version-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid hsl(var(--border));
+        }
+
+        .version-item:last-child {
+            border-bottom: none;
+        }
+
+        .version-date {
+            color: hsl(var(--muted-foreground));
+            font-size: 0.875rem;
+        }
+
+        .description {
+            background-color: hsl(var(--background));
+            padding: 1rem;
+            border-radius: calc(var(--radius) - 2px);
+            border: 1px solid hsl(var(--border));
+            margin-bottom: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="../index.html" class="back-link">← 返回需求管理系统</a>
+        
+        <h1>示例需求文档V1.0</h1>
+        
+        <div class="info-grid">
+            <div class="info-item">
+                <div class="info-label">需求名称</div>
+                <div class="info-value">示例需求文档V1.0</div>
+            </div>
+            <div class="info-item">
+                <div class="info-label">版本号</div>
+                <div class="info-value">V1.0</div>
+            </div>
+            <div class="info-item">
+                <div class="info-label">状态</div>
+                <div class="info-value status-active">进行中</div>
+            </div>
+            <div class="info-item">
+                <div class="info-label">负责人</div>
+                <div class="info-value">产品经理</div>
+            </div>
+            <div class="info-item">
+                <div class="info-label">创建时间</div>
+                <div class="info-value">2025-01-08</div>
+            </div>
+            <div class="info-item">
+                <div class="info-label">更新时间</div>
+                <div class="info-value">2025-01-08</div>
+            </div>
+        </div>
+
+        <h2>需求描述</h2>
+        <div class="description">
+            <p>这是一个示例需求文档，用于展示如何使用Markdown查看器模板来预览需求文档。该模板提供了简洁的界面，专注于内容展示，移除了左侧导航栏，使阅读体验更加清爽。</p>
+        </div>
+
+        <h2>需求目标</h2>
+        <div class="description">
+            <ul>
+                <li>提供简洁的Markdown文档查看体验</li>
+                <li>支持多种Markdown语法</li>
+                <li>提供主题切换功能</li>
+                <li>支持代码高亮显示</li>
+                <li>响应式设计，适配各种设备</li>
+            </ul>
+        </div>
+
+        <h2>相关文档</h2>
+        <div class="document-links">
+            <ul>
+                <li>
+                    <a href="../模板/markdown-viewer.html?file=原始文档/需求文档.md" target="_blank">
+                        📄 查看需求文档
+                    </a>
+                </li>
+                <li>
+                    <a href="原始文档/" target="_blank">
+                        📁 原始文档文件夹
+                    </a>
+                </li>
+                <li>
+                    <a href="相关资源/" target="_blank">
+                        📁 相关资源文件夹
+                    </a>
+                </li>
+                <li>
+                    <a href="版本历史/" target="_blank">
+                        📁 版本历史文件夹
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+        <h2>版本历史</h2>
+        <div class="version-history">
+            <div class="version-item">
+                <div>
+                    <strong>V1.0</strong> - 初始版本
+                </div>
+                <div class="version-date">2025-01-08</div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

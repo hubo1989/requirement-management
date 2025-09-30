@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>银行交易数据统计分析系统 - 联合营销平台</title>
+    <style>
+        :root {
+            --background: 0 0% 100%;
+            --foreground: 222.2 84% 4.9%;
+            --card: 0 0% 100%;
+            --card-foreground: 222.2 84% 4.9%;
+            --primary: 221.2 83.2% 53.3%;
+            --primary-foreground: 210 40% 98%;
+            --secondary: 210 40% 96%;
+            --secondary-foreground: 222.2 84% 4.9%;
+            --muted: 210 40% 96%;
+            --muted-foreground: 215.4 16.3% 46.9%;
+            --border: 214.3 31.8% 91.4%;
+            --radius: 0.5rem;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background-color: hsl(var(--muted));
+            color: hsl(var(--foreground));
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            background: hsl(var(--card));
+            border-radius: var(--radius);
+            padding: 20px 30px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 6px -1px hsl(var(--border) / 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .header h1 {
+            font-size: 1.8rem;
+            color: hsl(var(--primary));
+            font-weight: 600;
+        }
+
+        .header .subtitle {
+            color: hsl(var(--muted-foreground));
+            font-size: 0.9rem;
+            margin-top: 5px;
+        }
+
+        .controls {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .control-group {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .control-group label {
+            font-size: 0.85rem;
+            color: hsl(var(--muted-foreground));
+            font-weight: 500;
+        }
+
+        select, button {
+            padding: 8px 12px;
+            border-radius: 6px;
+            border: 1px solid hsl(var(--border));
+            background: hsl(var(--background));
+            color: hsl(var(--foreground));
+            font-size: 0.9rem;
+        }
+
+        button {
+            background: hsl(var(--primary));
+            color: hsl(var(--primary-foreground));
+            border: none;
+            cursor: pointer;
+            font-weight: 500;
+            transition: opacity 0.2s;
+        }
+
+        button:hover {
+            opacity: 0.9;
+        }
+
+        .overview-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .card {
+            background: hsl(var(--card));
+            border-radius: var(--radius);
+            padding: 20px;
+            box-shadow: 0 4px 6px -1px hsl(var(--border) / 0.1);
+            transition: box-shadow 0.2s;
+        }
+
+        .card:hover {
+            box-shadow: 0 10px 15px -3px hsl(var(--border) / 0.1);
+        }
+
+        .card-title {
+            font-size: 0.9rem;
+            color: hsl(var(--muted-foreground));
+            margin-bottom: 10px;
+        }
+
+        .card-value {
+            font-size: 2rem;
+            font-weight: 600;
+            color: hsl(var(--foreground));
+            margin-bottom: 5px;
+        }
+
+        .card-change {
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .positive {
+            color: #16a34a;
+        }
+
+        .negative {
+            color: #dc2626;
+        }
+
+        .chart-container {
+            background: hsl(var(--card));
+            border-radius: var(--radius);
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 6px -1px hsl(var(--border) / 0.1);
+        }
+
+        .chart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .chart-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: hsl(var(--foreground));
+        }
+
+        .chart-options {
+            display: flex;
+            gap: 10px;
+        }
+
+        .chart-option {
+            padding: 6px 12px;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            cursor: pointer;
+            background: hsl(var(--muted));
+            color: hsl(var(--muted-foreground));
+        }
+
+        .chart-option.active {
+            background: hsl(var(--primary));
+            color: hsl(var(--primary-foreground));
+        }
+
+        .chart-wrapper {
+            height: 400px;
+            position: relative;
+        }
+
+        .data-table-container {
+            background: hsl(var(--card));
+            border-radius: var(--radius);
+            padding: 20px;
+            box-shadow: 0 4px 6px -1px hsl(var(--border) / 0.1);
+            overflow-x: auto;
+        }
+
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .data-table th, .data-table td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid hsl(var(--border));
+        }
+
+        .data-table th {
+            background: hsl(var(--muted));
+            color: hsl(var(--muted-foreground));
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .data-table tr:hover {
+            background: hsl(var(--muted));
+        }
+
+        .bank-logo {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            margin-right: 10px;
+            vertical-align: middle;
+        }
+
+        .bank-name {
+            display: flex;
+            align-items: center;
+        }
+
+        .percentage-bar {
+            height: 8px;
+            background: hsl(var(--muted));
+            border-radius: 4px;
+            overflow: hidden;
+            margin-top: 5px;
+        }
+
+        .percentage-fill {
+            height: 100%;
+            background: hsl(var(--primary));
+        }
+
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: hsl(var(--muted-foreground));
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+            .header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .controls {
+                width: 100%;
+                margin-top: 15px;
+            }
+            
+            .chart-wrapper {
+                height: 300px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <div>
+                <h1>银行交易数据统计分析系统</h1>
+                <div class="subtitle">联合营销平台 - 多银行数据对比分析</div>
+            </div>
+            <div class="controls">
+                <div class="control-group">
+                    <label>时间范围</label>
+                    <select id="timeRange">
+                        <option value="7">最近7天</option>
+                        <option value="30" selected>最近30天</option>
+                        <option value="90">最近90天</option>
+                        <option value="365">最近一年</option>
+                    </select>
+                </div>
+                <div class="control-group">
+                    <label>数据类型</label>
+                    <select id="dataType">
+                        <option value="all" selected>全部交易</option>
+                        <option value="online">线上交易</option>
+                        <option value="offline">线下交易</option>
+                        <option value="mobile">手机银行</option>
+                    </select>
+                </div>
+                <button id="exportBtn">导出数据</button>
+            </div>
+        </div>
+
+        <div class="overview-cards">
+            <div class="card">
+                <div class="card-title">总交易笔数</div>
+                <div class="card-value">1,245,678</div>
+                <div class="card-change positive">
+                    <span>↑</span>
+                    <span>12.5% 较上期</span>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-title">总交易金额</div>
+                <div class="card-value">¥3,567.8万</div>
+                <div class="card-change positive">
+                    <span>↑</span>
+                    <span>8.7% 较上期</span>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-title">日均交易笔数</div>
+                <div class="card-value">41,523</div>
+                <div class="card-change negative">
+                    <span>↓</span>
+                    <span>2.3% 较上期</span>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-title">日均交易金额</div>
+                <div class="card-value">¥118.9万</div>
+                <div class="card-change positive">
+                    <span>↑</span>
+                    <span>5.1% 较上期</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="chart-container">
+            <div class="chart-header">
+                <div class="chart-title">银行交易趋势对比</div>
+                <div class="chart-options">
+                    <div class="chart-option active" data-chart="line">折线图</div>
+                    <div class="chart-option" data-chart="bar">柱状图</div>
+                </div>
+            </div>
+            <div class="chart-wrapper">
+                <canvas id="trendChart"></canvas>
+            </div>
+        </div>
+
+        <div class="chart-container">
+            <div class="chart-header">
+                <div class="chart-title">银行交易占比分析</div>
+                <div class="chart-options">
+                    <div class="chart-option active" data-chart="pie">饼图</div>
+                    <div class="chart-option" data-chart="doughnut">环形图</div>
+                </div>
+            </div>
+            <div class="chart-wrapper">
+                <canvas id="pieChart"></canvas>
+            </div>
+        </div>
+
+        <div class="data-table-container">
+            <div class="chart-header">
+                <div class="chart-title">银行交易详细数据</div>
+                <button id="refreshTable">刷新数据</button>
+            </div>
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>银行名称</th>
+                        <th>交易笔数</th>
+                        <th>交易金额(万元)</th>
+                        <th>平均交易金额(元)</th>
+                        <th>占比</th>
+                        <th>环比增长</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="bank-name">
+                            <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjI0IiBoZWlnaHQ9IjI0IiBmaWxsPSIjMTk3NmQyIi8+Cjx0ZXh0IHg9IjEyIiB5PSIxNCIgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXNpemU9IjEwIiBmaWxsPSIjZmZmZmZmIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj5JQ0JDPC90ZXh0Pgo8L3N2Zz4=" alt="工商银行" class="bank-logo">
+                            工商银行
+                        </td>
+                        <td>356,789</td>
+                        <td>1,023.5</td>
+                        <td>286.8</td>
+                        <td>
+                            28.6%
+                            <div class="percentage-bar">
+                                <div class="percentage-fill" style="width: 28.6%"></div>
+                            </div>
+                        </td>
+                        <td class="positive">+12.3%</td>
+                    </tr>
+                    <tr>
+                        <td class="bank-name">
+                            <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjI0IiBoZWlnaHQ9IjI0IiBmaWxsPSIjMTk3NmQyIi8+Cjx0ZXh0IHg9IjEyIiB5PSIxNCIgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXNpemU9IjEwIiBmaWxsPSIjZmZmZmZmIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj5DQ0I8L3RleHQ+Cjwvc3ZnPg==" alt="建设银行" class="bank-logo">
+                            建设银行
+                        </td>
+                        <td>298,456</td>
+                        <td>856.7</td>
+                        <td>287.0</td>
+                        <td>
+                            24.0%
+                            <div class="percentage-bar">
+                                <div class="percentage-fill" style="width: 24.0%"></div>
+                            </div>
+                        </td>
+                        <td class="positive">+8.5%</td>
+                    </tr>
+                    <tr>
+                        <td class="bank-name">
+                            <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjI0IiBoZWlnaHQ9IjI0IiBmaWxsPSIjMTk3NmQyIi8+Cjx0ZXh0IHg9IjEyIiB5PSIxNCIgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXNpemU9IjEwIiBmaWxsPSIjZmZmZmZmIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj5BQkM8L3RleHQ+Cjwvc3ZnPg==" alt="农业银行" class="bank-logo">
+                            农业银行
+                        </td>
+                        <td>234,567</td>
+                        <td>678.9</td>
+                        <td>289.4</td>
+                        <td>
+                            18.8%
+                            <div class="percentage-bar">
+                                <div class="percentage-fill" style="width: 18.8%"></div>
+                            </div>
+                        </td>
+                        <td class="positive">+15.2%</td>
+                    </tr>
+                    <tr>
+                        <td class="bank-name">
+                            <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjI0IiBoZWlnaHQ9IjI0IiBmaWxsPSIjMTk3NmQyIi8+Cjx0ZXh0IHg9IjEyIiB5PSIxNCIgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXNpemU9IjEwIiBmaWxsPSIjZmZmZmZmIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj5CT0M8L3RleHQ+Cjwvc3ZnPg==" alt="中国银行" class="bank-logo">
+                            中国银行
+                        </td>
+                        <td>198,765</td>
+                        <td>567.8</td>
+                        <td>285.7</td>
+                        <td>
+                            16.0%
+                            <div class="percentage-bar">
+                                <div class="percentage-fill" style="width: 16.0%"></div>
+                            </div>
+                        </td>
+                        <td class="negative">-2.1%</td>
+                    </tr>
+                    <tr>
+                        <td class="bank-name">
+                            <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjI0IiBoZWlnaHQ9IjI0IiBmaWxsPSIjMTk3NmQyIi8+Cjx0ZXh0IHg9IjEyIiB5PSIxNCIgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXNpemU9IjEwIiBmaWxsPSIjZmZmZmZmIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj5QU0JDPC90ZXh0Pgo8L3N2Zz4=" alt="邮储银行" class="bank-logo">
+                            邮储银行
+                        </td>
+                        <td>157,101</td>
+                        <td>440.9</td>
+                            <td>280.7</td>
+                        <td>
+                            12.6%
+                            <div class="percentage-bar">
+                                <div class="percentage-fill" style="width: 12.6%"></div>
+                            </div>
+                        </td>
+                        <td class="positive">+5.7%</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="footer">
+            <p>© 2023 银行交易数据统计分析系统 - 数据更新时间: 2023-08-15 10:30:25</p>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        // 示例数据 - 直接嵌入HTML文件中
+        const sampleData = {
+            banks: ['工商银行', '建设银行', '农业银行', '中国银行', '邮储银行'],
+            colors: ['#0969da', '#dc2626', '#16a34a', '#ca8a04', '#7c3aed'],
+            trendData: {
+                labels: ['8月1日', '8月2日', '8月3日', '8月4日', '8月5日', '8月6日', '8月7日', '8月8日', '8月9日', '8月10日', '8月11日', '8月12日', '8月13日', '8月14日', '8月15日'],
+                datasets: [
+                    {
+                        label: '工商银行',
+                        data: [12000, 13500, 11800, 14200, 15600, 13900, 14800, 16200, 15100, 16700, 15900, 17300, 16800, 18200, 17600],
+                        borderColor: '#0969da',
+                        backgroundColor: 'rgba(9, 105, 218, 0.1)',
+                        tension: 0.3
+                    },
+                    {
+                        label: '建设银行',
+                        data: [9800, 10200, 9500, 11000, 12500, 11800, 12200, 13000, 12800, 13500, 13200, 14000, 13800, 14500, 14200],
+                        borderColor: '#dc2626',
+                        backgroundColor: 'rgba(220, 38, 38, 0.1)',
+                        tension: 0.3
+                    },
+                    {
+                        label: '农业银行',
+                        data: [8500, 8800, 8200, 9100, 9800, 9500, 9700, 10200, 10000, 10500, 10300, 10800, 10600, 11000, 10900],
+                        borderColor: '#16a34a',
+                        backgroundColor: 'rgba(22, 163, 74, 0.1)',
+                        tension: 0.3
+                    },
+                    {
+                        label: '中国银行',
+                        data: [7200, 7500, 7100, 7800, 8200, 8000, 8100, 8500, 8300, 8700, 8600, 8900, 8800, 9100, 9000],
+                        borderColor: '#ca8a04',
+                        backgroundColor: 'rgba(202, 138, 4, 0.1)',
+                        tension: 0.3
+                    },
+                    {
+                        label: '邮储银行',
+                        data: [5800, 6000, 5700, 6200, 6500, 6400, 6500, 6800, 6700, 7000, 6900, 7100, 7000, 7300, 7200],
+                        borderColor: '#7c3aed',
+                        backgroundColor: 'rgba(124, 58, 237, 0.1)',
+                        tension: 0.3
+                    }
+                ]
+            },
+            pieData: {
+                labels: ['工商银行', '建设银行', '农业银行', '中国银行', '邮储银行'],
+                datasets: [{
+                    data: [28.6, 24.0, 18.8, 16.0, 12.6],
+                    backgroundColor: ['#0969da', '#dc2626', '#16a34a', '#ca8a04', '#7c3aed'],
+                    borderWidth: 1
+                }]
+            }
+        };
+
+        // 图表实例变量
+        let trendChartInstance = null;
+        let pieChartInstance = null;
+
+        // 初始化趋势图表
+        const trendCtx = document.getElementById('trendChart').getContext('2d');
+        trendChartInstance = new Chart(trendCtx, {
+            type: 'line',
+            data: sampleData.trendData,
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+                    tooltip: {
+                        mode: 'index',
+                        intersect: false,
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: '交易笔数'
+                        }
+                    }
+                }
+            }
+        });
+
+        // 初始化饼图
+        const pieCtx = document.getElementById('pieChart').getContext('2d');
+        pieChartInstance = new Chart(pieCtx, {
+            type: 'pie',
+            data: sampleData.pieData,
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'right',
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                return `${context.label}: ${context.raw}%`;
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        // 图表类型切换
+        document.querySelectorAll('.chart-option').forEach(option => {
+            option.addEventListener('click', function() {
+                const parent = this.parentElement;
+                parent.querySelectorAll('.chart-option').forEach(opt => opt.classList.remove('active'));
+                this.classList.add('active');
+                
+                const chartType = this.dataset.chart;
+                const chartContainer = this.closest('.chart-container');
+                const canvas = chartContainer.querySelector('canvas');
+                const ctx = canvas.getContext('2d');
+                
+                if (chartContainer.querySelector('.chart-title').textContent === '银行交易趋势对比') {
+                    // 销毁旧图表
+                    if (trendChartInstance) {
+                        trendChartInstance.destroy();
+                    }
+                    // 创建新图表并保存引用
+                    trendChartInstance = new Chart(ctx, {
+                        type: chartType,
+                        data: sampleData.trendData,
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            plugins: {
+                                legend: {
+                                    position: 'top',
+                                },
+                                tooltip: {
+                                    mode: 'index',
+                                    intersect: false,
+                                }
+                            },
+                            scales: {
+                                y: {
+                                    beginAtZero: true,
+                                    title: {
+                                        display: true,
+                                        text: '交易笔数'
+                                    }
+                                }
+                            }
+                        }
+                    });
+                } else if (chartContainer.querySelector('.chart-title').textContent === '银行交易占比分析') {
+                    // 销毁旧图表
+                    if (pieChartInstance) {
+                        pieChartInstance.destroy();
+                    }
+                    // 创建新图表并保存引用
+                    pieChartInstance = new Chart(ctx, {
+                        type: chartType,
+                        data: sampleData.pieData,
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            plugins: {
+                                legend: {
+                                    position: 'right',
+                                },
+                                tooltip: {
+                                    callbacks: {
+                                        label: function(context) {
+                                            return `${context.label}: ${context.raw}%`;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    });
+                }
+            });
+        });
+
+        // 导出数据功能
+        document.getElementById('exportBtn').addEventListener('click', function() {
+            // 模拟导出功能
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: hsl(var(--primary));
+                color: hsl(var(--primary-foreground));
+                padding: 15px 20px;
+                border-radius: var(--radius);
+                box-shadow: 0 4px 6px -1px hsl(var(--border) / 0.1);
+                z-index: 1000;
+            `;
+            notification.textContent = '数据导出成功！';
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.style.opacity = '0';
+                notification.style.transition = 'opacity 0.5s';
+                setTimeout(() => {
+                    document.body.removeChild(notification);
+                }, 500);
+            }, 2000);
+        });
+
+        // 刷新表格功能
+        document.getElementById('refreshTable').addEventListener('click', function() {
+            // 模拟刷新表格
+            const rows = document.querySelectorAll('.data-table tbody tr');
+            rows.forEach(row => {
+                row.style.opacity = '0.5';
+                setTimeout(() => {
+                    row.style.opacity = '1';
+                }, 500);
+            });
+            
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: hsl(var(--primary));
+                color: hsl(var(--primary-foreground));
+                padding: 15px 20px;
+                border-radius: var(--radius);
+                box-shadow: 0 4px 6px -1px hsl(var(--border) / 0.1);
+                z-index: 1000;
+            `;
+            notification.textContent = '表格数据已刷新！';
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.style.opacity = '0';
+                notification.style.transition = 'opacity 0.5s';
+                setTimeout(() => {
+                    document.body.removeChild(notification);
+                }, 500);
+            }, 2000);
+        });
+    </script>
+</body>
+
+</html>

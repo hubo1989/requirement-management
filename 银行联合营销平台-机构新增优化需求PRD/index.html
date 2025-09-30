@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>银行联合营销平台-机构新增优化需求PRD</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Microsoft YaHei', Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f9f9f9;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        header {
+            background-color: #2c3e50;
+            color: white;
+            padding: 20px 0;
+            text-align: center;
+            margin-bottom: 30px;
+            border-radius: 5px;
+        }
+        h1 {
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+        .breadcrumb {
+            margin-bottom: 20px;
+            font-size: 0.9rem;
+        }
+        .breadcrumb a {
+            color: #3498db;
+            text-decoration: none;
+        }
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+        .info-card {
+            background-color: white;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        .info-card h2 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #eee;
+        }
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 15px;
+        }
+        .info-item {
+            margin-bottom: 10px;
+        }
+        .info-item strong {
+            display: inline-block;
+            width: 100px;
+            color: #7f8c8d;
+        }
+        .status {
+            display: inline-block;
+            padding: 3px 10px;
+            border-radius: 3px;
+            font-size: 0.9rem;
+            color: white;
+        }
+        .status-active {
+            background-color: #2ecc71;
+        }
+        .status-pending {
+            background-color: #f39c12;
+        }
+        .status-completed {
+            background-color: #3498db;
+        }
+        .document-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 15px;
+        }
+        .document-link {
+            display: flex;
+            align-items: center;
+            padding: 10px 15px;
+            background-color: #f0f8ff;
+            border-radius: 5px;
+            text-decoration: none;
+            color: #2c3e50;
+            transition: background-color 0.3s;
+        }
+        .document-link:hover {
+            background-color: #e0f0ff;
+        }
+        .document-icon {
+            margin-right: 10px;
+            font-size: 1.2rem;
+        }
+        .resource-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+        .resource-item {
+            background-color: #f0f8ff;
+            border-radius: 5px;
+            padding: 15px;
+            text-align: center;
+        }
+        .resource-item img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 3px;
+            margin-bottom: 10px;
+        }
+        .resource-item a {
+            color: #3498db;
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+        .resource-item a:hover {
+            text-decoration: underline;
+        }
+        .version-history {
+            margin-top: 15px;
+        }
+        .version-item {
+            padding: 10px;
+            border-bottom: 1px solid #eee;
+        }
+        .version-item:last-child {
+            border-bottom: none;
+        }
+        .version-date {
+            color: #7f8c8d;
+            font-size: 0.9rem;
+        }
+        .back-link {
+            display: inline-block;
+            margin-bottom: 20px;
+            padding: 8px 15px;
+            background-color: #3498db;
+            color: white;
+            text-decoration: none;
+            border-radius: 3px;
+            transition: background-color 0.3s;
+        }
+        .back-link:hover {
+            background-color: #2980b9;
+        }
+        footer {
+            text-align: center;
+            margin-top: 30px;
+            padding: 20px;
+            color: #7f8c8d;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="../index.html" class="back-link">← 返回需求列表</a>
+        
+        <header>
+            <h1>银行联合营销平台-机构新增优化需求PRD</h1>
+        </header>
+
+        <div class="breadcrumb">
+            <a href="../index.html">需求文档管理系统</a> > 银行联合营销平台 > 银行联合营销平台-机构新增优化需求PRD
+        </div>
+
+        <div class="info-card">
+            <h2>需求基本信息</h2>
+            <div class="info-grid">
+                <div class="info-item">
+                    <strong>需求名称:</strong> 银行联合营销平台-机构新增优化需求
+                </div>
+                <div class="info-item">
+                    <strong>需求编号:</strong> PRD-2025-001
+                </div>
+                <div class="info-item">
+                    <strong>需求版本:</strong> V1.0
+                </div>
+                <div class="info-item">
+                    <strong>需求状态:</strong> <span class="status status-active">进行中</span>
+                </div>
+                <div class="info-item">
+                    <strong>创建日期:</strong> 2025-06-17
+                </div>
+                <div class="info-item">
+                    <strong>最后更新:</strong> 2025-06-17
+                </div>
+                <div class="info-item">
+                    <strong>负责人:</strong> 产品经理
+                </div>
+                <div class="info-item">
+                    <strong>优先级:</strong> 高
+                </div>
+            </div>
+        </div>
+
+        <div class="info-card">
+            <h2>需求描述</h2>
+            <p>本需求旨在优化银行联合营销平台的机构新增功能，提升用户体验和系统性能。主要包括机构信息录入流程优化、数据验证机制增强、审批流程简化等方面的改进。</p>
+        </div>
+
+        <div class="info-card">
+            <h2>需求目标</h2>
+            <ul style="margin-left: 20px; margin-top: 10px;">
+                <li>提升机构新增流程的用户体验，减少操作步骤</li>
+                <li>增强数据验证机制，降低错误率</li>
+                <li>简化审批流程，提高处理效率</li>
+                <li>优化系统性能，提高响应速度</li>
+            </ul>
+        </div>
+
+        <div class="info-card">
+            <h2>需求文档</h2>
+            <div class="document-links">
+                <a href="原始文档/银行联合营销平台-机构新增优化需求PRD.md" class="document-link">
+                    <span class="document-icon">📄</span>
+                    <span>Markdown版本</span>
+                </a>
+                <a href="原始文档/银行联合营销平台-机构新增优化需求PRD.pdf" class="document-link">
+                    <span class="document-icon">📕</span>
+                    <span>PDF版本</span>
+                </a>
+                <a href="../html/银行联合营销平台-机构新增页面原型.html" class="document-link">
+                    <span class="document-icon">🖥️</span>
+                    <span>页面原型</span>
+                </a>
+            </div>
+        </div>
+
+        <div class="info-card">
+            <h2>相关资源</h2>
+            <div class="resource-grid">
+                <div class="resource-item">
+                    <img src="相关资源/1758272468746.png" alt="机构新增页面设计图">
+                    <a href="相关资源/1758272468746.png" target="_blank">机构新增页面设计图</a>
+                </div>
+                <div class="resource-item">
+                    <img src="相关资源/1758274520479.png" alt="机构信息录入流程图">
+                    <a href="相关资源/1758274520479.png" target="_blank">机构信息录入流程图</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="info-card">
+            <h2>版本历史</h2>
+            <div class="version-history">
+                <div class="version-item">
+                    <div><strong>V1.0</strong> <span class="version-date">2025-06-17</span></div>
+                    <div>初始版本，包含机构新增优化需求的完整描述</div>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <p>需求文档管理系统 &copy; 2025 | 最后更新: 2025-06-17</p>
+        </footer>
+    </div>
+</body>
+</html>

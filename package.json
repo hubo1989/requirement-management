@@ -1,0 +1,21 @@
+{
+  "name": "需求文档管理系统",
+  "version": "1.0.0",
+  "description": "系统化维护所有需求文档",
+  "main": "index.html",
+  "scripts": {
+    "dev": "vercel dev",
+    "build": "echo 'No build step required'",
+    "deploy": "vercel --prod"
+  },
+  "keywords": [
+    "需求管理",
+    "文档系统",
+    "PRD"
+  ],
+  "author": "产品团队",
+  "license": "MIT",
+  "devDependencies": {
+    "vercel": "^32.4.1"
+  }
+}

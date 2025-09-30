@@ -1,0 +1,795 @@
+<!DOCTYPE html>
+<html xmlns:o='urn:schemas-microsoft-com:office:office' 
+      xmlns:w='urn:schemas-microsoft-com:office:word' 
+      xmlns='http://www.w3.org/TR/REC-html40'>
+<head>
+    <meta charset='utf-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+    <title>联合营销平台三方营销管理-云数汇接入需求文档</title>
+    <!--[if gte mso 9]>
+    <xml>
+        <w:WordDocument>
+            <w:View>Print</w:View>
+            <w:Zoom>90</w:Zoom>
+            <w:DoNotPromptForConvert/>
+            <w:DoNotShowInsertionsAndDeletions/>
+        </w:WordDocument>
+    </xml>
+    <![endif]-->
+    <style>
+        body { 
+            font-family: '宋体', SimSun, serif; 
+            font-size: 14pt; 
+            line-height: 1.6; 
+            margin: 1in 10% 1in 10%;
+            background: white;
+        }
+        h1 { 
+            font-size: 20pt; 
+            color: #2c3e50; 
+            border-bottom: 2px solid #007bff; 
+            padding-bottom: 10pt; 
+            margin-top: 20pt;
+            margin-bottom: 15pt;
+            page-break-after: avoid;
+        }
+        h2 { 
+            font-size: 18pt; 
+            color: #007bff; 
+            margin-top: 20pt; 
+            margin-bottom: 10pt;
+            page-break-after: avoid;
+        }
+        h3 { 
+            font-size: 16pt; 
+            color: #495057; 
+            margin-top: 15pt; 
+            margin-bottom: 8pt;
+            page-break-after: avoid;
+        }
+        h4 { 
+            font-size: 14pt; 
+            color: #6c757d; 
+            margin-top: 10pt; 
+            margin-bottom: 6pt;
+            page-break-after: avoid;
+        }
+        p { 
+            margin-bottom: 6pt; 
+            text-align: justify; 
+            text-indent: 0;
+        }
+        ul, ol { 
+            margin-left: 20pt; 
+            margin-bottom: 10pt;
+        }
+        li { 
+            margin-bottom: 3pt; 
+        }
+        table { 
+            border-collapse: collapse; 
+            width: 100%; 
+            margin: 10pt 0; 
+            font-size: 12pt;
+        }
+        th, td { 
+            border: 1pt solid #000; 
+            padding: 6pt; 
+            text-align: left; 
+            vertical-align: top;
+        }
+        th { 
+            background-color: #f0f0f0; 
+            font-weight: bold; 
+        }
+        .code-block { 
+            background-color: #f8f9fa; 
+            border: 1pt solid #ccc; 
+            padding: 10pt; 
+            font-family: 'Courier New', monospace; 
+            font-size: 12pt;
+            margin: 10pt 0;
+        }
+        .highlight-box { 
+            background-color: #e7f3ff; 
+            border: 1pt solid #b3d9ff; 
+            padding: 10pt; 
+            margin: 10pt 0; 
+        }
+        .warning-box { 
+            background-color: #fff3cd; 
+            border: 1pt solid #ffeaa7; 
+            padding: 10pt; 
+            margin: 10pt 0; 
+        }
+        .success-box { 
+            background-color: #d4edda; 
+            border: 1pt solid #c3e6cb; 
+            padding: 10pt; 
+            margin: 10pt 0; 
+        }
+        .header { 
+            text-align: center; 
+            margin-bottom: 30pt; 
+            border-bottom: 3pt solid #007bff; 
+            padding-bottom: 20pt;
+        }
+        .meta { 
+            color: #666; 
+            font-size: 12pt; 
+            margin-top: 10pt;
+        }
+        .footer { 
+            text-align: center; 
+            margin-top: 30pt; 
+            border-top: 2pt solid #ccc; 
+            padding-top: 20pt; 
+            color: #666; 
+            font-size: 12pt;
+        }
+        .api-endpoint { 
+            background-color: #28a745; 
+            color: white; 
+            padding: 4pt 8pt; 
+            font-family: 'Courier New', monospace; 
+            font-size: 12pt;
+        }
+        .parameter-list { 
+            background-color: #f8f9fa; 
+            padding: 8pt; 
+            margin: 8pt 0; 
+            border-left: 3pt solid #007bff;
+        }
+        .url-link {
+            color: #0066cc;
+            text-decoration: underline;
+            font-family: 'Courier New', monospace;
+            font-size: 12pt;
+        }
+        .meta {
+            text-align: center;
+            color: #666;
+            font-size: 14px;
+            margin-top: 10px;
+        }
+        .footer {
+            margin-top: 50px;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-top: 1px solid #dee2e6;
+            text-align: center;
+            color: #666;
+            font-size: 12px;
+        }
+        @page {
+            margin: 1in 10% 1in 10%;
+        }
+        @media print {
+            body { margin: 1in 10% 1in 10%; }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>联合营销平台三方营销管理-云数汇接入需求文档</h1>
+        <div class="meta">
+            <p>版本：v2.0 | 创建日期：2025年7月 | 最后更新：2025年8月</p>
+        </div>
+    </div>
+
+    <h1>1. 项目概述</h1>
+    
+    <h3>1.1 项目背景</h3>
+    <p>本项目旨在构建一个完整的微信优惠券营销管理平台，通过接入云数汇第三方微信优惠券服务商，为合作银行提供统一的优惠券发放服务。项目包含三个核心组成部分：云数汇API接入层、主题活动管理系统和活动优惠券管理系统，形成完整的营销活动管理闭环。</p>
+
+    <h3>1.2 项目目标</h3>
+    <ul>
+        <li><strong>统一接入服务：</strong>与云数汇API对接，实现优惠券发放功能</li>
+        <li><strong>标准化接口：</strong>封装标准化接口供合作银行调用</li>
+        <li><strong>完整业务管理：</strong>提供主题活动和微信活动的全生命周期管理</li>
+        <li><strong>数据统计分析：</strong>提供完善的数据统计和查询功能</li>
+        <li><strong>可靠回调机制：</strong>建立完善的异步回调处理机制</li>
+    </ul>
+
+    <h3>1.3 系统架构概览</h3>
+    <div class="highlight-box">
+        <p><strong>系统整体架构：</strong></p>
+        <ul>
+            <li><strong>主题活动管理系统：</strong>负责营销活动的策划、配置和管理，包含转盘抽奖等互动功能</li>
+            <li><strong>活动优惠券管理系统：</strong>专门管理多渠道优惠券活动（微信、支付宝、银联），与主题活动关联，提供优惠券发放和核销管理</li>
+            <li><strong>云数汇接入层：</strong>封装云数汇API，提供统一的优惠券发放服务接口</li>
+            <li><strong>联合营销平台：</strong>为运营人员提供统一的管理界面和数据查询功能</li>
+        </ul>
+    </div>
+
+    <h3>1.4 业务价值</h3>
+    <div class="success-box">
+        <p><strong>核心价值：</strong></p>
+        <ul>
+            <li><strong>降低接入成本：</strong>银行无需直接对接云数汇，通过标准化接口快速接入</li>
+            <li><strong>统一管理平台：</strong>提供完整的活动管理和数据分析能力</li>
+            <li><strong>扩展性保障：</strong>中间层设计支持后续接入多个上游发券通道</li>
+            <li><strong>数据安全可控：</strong>完整的权限控制和数据隔离机制</li>
+        </ul>
+    </div>
+
+    <h1>2. 业务逻辑与流程</h1>
+    
+    <h3>2.1 整体业务逻辑</h3>
+    <div class="highlight-box">
+        <p><strong>业务逻辑核心：</strong></p>
+        <p>整个系统围绕"主题活动"和"微信活动"两个核心概念构建。主题活动作为营销活动的顶层设计，定义活动的基本信息、参与规则和奖品配置；微信活动作为主题活动的具体实施载体，负责优惠券的发放和管理。两者通过活动关联形成完整的营销闭环。</p>
+        
+        <p><strong>系统协作关系：</strong></p>
+        <ol>
+            <li><strong>活动策划阶段：</strong>运营人员在主题活动管理系统中创建营销活动，配置活动规则、奖品和转盘等互动元素</li>
+            <li><strong>优惠券配置：</strong>在活动优惠券管理系统中创建优惠券活动，关联到对应的主题活动</li>
+            <li><strong>用户参与：</strong>用户通过H5页面参与主题活动，获取微信OpenID，触发优惠券发放流程</li>
+            <li><strong>发券执行：</strong>系统调用云数汇API发放优惠券，记录发放结果</li>
+            <li><strong>核销管理：</strong>用户使用优惠券时，通过回调机制更新核销状态</li>
+            <li><strong>数据分析：</strong>在联合营销平台查看活动效果和数据统计</li>
+        </ol>
+    </div>
+    
+    <h3>2.1 业务流程</h3>
+    <div class="highlight-box">
+        <p><strong>业务流程时序图：</strong></p>
+        <div style="text-align: center; margin: 20px 0; padding: 20px; background: #f8f9fa; border: 1px solid #ddd; border-radius: 8px; height: 2000px;">
+            <?xml version="1.0" encoding="UTF-8"?>
+<svg viewBox="0 0 1000 1300" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    .title { font-family: Arial, sans-serif; font-size: 18px; font-weight: bold; fill: #2c3e50; }
+    .participant { font-family: Arial, sans-serif; font-size: 12px; font-weight: bold; fill: #2c3e50; text-anchor: middle; }
+    .step { font-family: Arial, sans-serif; font-size: 11px; fill: #34495e; }
+    .phase { font-family: Arial, sans-serif; font-size: 13px; font-weight: bold; fill: #e74c3c; text-anchor: middle; }
+    .line { stroke: #34495e; stroke-width: 1; }
+    .arrow { stroke: #34495e; stroke-width: 2; fill: none; }
+    .participant-box { fill: #ecf0f1; stroke: #2c3e50; stroke-width: 1; }
+    .phase-box { fill: #fef9e7; stroke: #f39c12; stroke-width: 1; }
+  </style>
+  
+  <text x="500" y="30" class="title" text-anchor="middle">云数汇微信优惠券业务流程时序图</text>
+  
+  <rect x="50" y="60" width="120" height="40" class="participant-box"/>
+  <text x="110" y="85" class="participant">领券页面</text>
+  
+  <rect x="220" y="60" width="120" height="40" class="participant-box"/>
+  <text x="280" y="85" class="participant">行方系统</text>
+  
+  <rect x="390" y="60" width="120" height="40" class="participant-box"/>
+  <text x="450" y="75" class="participant">我方系统</text>
+  <text x="450" y="90" class="participant">(联合营销平台)</text>
+  
+  <rect x="560" y="60" width="120" height="40" class="participant-box"/>
+  <text x="620" y="85" class="participant">云数汇系统</text>
+  
+  <rect x="730" y="60" width="120" height="40" class="participant-box"/>
+  <text x="790" y="85" class="participant">微信平台</text>
+  <line x1="110" y1="100" x2="110" y2="1300" class="line"/>
+  <line x1="280" y1="100" x2="280" y2="1300" class="line"/>
+  <line x1="450" y1="100" x2="450" y2="1300" class="line"/>
+  <line x1="620" y1="100" x2="620" y2="1300" class="line"/>
+  <line x1="790" y1="100" x2="790" y2="1300" class="line"/>
+  
+  <rect x="50" y="130" width="800" height="25" class="phase-box"/>
+  <text x="450" y="147" class="phase">第一阶段：获取用户OpenID</text>
+  
+  <line x1="110" y1="180" x2="620" y2="180" class="arrow"/>
+  <polygon points="615,175 625,180 615,185" fill="#34495e"/>
+  <text x="360" y="175" class="step">1. H5页面获取OpenID</text>
+  
+  <line x1="620" y1="200" x2="790" y2="200" class="arrow"/>
+  <polygon points="785,195 795,200 785,205" fill="#34495e"/>
+  <text x="700" y="195" class="step">2. 微信授权</text>
+  
+  <line x1="790" y1="220" x2="620" y2="220" class="arrow" stroke-dasharray="5,5"/>
+  <polygon points="625,215 615,220 625,225" fill="#34495e"/>
+  <text x="700" y="215" class="step">3. 返回OpenID</text>
+  
+  <line x1="620" y1="240" x2="110" y2="240" class="arrow"/>
+  <polygon points="115,235 105,240 115,245" fill="#34495e"/>
+  <text x="360" y="235" class="step">4. 回调返回OpenID</text>
+  
+  <rect x="50" y="280" width="800" height="25" class="phase-box"/>
+  <text x="450" y="297" class="phase">第二阶段：优惠券发放</text>
+  
+  <line x1="110" y1="330" x2="280" y2="330" class="arrow"/>
+  <polygon points="275,325 285,330 275,335" fill="#34495e"/>
+  <text x="190" y="325" class="step">5. 发券请求</text>
+  
+  <line x1="280" y1="350" x2="450" y2="350" class="arrow"/>
+  <polygon points="445,345 455,350 445,355" fill="#34495e"/>
+  <text x="360" y="345" class="step">6. 调用发券接口</text>
+  
+  <line x1="450" y1="370" x2="620" y2="370" class="arrow"/>
+  <polygon points="615,365 625,370 615,375" fill="#34495e"/>
+  <text x="530" y="365" class="step">7. 云数汇发券API</text>
+  
+  <line x1="620" y1="390" x2="790" y2="390" class="arrow"/>
+  <polygon points="785,385 795,390 785,395" fill="#34495e"/>
+  <text x="700" y="385" class="step">8. 微信发券</text>
+  
+  <line x1="790" y1="410" x2="620" y2="410" class="arrow" stroke-dasharray="5,5"/>
+  <polygon points="625,405 615,410 625,415" fill="#34495e"/>
+  <text x="700" y="405" class="step">9. 发放结果</text>
+  
+  <line x1="620" y1="430" x2="450" y2="430" class="arrow" stroke-dasharray="5,5"/>
+  <polygon points="455,425 445,430 455,435" fill="#34495e"/>
+  <text x="530" y="425" class="step">10. 返回结果</text>
+  
+  <circle cx="450" cy="450" r="15" fill="#e8f5e8" stroke="#28a745"/>
+  <text x="450" y="455" class="step" text-anchor="middle">11. 保存记录</text>
+  
+  <line x1="450" y1="470" x2="280" y2="470" class="arrow" stroke-dasharray="5,5"/>
+  <polygon points="285,465 275,470 285,475" fill="#34495e"/>
+  <text x="360" y="465" class="step">12. 返回结果</text>
+  
+  <line x1="280" y1="490" x2="110" y2="490" class="arrow" stroke-dasharray="5,5"/>
+  <polygon points="115,485 105,490 115,495" fill="#34495e"/>
+  <text x="190" y="485" class="step">13. 返回状态</text>
+  
+  <rect x="50" y="530" width="800" height="40" class="phase-box"/>
+  <text x="450" y="557" class="phase">第三阶段：发放回调</text>
+  
+  <line x1="790" y1="590" x2="620" y2="590" class="arrow"/>
+  <polygon points="625,585 615,590 625,595" fill="#34495e"/>
+  <text x="700" y="585" class="step">14. 微信后台推送发券结果</text>
+  
+  <line x1="620" y1="620" x2="450" y2="620" class="arrow"/>
+  <polygon points="455,615 445,620 455,625" fill="#34495e"/>
+  <text x="530" y="615" class="step">15. 发放通知</text>
+  
+  <line x1="280" y1="740" x2="450" y2="740" class="arrow" stroke-dasharray="5,5"/>
+  <polygon points="445,735 455,740 445,745" fill="#34495e"/>
+  <text x="360" y="735" class="step">19. 行方系统确认</text>
+
+  <line x1="450" y1="650" x2="620" y2="650" class="arrow" stroke-dasharray="5,5"/>
+  <polygon points="615,645 625,650 615,655" fill="#34495e"/>
+  <text x="530" y="645" class="step">16. 确认回调</text>
+
+  <circle cx="450" cy="680" r="15" fill="#e8f5e8" stroke="#28a745"/>
+  <text x="450" y="685" class="step" text-anchor="middle">17. 更新记录</text>
+
+  <line x1="450" y1="710" x2="280" y2="710" class="arrow" stroke-dasharray="5,5"/>
+  <polygon points="285,705 275,710 285,715" fill="#34495e"/>
+  <text x="360" y="705" class="step">18. 通知行方系统</text>
+  
+  <rect x="50" y="810" width="800" height="40" class="phase-box"/>
+  <text x="450" y="837" class="phase">第四阶段：核销回调</text>
+
+  <rect x="720" y="860" width="100" height="30" fill="#fff3cd" stroke="#ffeaa7"/>
+  <text x="770" y="875" class="step" text-anchor="middle">用户使用优惠券</text>
+
+  <line x1="790" y1="905" x2="620" y2="905" class="arrow"/>
+  <polygon points="625,900 615,905 625,910" fill="#34495e"/>
+  <text x="700" y="900" class="step">21. 核销通知</text>
+
+  <line x1="620" y1="925" x2="450" y2="925" class="arrow"/>
+  <polygon points="455,920 445,925 455,930" fill="#34495e"/>
+  <text x="530" y="920" class="step">22. 回调通知</text>
+  
+  <line x1="450" y1="950" x2="620" y2="950" class="arrow" stroke-dasharray="5,5"/>
+  <polygon points="615,945 625,950 615,955" fill="#34495e"/>
+  <text x="530" y="945" class="step">23. 新增确认回调</text>
+  
+  <circle cx="450" cy="975" r="15" fill="#e8f5e8" stroke="#28a745"/>
+  <text x="450" y="980" class="step" text-anchor="middle">24. 更新记录</text>
+
+  <line x1="450" y1="1015" x2="280" y2="1015" class="arrow" stroke-dasharray="5,5"/>
+  <polygon points="285,1010 275,1015 285,1020" fill="#34495e"/>
+  <text x="360" y="1010" class="step">25. 通知行方系统</text>
+
+  <line x1="280" y1="1045" x2="450" y2="1045" class="arrow" stroke-dasharray="5,5"/>
+  <polygon points="445,1040 455,1045 445,1050" fill="#34495e"/>
+  <text x="360" y="1040" class="step">26. 行方系统确认</text>
+
+  <rect x="50" y="1080" width="800" height="25" class="phase-box"/>
+  <text x="450" y="1097" class="phase">第五阶段：数据查询与展示</text>
+
+  <line x1="110" y1="1140" x2="280" y2="1140" class="arrow"/>
+  <polygon points="275,1135 285,1140 275,1145" fill="#34495e"/>
+  <text x="190" y="1135" class="step">27. 查询请求</text>
+
+  <line x1="280" y1="1170" x2="450" y2="1170" class="arrow"/>
+  <polygon points="445,1165 455,1170 445,1175" fill="#34495e"/>
+  <text x="360" y="1165" class="step">28. 查询接口</text>
+
+  <line x1="450" y1="1190" x2="620" y2="1190" class="arrow"/>
+  <polygon points="615,1185 625,1190 615,1195" fill="#34495e"/>
+  <text x="530" y="1185" class="step">29. 再次查询</text>
+  
+  <line x1="620" y1="1220" x2="450" y2="1220" class="arrow" stroke-dasharray="5,5"/>
+  <polygon points="455,1215 445,1220 455,1225" fill="#34495e"/>
+  <text x="530" y="1215" class="step">30. 返回数据</text>
+
+  <circle cx="450" cy="1250" r="15" fill="#e8f5e8" stroke="#28a745"/>
+  <text x="450" y="1255" class="step" text-anchor="middle">31. 更新记录</text>
+
+  <line x1="450" y1="1280" x2="280" y2="1280" class="arrow" stroke-dasharray="5,5"/>
+  <polygon points="285,1275 275,1280 285,1285" fill="#34495e"/>
+  <text x="360" y="1275" class="step">32. 返回查询结果</text>
+
+  <line x1="280" y1="1500" x2="110" y2="1500" class="arrow" stroke-dasharray="5,5"/>
+  <polygon points="115,1495 105,1500 115,1505" fill="#34495e"/>
+  <text x="190" y="1495" class="step">33. 展示结果</text>
+</svg>
+            <p style="margin-top: 10px; font-size: 14px; color: #666; font-style: italic;">图2.1 云数汇微信优惠券业务流程时序图（详细版）</p>
+        </div>
+        
+        <p><strong>流程说明：</strong></p>
+        <div style="background: #e8f5e8; padding: 15px; border-radius: 4px; margin: 10px 0;">
+            <p>该时序图展示了行方系统、微信平台等系统间的完整交互流程：</p>
+            <ol style="margin-top: 10px; margin-left: 20px;">
+                <li><strong>H5获取OpenID：</strong>跳转到拉卡拉提供的中转地址，最终跳转到云数汇H5页面获取用户微信OpenID</li>
+                <li><strong>发券API调用：</strong>行方系统调用云数汇发放接口，参数包含openid和活动信息</li>
+                <li><strong>发放回调处理：</strong>微信后台推送发券结果，云数汇发送发放通知并更新记录</li>
+                <li><strong>核销回调通知：</strong>用户使用优惠券时，通过回调机制通知相关系统</li>
+                <li><strong>数据查询：</strong>支持实时查询发放结果和核销状态</li>
+            </ol>
+        </div>
+        
+        <p><strong>简化流程概述：</strong></p>
+        <p>用户 → 接入方系统 → 我方系统 → 云数汇 → 微信</p>
+        <p style="margin-top: 10px; font-size: 14px; color: #666; font-style: italic;">注：在云数汇和微信之间增加了发放回调处理阶段，用于处理微信后台推送的发券结果等回调信息</p>
+    </div>
+
+    <h3>2.2 接入节点：</h3>
+    
+    <h4>1. 银行嵌入云数汇h5地址获取用户openid，地址示例</h4>
+    <div class="code-block">
+        <a href="https://bmk-market.dshytest.com/deliverWM/1017578611540230144?wmcb=xxx" class="url-link">
+        https://bmk-market.dshytest.com/deliverWM/1017578611540230144?wmcb=xxx
+        </a>
+    </div>
+    
+    <p><strong>wmcb</strong>参数为接收openid数据的回调页面地址。</p>
+    <p><strong>回调参数拼接：</strong>${redirect_url}&openid=${response.data.openId}&from=dshy</p>
+    <p>银行需记录openid，用于后续发券使用</p>
+
+    <h4>2. 接入云数汇发券接口：</h4>
+    <div class="code-block">
+        <a href="https://doc.huiyundata.com/docs/bmk_api/bmk_api-1g239aa7hmfvn" class="url-link">
+        https://doc.huiyundata.com/docs/bmk_api/bmk_api-1g239aa7hmfvn
+        </a>
+    </div>
+
+    <h1>3. 后台管理系统</h1>
+    
+    <p>本项目包含两个核心的后台管理系统，分别负责不同层面的营销活动管理。两个系统既相互独立又紧密协作，共同构成完整的营销活动管理平台。</p>
+    
+    <h3>3.1 主题活动管理系统</h3>
+    <div class="success-box">
+        <p><strong>系统定位：</strong>营销活动的顶层设计和管理平台</p>
+        <p><strong>核心功能：</strong></p>
+        <ul>
+            <li><strong>活动策划：</strong>创建和配置营销主题活动，定义活动基本信息、时间范围和参与规则</li>
+            <li><strong>互动设计：</strong>配置转盘抽奖、积分兑换等互动玩法，提升用户参与度</li>
+            <li><strong>奖品管理：</strong>设置活动奖品池，包括优惠券、实物奖品等多种奖励形式</li>
+            <li><strong>状态管理：</strong>支持活动的启动、暂停、恢复和结束等状态流转</li>
+            <li><strong>数据统计：</strong>提供活动参与度、转化率等核心指标分析</li>
+        </ul>
+        
+        <div class="warning-box">
+            <p><strong>📋 详细需求文档：</strong></p>
+            <p>主题活动管理系统的完整功能规格、界面设计、技术规范等详细内容，请参考：</p>
+            <p><a href="activity_story.html" class="url-link" style="font-size: 14pt; font-weight: bold;">📖 主题活动管理系统需求文档</a></p>
+        </div>
+    </div>
+    
+    <h3>3.2 活动优惠券管理系统</h3>
+    <div class="success-box">
+        <p><strong>系统定位：</strong>多渠道优惠券活动的专业管理平台</p>
+        <p><strong>核心功能：</strong></p>
+        <ul>
+            <li><strong>活动关联：</strong>创建多渠道优惠券活动（微信、支付宝、银联）并关联到对应的主题活动</li>
+            <li><strong>券种管理：</strong>配置不同类型的优惠券，设置发放规则和使用条件</li>
+            <li><strong>发放监控：</strong>实时监控优惠券发放状态，支持发放明细查询</li>
+            <li><strong>核销管理：</strong>管理优惠券核销流程，提供核销数据统计</li>
+            <li><strong>数据分析：</strong>提供发放量、核销率、活动ROI等关键指标分析</li>
+        </ul>
+        
+        <div class="warning-box">
+            <p><strong>📋 详细需求文档：</strong></p>
+            <p>活动优惠券管理系统的完整功能规格、界面设计、技术规范等详细内容，请参考：</p>
+            <p><a href="promotion_story.html" class="url-link" style="font-size: 14pt; font-weight: bold;">📖 活动优惠券管理系统需求文档</a></p>
+        </div>
+    </div>
+    
+    <h3>3.3 系统协作关系</h3>
+    <div class="highlight-box">
+        <p><strong>协作模式：</strong></p>
+        <ul>
+            <li><strong>数据关联：</strong>优惠券活动通过活动ID与主题活动建立关联关系</li>
+            <li><strong>状态同步：</strong>主题活动状态变更会影响关联的优惠券活动状态</li>
+            <li><strong>统一入口：</strong>通过联合营销平台提供统一的管理入口和数据视图</li>
+            <li><strong>权限继承：</strong>优惠券活动的操作权限基于主题活动的权限设置</li>
+        </ul>
+    </div>
+    
+    <h1>4. 系统架构与技术设计</h1>
+    
+    <h3>4.1 云数汇API接口技术规范</h3>
+    
+    <p>本节详细描述云数汇API接口的技术实现规范，包括四个核心接口的详细说明。</p>
+    
+    <h4>4.1.1 获取OpenID接口</h4>
+    <div class="highlight-box">
+        <p><strong>接口说明：</strong>在券列表或详情页嵌入H5链接，用于获取用户的openid，以便进行后续的业务操作。</p>
+        
+        <p><strong>接入方式：</strong>嵌入H5</p>
+        
+        <p><strong>测试环境地址：</strong></p>
+        <div class="code-block">
+            https://bmk-market.dshytest.com/deliverWM/1017578611540230144?wmcb=xxx
+        </div>
+        
+        <p><strong>生产环境地址：</strong></p>
+        <div class="code-block">
+            https://market.dsaika.com/deliverWM/1019393703635943424?wmcb=xxx
+        </div>
+        
+        <p><strong>回调请求方式：</strong>GET</p>
+        <p><strong>回调参数：</strong>${redirect_url}&openid=${response.data.openId}&from=dshy</p>
+        
+        <p><strong>请求示例：</strong></p>
+        <div class="code-block">
+            GET /callback?redirect_url=https:\\example.com&openid=oRvltwHjF4p7g5j3h2k1j0i9h8g7&from=dshy HTTP/1.1<br>
+            Host: your-domain.com
+        </div>
+        
+        <p><strong>返回示例：</strong></p>
+        <div class="code-block">
+            {
+              "status": "success",
+              "msg": "OpenID retrieved successfully",
+              "data": {
+                "openid": "oRvltwHjF4p7g5j3h2k1j0i9h8g7",
+                "from": "dshy"
+              }
+            }
+        </div>
+    </div>
+    
+    <h4>4.1.2 发放优惠券接口</h4>
+    <div class="highlight-box">
+        <p><strong>接口文档链接：</strong></p>
+        <div class="code-block">
+            <a href="https://doc.huiyundata.com/docs/bmk_api/bmk_api-1g239aa7hmfvn" class="url-link">
+            https://doc.huiyundata.com/docs/bmk_api/bmk_api-1g239aa7hmfvn
+            </a>
+        </div>
+    </div>
+    
+    <h4>4.1.3 发放回调接口</h4>
+    <div class="highlight-box">
+        <p><strong>接口文档链接：</strong></p>
+        <div class="code-block">
+            <a href="https://doc.huiyundata.com/docs/bmk_api/bmk_api-1ffj3m4l2hlkm" class="url-link">
+            https://doc.huiyundata.com/docs/bmk_api/bmk_api-1ffj3m4l2hlkm
+            </a>
+        </div>
+    </div>
+
+    <h4>4.1.4 核销回调接口</h4>
+    <div class="highlight-box">
+        <p><strong>接口文档链接：</strong></p>
+        <div class="code-block">
+            <a href="https://doc.huiyundata.com/docs/bmk_api/bmk_api-1g239odi41rqi" class="url-link">
+            https://doc.huiyundata.com/docs/bmk_api/bmk_api-1g239odi41rqi
+            </a>
+        </div>
+    </div>
+  
+    <h4>4.1.5 数据查询接口</h4>
+       <div class="highlight-box">
+        <p><strong>接口文档链接：</strong></p>
+        <div class="code-block">
+            <a href="https://doc.huiyundata.com/docs/bmk_api/bmk_api-1ffj363i8c3kv" class="url-link">
+            https://doc.huiyundata.com/docs/bmk_api/bmk_api-1ffj363i8c3kv
+            </a>
+        </div>
+    </div>
+    <h3>4.2 系统组成</h3>
+    <ul>
+        <li><strong>云数汇接入层：</strong>对接云数汇API，处理发券和回调</li>
+        <li><strong>业务封装层：</strong>封装标准化接口，提供统一服务</li>
+        <li><strong>数据存储层：</strong>存储活动、发放和核销数据</li>
+        <li><strong>营销平台层：</strong>主题活动和微信活动管理</li>
+        <li><strong>联合营销平台：</strong>统一的数据查询和管理界面</li>
+    </ul>
+    
+    <h3>4.3 业务流程</h3>
+    
+    <h4>4.3.1 发券流程</h4>
+    <p>线下创建优惠券，优惠券信息填入联合营销平台——活动编码(营销平台提供即微信活动批次号)：batchCode；活动编码关联主题活动ID。</p>
+    
+    <div class="code-block">
+        <strong>用户 → 接入方系统 → 我方系统 → 云数汇 → 微信</strong>
+    </div>
+    
+    <p>——使用活动编码+用户访问h5时获取的openid发放优惠券，并实时记录发放结果。</p>
+
+    <h4>4.3.2 详细流程步骤</h4>
+    <div class="code-block">
+        <strong>第一阶段：获取用户OpenID</strong>
+        <ol>
+            <li><strong>H5页面跳转：</strong>跳转到拉卡拉提供的中转地址，最终跳转到云数汇H5页面</li>
+            <li><strong>微信授权：</strong>H5页面获取用户微信OpenID</li>
+            <li><strong>回调返回：</strong>携带OpenID回跳到行方系统<br>
+                格式：<code>${redirect_url}&openid=${response.data.openId}&from=dshy</code>
+            </li>
+        </ol>
+        
+        <strong>第二阶段：优惠券发放</strong>
+        <ol start="4">
+            <li><strong>API调用准备：</strong>行方系统准备发券参数（详细参数说明见技术需求章节）</li>
+            <li><strong>发券请求：</strong>调用云数汇发放接口</li>
+            <li><strong>云数汇处理：</strong>云数汇向微信平台发起优惠券发放</li>
+            <li><strong>结果返回：</strong>微信平台返回发放结果给云数汇</li>
+            <li><strong>同步保存：</strong>同步保存发放记录</li>
+        </ol>
+        
+        <strong>第三阶段：发放回调</strong>
+        <ol start="9">
+            <li><strong>微信后台推送：</strong>微信后台推送发券结果</li>
+            <li><strong>发放通知：</strong>云数汇发送发放通知</li>
+            <li><strong>更新记录：</strong>更新发放记录状态</li>
+            <li><strong>确认回调：</strong>确认回调处理完成</li>
+            <li><strong>返回状态：</strong>返回处理状态给微信</li>
+        </ol>
+        
+        <strong>第四阶段：核销回调</strong>
+        <ol start="14">
+            <li><strong>核销回调：</strong>用户使用优惠券时，云数汇通过回调通知系统</li>
+            <li><strong>更新记录：</strong>更新核销记录状态</li>
+            <li><strong>确认回调：</strong>确认回调处理完成</li>
+        </ol>
+        
+        <strong>第五阶段：数据查询与展示</strong>
+        <ol start="17">
+            <li><strong>查询请求：</strong>行方系统发起数据查询请求</li>
+            <li><strong>接口调用：</strong>调用查询接口获取发放和核销数据</li>
+            <li><strong>数据返回：</strong>返回查询结果给行方系统</li>
+            <li><strong>结果展示：</strong>行方系统展示查询结果</li>
+        </ol>
+    </div>
+
+    <h1>5. 云数汇接入技术需求</h1>
+    
+    <p>本章节详细描述云数汇API接入的技术实现方案，包括接口封装、数据处理、回调机制等核心技术需求。</p>
+
+
+    
+    <h3>4.4 接口封装架构</h3>
+    <p><strong>请求格式及加密方式说明文档：</strong></p>
+    <div class="code-block">
+        <a href="https://doc.huiyundata.com/docs/bmk_api/bmk_api-1ffipkojor8up" class="url-link">
+        https://doc.huiyundata.com/docs/bmk_api/bmk_api-1ffipkojor8up
+        </a>
+    </div>
+    
+    <p><strong>公共参数说明：</strong></p>
+    <div class="code-block">
+        <a href="https://doc.huiyundata.com/docs/bmk_api/bmk_api-1ffiqbedg1eea" class="url-link">
+        https://doc.huiyundata.com/docs/bmk_api/bmk_api-1ffiqbedg1eea
+        </a>
+    </div>
+
+    <h3>4.5 数据存储要求</h3>
+    <div class="success-box">
+        <ul>
+            <li><strong>按活动编码：</strong>发放成功、核销成功数量统计</li>
+            <li><strong>核销明细：</strong>详细核销记录——根据回调接口更新明细状态</li>
+            <li><strong>发放明细：</strong>详细发放记录——根据发放接口返回结果，生成发放明细</li>
+            <li><strong>查询支持：</strong>供运营与合作银行查询相关数据</li>
+        </ul>
+    </div>
+
+    <h1>5. 联合营销平台集成需求</h1>
+   
+    <h3>5.1 平台集成概述</h3>
+    <div class="highlight-box">
+        <p><strong>集成目标：</strong>将主题活动管理、微信活动管理和云数汇接入服务整合到联合营销平台中，为运营人员和合作银行提供统一的管理和查询界面。</p>
+        
+        <p><strong>集成范围：</strong></p>
+        <ul>
+            <li><strong>活动管理集成：</strong>在联合营销平台中嵌入主题活动和微信活动的管理功能</li>
+            <li><strong>数据查询集成：</strong>提供统一的数据查询和统计分析功能</li>
+            <li><strong>权限管理集成：</strong>基于银行机构的数据权限隔离和访问控制</li>
+            <li><strong>回调数据处理：</strong>接收并处理云数汇回调数据，更新本地记录</li>
+        </ul>
+    </div>
+    
+    <h3>5.2 数据存储与同步</h3>
+    <div class="warning-box">
+        <p><strong>数据处理策略：</strong></p>
+        <p>后台系统需对接云数汇回调接口，在联合营销平台创建优惠券活动绑定主题活动后，活动数据存储在本地。回调的优惠券数据除接口透传外，也需将数据进行保存，并用于后续的查询服务。</p>
+        
+        <p><strong>数据同步机制：</strong></p>
+        <ul>
+            <li><strong>实时同步：</strong>发放和核销数据通过API调用和回调机制实时更新</li>
+            <li><strong>定时对账：</strong>定期调用云数汇查询接口进行数据对账</li>
+            <li><strong>异常处理：</strong>数据不一致时的告警和修复机制</li>
+        </ul>
+    </div>
+
+    <h3>5.3 查询功能技术特性</h3>
+    <div class="highlight-box">
+        <p><strong>用户体验设计：</strong></p>
+        <ul>
+            <li><strong>多标签页管理：</strong>支持同时打开多个查询页面，提高操作效率</li>
+            <li><strong>智能分页：</strong>支持5/10/20/50/100条每页显示选项</li>
+            <li><strong>实时统计：</strong>查询结果显示总记录数和当前页范围</li>
+            <li><strong>响应式设计：</strong>适配不同屏幕尺寸的终端设备</li>
+        </ul>
+        
+        <p><strong>查询性能优化：</strong></p>
+        <ul>
+            <li><strong>索引优化：</strong>基于查询字段建立数据库索引</li>
+            <li><strong>分页查询：</strong>避免大数据量查询影响系统性能</li>
+            <li><strong>缓存机制：</strong>热点查询数据缓存，提升查询速度</li>
+            <li><strong>异步加载：</strong>大数据量统计支持异步处理</li>
+        </ul>
+        
+        <p><strong>数据安全控制：</strong></p>
+        <ul>
+            <li><strong>权限控制：</strong>基于银行机构的数据权限隔离</li>
+            <li><strong>操作日志：</strong>记录所有查询操作的审计日志</li>
+        </ul>
+    </div>
+    
+
+
+    <div class="footer">
+        <p>© 2025 联合营销平台 | 产品组</p>
+        <p>文档版本：v2.0 | 最后更新：2025年8月</p>
+    </div>
+    
+    <script>
+        // 文档导航功能
+        document.addEventListener('DOMContentLoaded', function() {
+            // 为外部链接添加新窗口打开功能
+            const externalLinks = document.querySelectorAll('a[href$=".html"]');
+            externalLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    window.open(this.href, '_blank', 'width=1200,height=800,scrollbars=yes,resizable=yes');
+                });
+            });
+            
+            // 添加目录导航
+            const headers = document.querySelectorAll('h1, h2, h3');
+            if (headers.length > 0) {
+                const nav = document.createElement('div');
+                nav.style.cssText = `
+                    position: fixed;
+                    top: 20px;
+                    right: 20px;
+                    width: 200px;
+                    background: white;
+                    border: 1px solid #ddd;
+                    border-radius: 4px;
+                    padding: 10px;
+                    font-size: 12px;
+                    max-height: 400px;
+                    overflow-y: auto;
+                    z-index: 1000;
+                    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+                `;
+                
+                let navContent = '<div style="font-weight: bold; margin-bottom: 8px;">文档导航</div>';
+                headers.forEach((header, index) => {
+                    const id = 'header-' + index;
+                    header.id = id;
+                    const level = header.tagName.toLowerCase();
+                    const indent = level === 'h1' ? '0px' : level === 'h2' ? '10px' : '20px';
+                    navContent += `<div style="margin-left: ${indent}; margin-bottom: 4px;"><a href="#${id}" style="text-decoration: none; color: #007bff;">${header.textContent}</a></div>`;
+                });
+                
+                nav.innerHTML = navContent;
+                document.body.appendChild(nav);
+            }
+        });
+    </script>
+</body>
+</html>

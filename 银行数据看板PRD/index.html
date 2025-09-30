@@ -1,0 +1,770 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>银行交易数据统计分析系统 - 产品规格说明书</title>
+    <style>
+        :root {
+            --background: 0 0% 100%;
+            --foreground: 222.2 84% 4.9%;
+            --card: 0 0% 100%;
+            --card-foreground: 222.2 84% 4.9%;
+            --primary: 221.2 83.2% 53.3%;
+            --primary-foreground: 210 40% 98%;
+            --secondary: 210 40% 96%;
+            --secondary-foreground: 222.2 84% 4.9%;
+            --muted: 210 40% 96%;
+            --muted-foreground: 215.4 16.3% 46.9%;
+            --border: 214.3 31.8% 91.4%;
+            --radius: 0.5rem;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: hsl(var(--foreground));
+            background: hsl(var(--background));
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: hsl(var(--card));
+            min-height: 100vh;
+            box-shadow: 0 0 0 1px hsl(var(--border));
+        }
+        
+        .header {
+            background: linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(221.2 83.2% 43.3%) 100%);
+            color: hsl(var(--primary-foreground));
+            padding: 40px 20px;
+            text-align: center;
+            border-bottom: 1px solid hsl(var(--border));
+        }
+        
+        .header h1 {
+            font-size: 2.5rem;
+            margin: 0 0 10px 0;
+            font-weight: 600;
+        }
+        
+        .header .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            margin-bottom: 20px;
+        }
+        
+        .badges {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+        
+        .badge {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            padding: 6px 12px;
+            border-radius: 12px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            -webkit-backdrop-filter: blur(10px);
+            backdrop-filter: blur(10px);
+        }
+        
+        .content {
+            padding: 20px 40px 40px 40px;
+        }
+        
+        .markdown-body {
+            font-size: 16px;
+            line-height: 1.6;
+            color: hsl(var(--foreground));
+        }
+        
+        .markdown-body h1,
+        .markdown-body h2,
+        .markdown-body h3,
+        .markdown-body h4,
+        .markdown-body h5,
+        .markdown-body h6 {
+            margin-top: 24px;
+            margin-bottom: 16px;
+            font-weight: 600;
+            line-height: 1.25;
+            color: hsl(var(--foreground));
+        }
+        
+        .markdown-body h1 {
+            font-size: 2em;
+            border-bottom: 1px solid hsl(var(--border));
+            padding-bottom: 0.3em;
+            margin-top: 0;
+        }
+        
+        .markdown-body h2 {
+            font-size: 1.5em;
+            border-bottom: 1px solid hsl(var(--border));
+            padding-bottom: 0.3em;
+        }
+        
+        .markdown-body h3 {
+            font-size: 1.25em;
+        }
+        
+        .markdown-body h4 {
+            font-size: 1em;
+        }
+        
+        .markdown-body p {
+            margin-bottom: 16px;
+        }
+        
+        .markdown-body ul,
+        .markdown-body ol {
+            margin-bottom: 16px;
+            padding-left: 2em;
+        }
+        
+        .markdown-body li {
+            margin-bottom: 0.25em;
+        }
+        
+        .markdown-body strong {
+            font-weight: 600;
+        }
+        
+        .markdown-body a {
+            color: hsl(var(--primary));
+            text-decoration: none;
+        }
+        
+        .markdown-body a:hover {
+            text-decoration: underline;
+        }
+        
+        .markdown-body code {
+            background-color: hsl(var(--muted));
+            padding: 0.2em 0.4em;
+            border-radius: 6px;
+            font-family: ui-monospace, SFMono-Regular, "SF Mono", Consolas, "Liberation Mono", Menlo, monospace;
+            font-size: 85%;
+        }
+        
+        .markdown-body pre {
+            background-color: hsl(var(--muted));
+            border-radius: 6px;
+            padding: 16px;
+            overflow: auto;
+            margin-bottom: 16px;
+            border: 1px solid hsl(var(--border));
+        }
+        
+        .markdown-body pre code {
+            background-color: transparent;
+            padding: 0;
+            font-size: 100%;
+        }
+        
+        .markdown-body blockquote {
+            border-left: 0.25em solid hsl(var(--border));
+            padding: 0 1em;
+            color: hsl(var(--muted-foreground));
+            margin-bottom: 16px;
+        }
+        
+        .markdown-body table {
+            border-collapse: collapse;
+            border-spacing: 0;
+            width: 100%;
+            margin-bottom: 16px;
+        }
+        
+        .markdown-body th,
+        .markdown-body td {
+            border: 1px solid hsl(var(--border));
+            padding: 6px 13px;
+            text-align: left;
+        }
+        
+        .markdown-body th {
+            background-color: hsl(var(--muted));
+            font-weight: 600;
+        }
+        
+        .markdown-body tr:nth-child(2n) {
+            background-color: hsl(var(--muted));
+        }
+        
+        .alert {
+            padding: 16px;
+            margin-bottom: 16px;
+            border-radius: 6px;
+            border-left: 4px solid;
+        }
+        
+        .alert-info {
+            background-color: hsl(211.2 96% 94%);
+            border-left-color: hsl(var(--primary));
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .feature-card {
+            background: hsl(var(--card));
+            border: 1px solid hsl(var(--border));
+            border-radius: var(--radius);
+            padding: 20px;
+            transition: box-shadow 0.2s;
+        }
+        
+        .feature-card:hover {
+            box-shadow: 0 4px 12px hsl(var(--border) / 0.15);
+        }
+        
+        .feature-card h3 {
+            margin-top: 0;
+            color: hsl(var(--primary));
+        }
+        
+        .footer {
+            background: hsl(var(--muted));
+            padding: 20px;
+            text-align: center;
+            border-top: 1px solid hsl(var(--border));
+            font-size: 14px;
+            color: hsl(var(--muted-foreground));
+        }
+        
+        .data-preview {
+            background: hsl(var(--muted));
+            border-radius: var(--radius);
+            padding: 16px;
+            margin: 16px 0;
+            overflow-x: auto;
+        }
+        
+        .data-preview table {
+            margin: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>银行交易数据统计分析系统</h1>
+            <div class="subtitle">交易数据按发卡行统计分析功能 - 产品规格说明书</div>
+            <div class="badges">
+                <div class="badge">产品需求文档</div>
+                <div class="badge">v1.0</div>
+                <div class="badge">待评审</div>
+            </div>
+        </div>
+        
+        <div class="content">
+            <div class="markdown-body">
+                <h1>背景与目标</h1>
+                
+                <div class="alert alert-info">
+                    <p><strong>项目概述：</strong>本系统旨在提供一个现代化的银行交易数据分析和可视化平台，支持实时数据监控、多维度分析和智能报表功能，帮助银行机构更好地理解和利用交易数据。</p>
+                </div>
+                
+                <h2>原型演示入口</h2>
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <h3>联合营销平台数据看板</h3>
+                        <p>多银行数据对比分析，提供全面的市场洞察和业务指标监控。</p>
+                        <p><a href="dashboard.html" target="_blank">查看原型 →</a></p>
+                    </div>
+                    <div class="feature-card">
+                        <h3>单银行数据看板</h3>
+                        <p>单一银行交易数据分析，提供详细的交易趋势和类型占比分析。</p>
+                        <p><a href="single-bank.html" target="_blank">查看原型 →</a></p>
+                    </div>
+                </div>
+                
+                <h2>项目说明文档</h2>
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <h3>项目说明文档</h3>
+                        <p>包含项目概述、目标、功能需求等详细说明，是了解项目的核心文档。</p>
+                        <p><a href="../模板/markdown-viewer.html?file=../银行数据看板PRD/README.md" target="_blank">查看文档 →</a></p>
+                    </div>
+                    <div class="feature-card">
+                        <h3>数据库说明文档</h3>
+                        <p>介绍数据库结构、表关系和数据定义，为开发提供数据层指导。</p>
+                        <p><a href="../模板/markdown-viewer.html?file=../银行数据看板PRD/database/README.md" target="_blank">查看文档 →</a></p>
+                    </div>
+                    <div class="feature-card">
+                        <h3>交易数据日表说明</h3>
+                        <p>详细说明交易数据日表的结构、字段定义和使用方法。</p>
+                        <p><a href="../模板/markdown-viewer.html?file=../银行数据看板PRD/database/transaction_day.md" target="_blank">查看文档 →</a></p>
+                    </div>
+                    <div class="feature-card">
+                        <h3>交易数据主表说明</h3>
+                        <p>详细说明交易数据主表的结构、字段定义和使用方法。</p>
+                        <p><a href="../模板/markdown-viewer.html?file=../银行数据看板PRD/database/transaction_main.md" target="_blank">查看文档 →</a></p>
+                    </div>
+                </div>
+                
+                <h2>产品目标</h2>
+                <ul>
+                    <li>构建一个直观、高效的银行交易数据统计分析系统</li>
+                    <li>支持多银行数据对比分析，提供全面的市场洞察</li>
+                    <li>实现交易数据的实时监控和趋势分析</li>
+                    <li>提供灵活的数据筛选和导出功能</li>
+                    <li>确保系统的高性能和用户体验</li>
+                </ul>
+                
+                <h2>业务价值</h2>
+                <ul>
+                    <li>提升银行机构的数据分析能力和决策效率</li>
+                    <li>支持业务部门快速获取关键业务指标</li>
+                    <li>促进跨部门数据共享和协作</li>
+                    <li>为产品优化和市场策略提供数据支持</li>
+                </ul>
+                
+                <h1>用户与使用场景</h1>
+                
+                <h2>目标用户群体</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>用户类型</th>
+                            <th>主要需求</th>
+                            <th>使用频率</th>
+                            <th>技术熟练度</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>业务分析师</td>
+                            <td>获取交易数据趋势、分析业务指标</td>
+                            <td>每日多次</td>
+                            <td>中等</td>
+                        </tr>
+                        <tr>
+                            <td>产品经理</td>
+                            <td>监控产品表现、制定产品策略</td>
+                            <td>每日一次</td>
+                            <td>中等</td>
+                        </tr>
+                        <tr>
+                            <td>银行管理人员</td>
+                            <td>查看业务概览、决策支持</td>
+                            <td>每周数次</td>
+                            <td>基础</td>
+                        </tr>
+                        <tr>
+                            <td>技术开发人员</td>
+                            <td>系统维护、功能开发</td>
+                            <td>按需</td>
+                            <td>高</td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+                <h2>核心使用场景</h2>
+                <ol>
+                    <li>
+                        <strong>日常数据监控</strong>
+                        <ul>
+                            <li>用户登录系统，查看今日交易数据概览</li>
+                            <li>筛选特定银行或时间范围的交易数据</li>
+                            <li>查看关键业务指标的变化趋势</li>
+                        </ul>
+                    </li>
+                    <li>
+                        <strong>多维度数据分析</strong>
+                        <ul>
+                            <li>选择多个银行进行数据对比分析</li>
+                            <li>按交易类型、时间周期等维度分析数据</li>
+                            <li>生成分析报告并导出</li>
+                        </ul>
+                    </li>
+                    <li>
+                        <strong>异常数据识别</strong>
+                        <ul>
+                            <li>设置数据异常阈值和告警规则</li>
+                            <li>查看系统识别的异常交易数据</li>
+                            <li>分析异常原因并采取相应措施</li>
+                        </ul>
+                    </li>
+                </ol>
+                
+                <h1>功能需求</h1>
+                
+                <h2>板块分离设计</h2>
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <h3>数据概览板块</h3>
+                        <p>展示关键业务指标和趋势，包括交易总量、交易金额、活跃用户数等核心数据，支持实时更新和历史数据对比。</p>
+                    </div>
+                    <div class="feature-card">
+                        <h3>银行对比板块</h3>
+                        <p>支持多银行数据对比分析，提供横向对比图表，帮助用户了解不同银行的市场表现和业务特点。</p>
+                    </div>
+                    <div class="feature-card">
+                        <h3>趋势分析板块</h3>
+                        <p>提供时间序列数据分析功能，支持自定义时间范围，展示交易数据的变化趋势和季节性特征。</p>
+                    </div>
+                    <div class="feature-card">
+                        <h3>详细报表板块</h3>
+                        <p>提供详细的数据报表和导出功能，支持多种格式导出，满足不同用户的数据分析需求。</p>
+                    </div>
+                </div>
+                
+                <h2>数据展示功能模块</h2>
+                <h3>1. 数据概览模块</h3>
+                <ul>
+                    <li>交易总量统计：展示选定时间范围内的总交易笔数</li>
+                    <li>交易金额统计：展示选定时间范围内的总交易金额</li>
+                    <li>活跃用户统计：展示选定时间范围内的活跃用户数量</li>
+                    <li>趋势图表：以折线图形式展示关键指标的变化趋势</li>
+                    <li>同比/环比分析：提供与去年同期或上一周期的对比数据</li>
+                </ul>
+                
+                <h3>2. 银行对比模块</h3>
+                <ul>
+                    <li>多银行选择：支持同时选择多个银行进行对比</li>
+                    <li>对比指标：包括交易量、交易金额、用户增长等</li>
+                    <li>对比图表：提供柱状图、饼图等多种对比视图</li>
+                    <li>排名展示：按选定指标对银行进行排名展示</li>
+                    <li>详细数据表：提供银行对比的详细数据表格</li>
+                </ul>
+                
+                <h3>3. 趋势分析模块</h3>
+                <ul>
+                    <li>时间范围选择：支持日、周、月、季度等时间范围</li>
+                    <li>趋势图表：提供折线图、面积图等趋势展示</li>
+                    <li>趋势预测：基于历史数据进行简单趋势预测</li>
+                    <li>异常点标记：自动标记数据中的异常点</li>
+                    <li>趋势分析报告：生成趋势分析的文字报告</li>
+                </ul>
+                
+                <h3>4. 详细报表模块</h3>
+                <ul>
+                    <li>数据筛选：支持多维度数据筛选</li>
+                    <li>报表生成：根据筛选条件生成详细报表</li>
+                    <li>数据导出：支持Excel、CSV等格式导出</li>
+                    <li>报表分享：支持报表链接分享</li>
+                    <li>定时报表：支持定时生成和发送报表</li>
+                </ul>
+                
+                <h2>联合营销平台功能规格</h2>
+                <ul>
+                    <li>营销活动管理：创建、编辑、删除营销活动</li>
+                    <li>活动效果分析：分析营销活动的效果和ROI</li>
+                    <li>用户行为分析：分析用户在营销活动中的行为</li>
+                    <li>营销资源分配：优化营销资源的分配策略</li>
+                    <li>营销报表生成：生成营销相关的详细报表</li>
+                </ul>
+                
+                <h2>银行营销平台功能规格</h2>
+                <ul>
+                    <li>银行信息管理：管理银行基本信息和配置</li>
+                    <li>银行产品管理：管理银行产品和相关配置</li>
+                    <li>银行用户管理：管理银行用户和权限</li>
+                    <li>银行数据分析：分析银行特定数据</li>
+                    <li>银行报表生成：生成银行特定的报表</li>
+                </ul>
+                
+                <h1>非功能性需求</h1>
+                
+                <h2>性能要求</h2>
+                <ul>
+                    <li>页面加载时间：首页加载时间不超过3秒</li>
+                    <li>数据查询响应：简单查询响应时间不超过2秒</li>
+                    <li>复杂分析响应：复杂分析查询响应时间不超过10秒</li>
+                    <li>并发用户支持：支持至少100个并发用户</li>
+                    <li>数据处理能力：支持日处理百万级交易数据</li>
+                </ul>
+                
+                <h2>兼容性要求</h2>
+                <ul>
+                    <li>浏览器支持：支持Chrome、Firefox、Safari、Edge等主流浏览器</li>
+                    <li>设备支持：支持桌面端、平板和移动设备</li>
+                    <li>分辨率支持：支持从1024x768到4K的各种分辨率</li>
+                    <li>操作系统：支持Windows、macOS、Linux等主流操作系统</li>
+                </ul>
+                
+                <h2>安全性要求</h2>
+                <ul>
+                    <li>用户认证：支持用户名密码认证和单点登录</li>
+                    <li>权限控制：基于角色的访问控制</li>
+                    <li>数据加密：敏感数据传输和存储加密</li>
+                    <li>审计日志：记录用户操作和系统事件</li>
+                    <li>防攻击措施：防止SQL注入、XSS等常见攻击</li>
+                </ul>
+                
+                <h2>可用性要求</h2>
+                <ul>
+                    <li>系统可用性：系统可用性不低于99.9%</li>
+                    <li>故障恢复：系统故障后30分钟内恢复</li>
+                    <li>用户界面：界面简洁直观，易于使用</li>
+                    <li>帮助文档：提供完整的用户帮助文档</li>
+                    <li>培训支持：提供用户培训和技术支持</li>
+                </ul>
+                
+                <h1>数据模型</h1>
+                
+                <h2>交易数据结构</h2>
+                <div class="data-preview">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>字段名</th>
+                                <th>数据类型</th>
+                                <th>描述</th>
+                                <th>示例值</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>transaction_id</td>
+                                <td>String</td>
+                                <td>交易唯一标识</td>
+                                <td>TX202308150001</td>
+                            </tr>
+                            <tr>
+                                <td>bank_id</td>
+                                <td>String</td>
+                                <td>发卡行ID</td>
+                                <td>BANK001</td>
+                            </tr>
+                            <tr>
+                                <td>bank_name</td>
+                                <td>String</td>
+                                <td>发卡行名称</td>
+                                <td>工商银行</td>
+                            </tr>
+                            <tr>
+                                <td>transaction_amount</td>
+                                <td>Decimal</td>
+                                <td>交易金额</td>
+                                <td>1250.50</td>
+                            </tr>
+                            <tr>
+                                <td>transaction_time</td>
+                                <td>DateTime</td>
+                                <td>交易时间</td>
+                                <td>2023-08-15 10:30:25</td>
+                            </tr>
+                            <tr>
+                                <td>transaction_type</td>
+                                <td>String</td>
+                                <td>交易类型</td>
+                                <td>消费</td>
+                            </tr>
+                            <tr>
+                                <td>user_id</td>
+                                <td>String</td>
+                                <td>用户ID</td>
+                                <td>USER10086</td>
+                            </tr>
+                            <tr>
+                                <td>merchant_id</td>
+                                <td>String</td>
+                                <td>商户ID</td>
+                                <td>MERCH2001</td>
+                            </tr>
+                            <tr>
+                                <td>merchant_category</td>
+                                <td>String</td>
+                                <td>商户类别</td>
+                                <td>餐饮</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <h2>银行基础信息</h2>
+                <div class="data-preview">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>字段名</th>
+                                <th>数据类型</th>
+                                <th>描述</th>
+                                <th>示例值</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>bank_id</td>
+                                <td>String</td>
+                                <td>银行唯一标识</td>
+                                <td>BANK001</td>
+                            </tr>
+                            <tr>
+                                <td>bank_name</td>
+                                <td>String</td>
+                                <td>银行名称</td>
+                                <td>工商银行</td>
+                            </tr>
+                            <tr>
+                                <td>bank_code</td>
+                                <td>String</td>
+                                <td>银行代码</td>
+                                <td>ICBC</td>
+                            </tr>
+                            <tr>
+                                <td>bank_type</td>
+                                <td>String</td>
+                                <td>银行类型</td>
+                                <td>国有银行</td>
+                            </tr>
+                            <tr>
+                                <td>contact_info</td>
+                                <td>String</td>
+                                <td>联系信息</td>
+                                <td>contact@icbc.com</td>
+                            </tr>
+                            <tr>
+                                <td>status</td>
+                                <td>String</td>
+                                <td>状态</td>
+                                <td>活跃</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <h2>统计汇总数据</h2>
+                <div class="data-preview">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>字段名</th>
+                                <th>数据类型</th>
+                                <th>描述</th>
+                                <th>示例值</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>summary_id</td>
+                                <td>String</td>
+                                <td>汇总记录ID</td>
+                                <td>SUM20230815001</td>
+                            </tr>
+                            <tr>
+                                <td>bank_id</td>
+                                <td>String</td>
+                                <td>银行ID</td>
+                                <td>BANK001</td>
+                            </tr>
+                            <tr>
+                                <td>date</td>
+                                <td>Date</td>
+                                <td>统计日期</td>
+                                <td>2023-08-15</td>
+                            </tr>
+                            <tr>
+                                <td>total_transactions</td>
+                                <td>Integer</td>
+                                <td>总交易笔数</td>
+                                <td>12500</td>
+                            </tr>
+                            <tr>
+                                <td>total_amount</td>
+                                <td>Decimal</td>
+                                <td>总交易金额</td>
+                                <td>3567890.50</td>
+                            </tr>
+                            <tr>
+                                <td>active_users</td>
+                                <td>Integer</td>
+                                <td>活跃用户数</td>
+                                <td>8500</td>
+                            </tr>
+                            <tr>
+                                <td>avg_transaction_amount</td>
+                                <td>Decimal</td>
+                                <td>平均交易金额</td>
+                                <td>285.43</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <h1>用户界面设计</h1>
+                
+                <h2>设计原则</h2>
+                <ul>
+                    <li>简洁直观：界面设计简洁明了，操作直观易懂</li>
+                    <li>响应式设计：适配不同设备和屏幕尺寸</li>
+                    <li>一致性：保持界面元素和交互方式的一致性</li>
+                    <li>可访问性：确保不同用户群体的可访问性</li>
+                    <li>性能优化：确保界面响应迅速，用户体验流畅</li>
+                </ul>
+                
+                <h2>界面布局</h2>
+                <ul>
+                    <li>顶部导航栏：包含系统logo、主要导航菜单和用户信息</li>
+                    <li>侧边栏：提供功能模块导航和筛选器</li>
+                    <li>主内容区：展示数据图表和分析结果</li>
+                    <li>底部信息栏：显示版权信息和系统状态</li>
+                </ul>
+                
+                <h2>交互设计</h2>
+                <ul>
+                    <li>筛选器：提供银行、时间范围、交易类型等筛选选项</li>
+                    <li>图表交互：支持图表缩放、筛选和详情查看</li>
+                    <li>数据导出：提供多种格式的数据导出功能</li>
+                    <li>实时更新：关键数据支持实时更新和刷新</li>
+                    <li>响应式反馈：操作反馈及时明确</li>
+                </ul>
+                
+                <h1>测试验收标准</h1>
+                
+                <h2>功能测试</h2>
+                <ul>
+                    <li>所有功能模块按照需求文档实现</li>
+                    <li>数据筛选和查询功能正常工作</li>
+                    <li>图表展示和数据导出功能正常</li>
+                    <li>用户权限和角色管理功能正常</li>
+                    <li>系统配置和参数设置功能正常</li>
+                </ul>
+                
+                <h2>性能测试</h2>
+                <ul>
+                    <li>页面加载时间满足性能要求</li>
+                    <li>数据查询响应时间满足性能要求</li>
+                    <li>系统并发处理能力满足性能要求</li>
+                    <li>大数据量处理性能稳定</li>
+                    <li>系统资源使用率在合理范围内</li>
+                </ul>
+                
+                <h2>兼容性测试</h2>
+                <ul>
+                    <li>在支持的浏览器上功能正常</li>
+                    <li>在不同设备上显示正常</li>
+                    <li>在不同分辨率下显示正常</li>
+                    <li>在不同操作系统上功能正常</li>
+                    <li>与第三方系统集成正常</li>
+                </ul>
+                
+                <h2>安全测试</h2>
+                <ul>
+                    <li>用户认证和授权机制正常</li>
+                    <li>数据传输和存储安全可靠</li>
+                    <li>系统防攻击措施有效</li>
+                    <li>审计日志记录完整</li>
+                    <li>敏感数据处理符合安全要求</li>
+                </ul>
+    </div>
+</body>
+</html>

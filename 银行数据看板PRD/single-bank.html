@@ -1,0 +1,758 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>工商银行交易数据分析 - 银行交易数据统计分析系统</title>
+    <style>
+        /* shadcn UI 风格的CSS变量 */
+        :root {
+            --background: 0 0% 100%;
+            --foreground: 222.2 84% 4.9%;
+            --card: 0 0% 100%;
+            --card-foreground: 222.2 84% 4.9%;
+            --popover: 0 0% 100%;
+            --popover-foreground: 222.2 84% 4.9%;
+            --primary: 221.2 83.2% 53.3%;
+            --primary-foreground: 210 40% 98%;
+            --secondary: 210 40% 96%;
+            --secondary-foreground: 222.2 84% 4.9%;
+            --muted: 210 40% 96%;
+            --muted-foreground: 215.4 16.3% 46.9%;
+            --accent: 210 40% 96%;
+            --accent-foreground: 222.2 84% 4.9%;
+            --destructive: 0 84.2% 60.2%;
+            --destructive-foreground: 210 40% 98%;
+            --border: 214.3 31.8% 91.4%;
+            --input: 214.3 31.8% 91.4%;
+            --ring: 221.2 83.2% 53.3%;
+            --radius: 0.5rem;
+        }
+
+        /* 全局样式 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background-color: hsl(var(--background));
+            color: hsl(var(--foreground));
+            line-height: 1.6;
+        }
+
+        /* 容器样式 */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* 头部样式 */
+        header {
+            background-color: hsl(var(--card));
+            border-bottom: 1px solid hsl(var(--border));
+            padding: 1rem 0;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .header-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background-color: hsl(var(--primary));
+            border-radius: var(--radius);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+
+        .logo-text {
+            font-size: 1.25rem;
+            font-weight: 600;
+        }
+
+        .bank-name {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: hsl(var(--primary));
+        }
+
+        /* 控制区域样式 */
+        .controls {
+            background-color: hsl(var(--card));
+            border-radius: var(--radius);
+            padding: 1rem;
+            margin: 1.5rem 0;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .control-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .control-label {
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: hsl(var(--muted-foreground));
+        }
+
+        .control-input {
+            padding: 0.5rem 0.75rem;
+            border: 1px solid hsl(var(--input));
+            border-radius: calc(var(--radius) - 2px);
+            background-color: hsl(var(--background));
+            color: hsl(var(--foreground));
+            font-size: 0.875rem;
+            transition: border-color 0.15s ease-in-out;
+        }
+
+        .control-input:focus {
+            outline: none;
+            border-color: hsl(var(--ring));
+            box-shadow: 0 0 0 2px hsla(var(--ring), 0.2);
+        }
+
+        .btn {
+            padding: 0.5rem 1rem;
+            border-radius: calc(var(--radius) - 2px);
+            font-size: 0.875rem;
+            font-weight: 500;
+            border: none;
+            cursor: pointer;
+            transition: all 0.15s ease-in-out;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .btn-primary {
+            background-color: hsl(var(--primary));
+            color: hsl(var(--primary-foreground));
+        }
+
+        .btn-primary:hover {
+            background-color: hsl(var(--primary) / 0.9);
+        }
+
+        .btn-secondary {
+            background-color: hsl(var(--secondary));
+            color: hsl(var(--secondary-foreground));
+        }
+
+        .btn-secondary:hover {
+            background-color: hsl(var(--secondary) / 0.8);
+        }
+
+        /* 统计卡片样式 */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .stat-card {
+            background-color: hsl(var(--card));
+            border-radius: var(--radius);
+            padding: 1.5rem;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            transition: transform 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .stat-title {
+            font-size: 0.875rem;
+            color: hsl(var(--muted-foreground));
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-value {
+            font-size: 1.875rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-change {
+            font-size: 0.875rem;
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+
+        .stat-change.positive {
+            color: #10b981;
+        }
+
+        .stat-change.negative {
+            color: #ef4444;
+        }
+
+        /* 图表容器样式 */
+        .chart-container {
+            background-color: hsl(var(--card));
+            border-radius: var(--radius);
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .chart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .chart-title {
+            font-size: 1.125rem;
+            font-weight: 600;
+        }
+
+        .chart-options {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .chart-option {
+            padding: 0.25rem 0.75rem;
+            border-radius: calc(var(--radius) - 2px);
+            font-size: 0.875rem;
+            cursor: pointer;
+            transition: background-color 0.15s ease-in-out;
+        }
+
+        .chart-option.active {
+            background-color: hsl(var(--primary));
+            color: hsl(var(--primary-foreground));
+        }
+
+        .chart-option:not(.active) {
+            background-color: hsl(var(--secondary));
+            color: hsl(var(--secondary-foreground));
+        }
+
+        .chart-option:not(.active):hover {
+            background-color: hsl(var(--secondary) / 0.8);
+        }
+
+        .chart-canvas {
+            width: 100%;
+            height: 300px;
+            max-height: 300px;
+        }
+
+        /* 数据表格样式 */
+        .data-table-container {
+            background-color: hsl(var(--card));
+            border-radius: var(--radius);
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            overflow-x: auto;
+        }
+
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .data-table th,
+        .data-table td {
+            padding: 0.75rem;
+            text-align: left;
+            border-bottom: 1px solid hsl(var(--border));
+        }
+
+        .data-table th {
+            font-weight: 600;
+            color: hsl(var(--muted-foreground));
+            font-size: 0.875rem;
+        }
+
+        .data-table tr:hover {
+            background-color: hsl(var(--secondary) / 0.5);
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background-color: hsl(var(--secondary));
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background-color: hsl(var(--primary));
+        }
+
+        /* 页脚样式 */
+        footer {
+            background-color: hsl(var(--card));
+            border-top: 1px solid hsl(var(--border));
+            padding: 2rem 0;
+            margin-top: 3rem;
+        }
+
+        .footer-content {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .footer-link {
+            color: hsl(var(--muted-foreground));
+            text-decoration: none;
+            font-size: 0.875rem;
+            transition: color 0.15s ease-in-out;
+        }
+
+        .footer-link:hover {
+            color: hsl(var(--primary));
+        }
+
+        .footer-copyright {
+            color: hsl(var(--muted-foreground));
+            font-size: 0.875rem;
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .controls {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .control-group {
+                width: 100%;
+            }
+
+            .chart-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+
+            .chart-options {
+                width: 100%;
+                justify-content: space-between;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="bank-logo-area">
+                    <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjQiIGhlaWdodD0iNjQiIHZpZXdCb3g9IjAgMCA2NCA2NCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0IiBmaWxsPSIjMTk3NmQyIi8+Cjx0ZXh0IHg9IjMyIiB5PSIzNiIgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXNpemU9IjI0IiBmaWxsPSIjZmZmZmZmIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj5JQ0JDPC90ZXh0Pgo8L3N2Zz4=" alt="工商银行" class="bank-logo-large">
+                    <div class="bank-info">
+                        <h1>工商银行</h1>
+                        <p>交易数据实时监控</p>
+                    </div>
+                </div>
+                <div class="logo-text">交易数据分析</div>
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+        <div class="controls">
+            <div class="control-group">
+                <label class="control-label">时间范围</label>
+                <select class="control-input" id="timeRange">
+                    <option value="7d">最近7天</option>
+                    <option value="30d" selected>最近30天</option>
+                    <option value="90d">最近90天</option>
+                    <option value="1y">最近1年</option>
+                </select>
+            </div>
+            <div class="control-group">
+                <label class="control-label">交易类型</label>
+                <select class="control-input" id="transactionType">
+                    <option value="all" selected>全部类型</option>
+                    <option value="deposit">存款</option>
+                    <option value="withdrawal">取款</option>
+                    <option value="transfer">转账</option>
+                    <option value="payment">支付</option>
+                </select>
+            </div>
+            <div class="control-group">
+                <label class="control-label">数据筛选</label>
+                <input type="text" class="control-input" placeholder="搜索交易数据...">
+            </div>
+            <button class="btn btn-primary" onclick="refreshData()">
+                <span>刷新数据</span>
+            </button>
+            <button class="btn btn-secondary" onclick="exportData()">
+                <span>导出数据</span>
+            </button>
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-title">交易笔数</div>
+                <div class="stat-value">24,586</div>
+                <div class="stat-change positive">
+                    <span>↑</span>
+                    <span>12.5% 较上期</span>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-title">交易金额</div>
+                <div class="stat-value">¥8,742.6万</div>
+                <div class="stat-change positive">
+                    <span>↑</span>
+                    <span>8.3% 较上期</span>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-title">平均交易额</div>
+                <div class="stat-value">¥3,556</div>
+                <div class="stat-change negative">
+                    <span>↓</span>
+                    <span>3.7% 较上期</span>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-title">活跃用户</div>
+                <div class="stat-value">18,432</div>
+                <div class="stat-change positive">
+                    <span>↑</span>
+                    <span>15.2% 较上期</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="chart-container">
+            <div class="chart-header">
+                <h2 class="chart-title">交易趋势分析</h2>
+                <div class="chart-options">
+                    <div class="chart-option active" data-chart="line" onclick="switchChart('trend', 'line')">折线图</div>
+                    <div class="chart-option" data-chart="bar" onclick="switchChart('trend', 'bar')">柱状图</div>
+                </div>
+            </div>
+            <canvas id="trendChart" class="chart-canvas"></canvas>
+        </div>
+
+        <div class="chart-container">
+            <div class="chart-header">
+                <h2 class="chart-title">交易类型占比</h2>
+                <div class="chart-options">
+                    <div class="chart-option active" data-chart="pie" onclick="switchChart('pie', 'pie')">饼图</div>
+                    <div class="chart-option" data-chart="doughnut" onclick="switchChart('pie', 'doughnut')">环形图</div>
+                </div>
+            </div>
+            <canvas id="pieChart" class="chart-canvas"></canvas>
+        </div>
+
+        <div class="data-table-container">
+            <h2 class="chart-title" style="margin-bottom: 1rem;">交易明细数据</h2>
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>交易ID</th>
+                        <th>交易时间</th>
+                        <th>交易类型</th>
+                        <th>交易金额</th>
+                        <th>交易状态</th>
+                        <th>占比</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>TXN0012458</td>
+                        <td>2023-08-14 14:32:15</td>
+                        <td>转账</td>
+                        <td>¥5,200</td>
+                        <td>成功</td>
+                        <td>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 85%;"></div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>TXN0012459</td>
+                        <td>2023-08-14 15:18:42</td>
+                        <td>存款</td>
+                        <td>¥10,000</td>
+                        <td>成功</td>
+                        <td>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 92%;"></div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>TXN0012460</td>
+                        <td>2023-08-14 16:05:33</td>
+                        <td>支付</td>
+                        <td>¥2,350</td>
+                        <td>成功</td>
+                        <td>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 65%;"></div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>TXN0012461</td>
+                        <td>2023-08-14 16:47:21</td>
+                        <td>取款</td>
+                        <td>¥3,000</td>
+                        <td>成功</td>
+                        <td>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 78%;"></div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>TXN0012462</td>
+                        <td>2023-08-14 17:22:09</td>
+                        <td>转账</td>
+                        <td>¥8,500</td>
+                        <td>处理中</td>
+                        <td>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 45%;"></div>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-links">
+                    <a href="index.html" class="footer-link">返回首页</a>
+                    <a href="dashboard.html" class="footer-link">数据看板</a>
+                    <a href="#" class="footer-link">帮助文档</a>
+                    <a href="#" class="footer-link">联系我们</a>
+                </div>
+                <div class="footer-copyright">
+                    © 2023 银行交易数据统计分析系统. 保留所有权利.
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        // 交易趋势图表
+        const trendCtx = document.getElementById('trendChart').getContext('2d');
+        const trendChart = new Chart(trendCtx, {
+            type: 'line',
+            data: {
+                labels: ['8月1日', '8月2日', '8月3日', '8月4日', '8月5日', '8月6日', '8月7日', '8月8日', '8月9日', '8月10日', '8月11日', '8月12日', '8月13日', '8月14日'],
+                datasets: [{
+                    label: '交易笔数',
+                    data: [1200, 1350, 1100, 1450, 1600, 1300, 1750, 1900, 1650, 1800, 2000, 1850, 2100, 1950],
+                    borderColor: 'rgb(75, 192, 192)',
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                    tension: 0.3
+                }, {
+                    label: '交易金额(万元)',
+                    data: [420, 480, 390, 520, 580, 470, 630, 690, 600, 650, 720, 670, 760, 700],
+                    borderColor: 'rgb(255, 99, 132)',
+                    backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                    tension: 0.3,
+                    yAxisID: 'y1'
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        position: 'left',
+                        title: {
+                            display: true,
+                            text: '交易笔数'
+                        }
+                    },
+                    y1: {
+                        beginAtZero: true,
+                        position: 'right',
+                        title: {
+                            display: true,
+                            text: '交易金额(万元)'
+                        },
+                        grid: {
+                            drawOnChartArea: false
+                        }
+                    }
+                }
+            }
+        });
+
+        // 交易类型占比图表
+        const pieCtx = document.getElementById('pieChart').getContext('2d');
+        const pieChart = new Chart(pieCtx, {
+            type: 'pie',
+            data: {
+                labels: ['转账', '存款', '支付', '取款'],
+                datasets: [{
+                    data: [40, 30, 20, 10],
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.7)',
+                        'rgba(54, 162, 235, 0.7)',
+                        'rgba(255, 206, 86, 0.7)',
+                        'rgba(75, 192, 192, 0.7)'
+                    ],
+                    borderColor: [
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(75, 192, 192, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'right'
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                const label = context.label || '';
+                                const value = context.raw || 0;
+                                return `${label}: ${value}%`;
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        // 切换图表类型
+        function switchChart(chartId, type) {
+            // 更新选项按钮状态
+            const chartElement = document.getElementById(`${chartId}Chart`);
+            if (chartElement) {
+                const optionsContainer = chartElement.parentElement.querySelector('.chart-options');
+                const optionButtons = optionsContainer.querySelectorAll('.chart-option');
+                optionButtons.forEach(btn => {
+                    if (btn.dataset.chart === type) {
+                        btn.classList.add('active');
+                    } else {
+                        btn.classList.remove('active');
+                    }
+                });
+            }
+
+            // 更新图表类型
+            let chart;
+            if (chartId === 'trend') {
+                chart = trendChart;
+            } else if (chartId === 'pie') {
+                chart = pieChart;
+            }
+            
+            if (chart) {
+                chart.config.type = type;
+                chart.update();
+            }
+        }
+
+        // 刷新数据
+        function refreshData() {
+            // 显示刷新提示
+            const toast = document.createElement('div');
+            toast.style.position = 'fixed';
+            toast.style.bottom = '20px';
+            toast.style.right = '20px';
+            toast.style.backgroundColor = 'hsl(var(--primary))';
+            toast.style.color = 'hsl(var(--primary-foreground))';
+            toast.style.padding = '12px 24px';
+            toast.style.borderRadius = 'var(--radius)';
+            toast.style.boxShadow = '0 4px 6px rgba(0, 0, 0, 0.1)';
+            toast.style.zIndex = '1000';
+            toast.textContent = '数据已刷新';
+            document.body.appendChild(toast);
+
+            // 3秒后移除提示
+            setTimeout(() => {
+                toast.remove();
+            }, 3000);
+
+            // 模拟数据刷新动画
+            const statCards = document.querySelectorAll('.stat-card');
+            statCards.forEach(card => {
+                card.style.opacity = '0.5';
+                setTimeout(() => {
+                    card.style.opacity = '1';
+                }, 500);
+            });
+        }
+
+        // 导出数据
+        function exportData() {
+            // 显示导出提示
+            const toast = document.createElement('div');
+            toast.style.position = 'fixed';
+            toast.style.bottom = '20px';
+            toast.style.right = '20px';
+            toast.style.backgroundColor = 'hsl(var(--primary))';
+            toast.style.color = 'hsl(var(--primary-foreground))';
+            toast.style.padding = '12px 24px';
+            toast.style.borderRadius = 'var(--radius)';
+            toast.style.boxShadow = '0 4px 6px rgba(0, 0, 0, 0.1)';
+            toast.style.zIndex = '1000';
+            toast.textContent = '数据导出功能已触发';
+            document.body.appendChild(toast);
+
+            // 3秒后移除提示
+            setTimeout(() => {
+                toast.remove();
+            }, 3000);
+        }
+    </script>
+</body>
+</html>

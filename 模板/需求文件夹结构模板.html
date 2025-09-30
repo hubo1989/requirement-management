@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>需求文件夹结构模板</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Microsoft YaHei', Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f9f9f9;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        header {
+            background-color: #2c3e50;
+            color: white;
+            padding: 20px 0;
+            text-align: center;
+            margin-bottom: 30px;
+            border-radius: 5px;
+        }
+        h1 {
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+        .card {
+            background-color: white;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        .card h2 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #eee;
+        }
+        .folder-structure {
+            font-family: monospace;
+            background-color: #f5f5f5;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+            margin-bottom: 20px;
+        }
+        .folder-structure .folder {
+            color: #3498db;
+            font-weight: bold;
+        }
+        .folder-structure .file {
+            color: #2ecc71;
+        }
+        .folder-structure .comment {
+            color: #7f8c8d;
+            font-style: italic;
+        }
+        .steps {
+            counter-reset: step-counter;
+            list-style-type: none;
+            margin-left: 0;
+        }
+        .steps li {
+            counter-increment: step-counter;
+            margin-bottom: 15px;
+            position: relative;
+            padding-left: 40px;
+        }
+        .steps li:before {
+            content: counter(step-counter);
+            position: absolute;
+            left: 0;
+            top: 0;
+            background-color: #3498db;
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 30px;
+            font-weight: bold;
+        }
+        .code-block {
+            background-color: #f5f5f5;
+            padding: 15px;
+            border-radius: 5px;
+            font-family: monospace;
+            margin: 10px 0;
+            overflow-x: auto;
+        }
+        .note {
+            background-color: #fff9e6;
+            border-left: 4px solid #f39c12;
+            padding: 10px 15px;
+            margin: 15px 0;
+        }
+        .back-link {
+            display: inline-block;
+            margin-bottom: 20px;
+            padding: 8px 15px;
+            background-color: #3498db;
+            color: white;
+            text-decoration: none;
+            border-radius: 3px;
+            transition: background-color 0.3s;
+        }
+        .back-link:hover {
+            background-color: #2980b9;
+        }
+        footer {
+            text-align: center;
+            margin-top: 30px;
+            padding: 20px;
+            color: #7f8c8d;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="../index.html" class="back-link">← 返回需求列表</a>
+        
+        <header>
+            <h1>需求文件夹结构模板</h1>
+        </header>
+
+        <div class="card">
+            <h2>标准文件夹结构</h2>
+            <div class="folder-structure">
+                <div><span class="folder">[需求名称]</span>/</div>
+                <div>├── <span class="file">index.html</span> <span class="comment"># 需求概览页面</span></div>
+                <div>├── <span class="folder">原始文档</span>/ <span class="comment"># 存放原始需求文档</span></div>
+                <div>│   ├── <span class="file">需求文档.md</span></div>
+                <div>│   ├── <span class="file">需求文档.pdf</span></div>
+                <div>│   └── <span class="file">需求文档.docx</span></div>
+                <div>├── <span class="folder">相关资源</span>/ <span class="comment"># 存放相关图片、附件等</span></div>
+                <div>│   ├── <span class="file">原型图.png</span></div>
+                <div>│   ├── <span class="file">流程图.png</span></div>
+                <div>│   └── <span class="file">其他资源.xlsx</span></div>
+                <div>└── <span class="folder">版本历史</span>/ <span class="comment"># 存放文档版本历史记录</span></div>
+                <div>    ├── <span class="file">V1.0_需求文档.md</span></div>
+                <div>    └── <span class="file">V1.1_需求文档.md</span></div>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>创建新需求文件夹的步骤</h2>
+            <ol class="steps">
+                <li>
+                    <strong>创建需求文件夹</strong>
+                    <p>在对应的需求分类文件夹下创建新的需求文件夹，按照命名规范命名。</p>
+                    <div class="code-block">mkdir -p "银行联合营销平台/机构新增优化需求V1.0"</div>
+                </li>
+                <li>
+                    <strong>创建子文件夹</strong>
+                    <p>在需求文件夹下创建标准子文件夹结构。</p>
+                    <div class="code-block">
+                        mkdir -p "银行联合营销平台/机构新增优化需求V1.0/原始文档"<br>
+                        mkdir -p "银行联合营销平台/机构新增优化需求V1.0/相关资源"<br>
+                        mkdir -p "银行联合营销平台/机构新增优化需求V1.0/版本历史"
+                    </div>
+                </li>
+                <li>
+                    <strong>创建index.html文件</strong>
+                    <p>在需求文件夹根目录下创建index.html文件，作为需求概览页面。</p>
+                    <div class="note">
+                        可以复制现有的index.html文件作为模板，然后修改其中的内容。
+                    </div>
+                </li>
+                <li>
+                    <strong>放置原始文档</strong>
+                    <p>将需求文档的原始文件（.md、.pdf、.docx等）放入"原始文档"文件夹。</p>
+                </li>
+                <li>
+                    <strong>放置相关资源</strong>
+                    <p>将与需求相关的图片、附件等资源放入"相关资源"文件夹。</p>
+                </li>
+                <li>
+                    <strong>更新主索引</strong>
+                    <p>更新项目主目录下的index.html文件，添加新需求的导航链接。</p>
+                </li>
+            </ol>
+        </div>
+
+        <div class="card">
+            <h2>文件夹命名规范</h2>
+            <ul style="margin-left: 20px; margin-top: 10px;">
+                <li><strong>需求分类文件夹</strong>：使用业务模块或产品线命名，如"趣伴卡"、"银行联合营销平台"等</li>
+                <li><strong>具体需求文件夹</strong>：使用需求名称+版本号（如有）命名，如"机构新增优化需求V1.0"</li>
+                <li><strong>文件夹名称</strong>应简洁明了，避免使用特殊字符，空格用下划线"_"替代</li>
+                <li><strong>文件名称</strong>：[需求名称]_[版本号].[扩展名]，如"机构新增优化需求_V1.0.docx"</li>
+            </ul>
+        </div>
+
+        <div class="card">
+            <h2>index.html文件内容要求</h2>
+            <p>每个需求文件夹中的index.html文件应包含以下内容：</p>
+            <ul style="margin-left: 20px; margin-top: 10px;">
+                <li>需求基本信息（名称、版本、状态、负责人等）</li>
+                <li>需求描述和目标</li>
+                <li>文档链接（指向原始文档）</li>
+                <li>相关资源链接</li>
+                <li>版本历史记录</li>
+                <li>返回主目录的导航链接</li>
+            </ul>
+        </div>
+
+        <div class="card">
+            <h2>版本管理规范</h2>
+            <ul style="margin-left: 20px; margin-top: 10px;">
+                <li><strong>版本号格式</strong>：主版本号.次版本号.修订号（如V1.0.0）</li>
+                <li><strong>主版本号</strong>：重大功能变更或架构调整时递增</li>
+                <li><strong>次版本号</strong>：新增功能或重要改进时递增</li>
+                <li><strong>修订号</strong>：bug修复或小改动时递增</li>
+                <li><strong>版本历史</strong>：每次更新需求文档时，将旧版本保存到"版本历史"文件夹</li>
+            </ul>
+        </div>
+
+        <footer>
+            <p>需求文档管理系统 &copy; 2025 | 最后更新: 2025-06-17</p>
+        </footer>
+    </div>
+</body>
+</html>

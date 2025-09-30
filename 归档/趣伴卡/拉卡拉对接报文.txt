@@ -1,0 +1,41 @@
+https://op-test.zhongan.com/opdoc/docs/%E4%B8%80%E6%AD%A5%E5%87%BA%E5%8D%95   一步出单
+
+
+appkey:10001
+开发者私钥：MIICdgIBADANBgkqhkiG9w0BAQEFAASCAmAwggJcAgEAAoGBAO8h8JCJAMb1nd0uBkzZuWyNnL+atBzJKvIG7escD45ODf0AWKr8vSqLZ01HD86+a496CGjsae6GybK8C1MqiMSwaAsIv31nKD6U8xF607MPrD3r2lyjwUnmqBZY++R6yFNYz9ZDXcdiwCudESRsXunPJq7zfnnglCtEH+qqW8/VAgMBAAECgYEAnVc2gtMyKLbZTPuId65WG7+9oDB5S+ttD1xR1P1cmuRuvcYpkS/Eg6a/rJASLZULDpdbyzWqqaAUPD8QMINvAr3ZtkbwH5R0F/4aqOlx/5B0Okjsp3eSK2bQ8J2m/MmFKZxr6Aily7YUDdxcGcjLizsGi1KDkWS22JRufEeUNA0CQQD+g1XJ7ELqmUtrS4m4XnadB25f0g5QC0tMjoa3d9soMzK3q+Drkv8EZVpGSmSHEo1VlE7HUcnKNvK1BO5Nm4iXAkEA8IeZxaWmEcsRqiuFz8xmYGtKcYTmHgheGF4D+fnnFozSNP+3sS1lfgFQrjUkqUyZOoG1hPc6SDhGS4nbXwiscwJASO+gPR58yrgledkK3ZAMk9GWWtVajqu953GMv7UUU//gD+yspzXX6Q2WgkA9cMvrPtQig1I37sAya5e/JvRkfwJARzzCDEmdP9PW7YFqZjrxb0kXiTuFNAviYnEl2FltWb5nW48JBo6dao5VKONQclvfXfagnjriphUUrLatpB3bhQJAKRfJS6jDAIVKt7So5HOdzk4ipxgrMjG/QtZ1grO+VQectk4+tCwdJhOrr5blvdPQvFVqXBQfXuE7cibZrGs4sQ==
+
+"productCode": "M75Y", 拉卡拉账户资金服务财产损失保险（秒结服务）
+"productCode": "M75Z", 拉卡拉账户资金服务财产损失保险（次自然日结算服务)
+  "campaignId": "1200024618", 营销活动id
+
+{
+  "channelCode": "LKLZF01",
+  "campaignId": "1200024618",
+  "productCode": "M75Y",
+  "orderNo": "T20240716163458247962977",
+  "applyTime": "20240716163458",
+  "effectiveDate": "20240716163458",
+  "expiryDate": "20240717163457",
+  "totalPremium": "9.08",
+  "insureds": [
+    {
+      "name": "王水风",
+      "certType": "I",
+      "certNo": "210600199607162130",
+      "phoneNo": "",
+      "relationToPH": "14"
+    }
+  ],
+  "policyOrgHolder": {
+    "name": "拉卡拉",
+    "creditCode": "91110000FA4NXRRU5D",
+    "phoneNo": "13807011042",
+    "email": "123456@qq.com"
+  },
+  "autoRenewal": "N",
+  "extraProperties": {
+    "swipedAmount": "50000",
+    "tradeNo": "21223964416",
+    "paymentTime": "20240715173534"
+  }
+}
