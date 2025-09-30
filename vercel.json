@@ -1,22 +1,6 @@
 {
   "version": 2,
-  "name": "需求文档管理系统",
-  "builds": [
-    {
-      "src": "**/*.html",
-      "use": "@vercel/static"
-    },
-    {
-      "src": "**/*.md",
-      "use": "@vercel/static"
-    }
-  ],
-  "routes": [
-    {
-      "src": "/(.*)",
-      "dest": "/$1"
-    }
-  ],
+  "outputDirectory": "./",
   "cleanUrls": true,
   "trailingSlash": false
 }
