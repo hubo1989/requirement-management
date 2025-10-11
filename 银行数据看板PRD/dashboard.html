@@ -276,6 +276,7 @@
             }
         }
     </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
 </head>
 
 <body>
@@ -286,26 +287,27 @@
                 <div class="subtitle">联合营销平台 - 多银行数据对比分析</div>
             </div>
             <div class="controls">
-                <div class="control-group">
-                    <label>时间范围</label>
-                    <select id="timeRange">
-                        <option value="7">最近7天</option>
-                        <option value="30" selected>最近30天</option>
-                        <option value="90">最近90天</option>
-                        <option value="365">最近一年</option>
-                    </select>
+                    <div class="control-group">
+                        <label>时间范围</label>
+                        <select id="timeRange">
+                            <option value="7">最近7天</option>
+                            <option value="30" selected>最近30天</option>
+                            <option value="90">最近90天</option>
+                            <option value="365">最近一年</option>
+                        </select>
+                    </div>
+                    <div class="control-group">
+                        <label>数据类型</label>
+                        <select id="dataType">
+                            <option value="all" selected>全部交易</option>
+                            <option value="online">线上交易</option>
+                            <option value="offline">线下交易</option>
+                            <option value="mobile">手机银行</option>
+                        </select>
+                    </div>
+                    <button id="exportBtn">导出数据</button>
+                    <button id="merchantAnalysisBtn">商户维度分析</button>
                 </div>
-                <div class="control-group">
-                    <label>数据类型</label>
-                    <select id="dataType">
-                        <option value="all" selected>全部交易</option>
-                        <option value="online">线上交易</option>
-                        <option value="offline">线下交易</option>
-                        <option value="mobile">手机银行</option>
-                    </select>
-                </div>
-                <button id="exportBtn">导出数据</button>
-            </div>
         </div>
 
         <div class="overview-cards">
@@ -326,11 +328,81 @@
                 </div>
             </div>
             <div class="card">
-                <div class="card-title">日均交易笔数</div>
-                <div class="card-value">41,523</div>
+                <div class="card-title">交易商户数</div>
+                <div class="card-value">15,432</div>
+                <div class="card-change positive">
+                    <span>↑</span>
+                    <span>5.3% 较上期</span>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-title">达标商户数</div>
+                <div class="card-value">8,765</div>
+                <div class="card-change positive">
+                    <span>↑</span>
+                    <span>9.2% 较上期</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="overview-cards">
+            <div class="card">
+                <div class="card-title">消费交易笔数</div>
+                <div class="card-value">1,123,456</div>
+                <div class="card-change positive">
+                    <span>↑</span>
+                    <span>10.8% 较上期</span>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-title">退款交易笔数</div>
+                <div class="card-value">98,765</div>
                 <div class="card-change negative">
                     <span>↓</span>
-                    <span>2.3% 较上期</span>
+                    <span>3.2% 较上期</span>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-title">预授权完成撤销笔数</div>
+                <div class="card-value">23,457</div>
+                <div class="card-change positive">
+                    <span>↑</span>
+                    <span>15.6% 较上期</span>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-title">微信支付笔数</div>
+                <div class="card-value">456,789</div>
+                <div class="card-change positive">
+                    <span>↑</span>
+                    <span>18.4% 较上期</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="overview-cards">
+            <div class="card">
+                <div class="card-title">支付宝支付笔数</div>
+                <div class="card-value">398,654</div>
+                <div class="card-change positive">
+                    <span>↑</span>
+                    <span>14.7% 较上期</span>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-title">银行卡刷卡笔数</div>
+                <div class="card-value">321,987</div>
+                <div class="card-change negative">
+                    <span>↓</span>
+                    <span>6.5% 较上期</span>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-title">预授权完成笔数</div>
+                <div class="card-value">68,248</div>
+                <div class="card-change positive">
+                    <span>↑</span>
+                    <span>8.9% 较上期</span>
                 </div>
             </div>
             <div class="card">
@@ -380,7 +452,13 @@
                         <th>银行名称</th>
                         <th>交易笔数</th>
                         <th>交易金额(万元)</th>
-                        <th>平均交易金额(元)</th>
+                        <th>交易商户数</th>
+                        <th>达标商户数</th>
+                        <th>消费交易笔数</th>
+                        <th>退款交易笔数</th>
+                        <th>微信支付笔数</th>
+                        <th>支付宝支付笔数</th>
+                        <th>银行卡刷卡笔数</th>
                         <th>占比</th>
                         <th>环比增长</th>
                     </tr>
@@ -393,11 +471,109 @@
                         </td>
                         <td>356,789</td>
                         <td>1,023.5</td>
-                        <td>286.8</td>
+                        <td>4,567</td>
+                        <td>2,345</td>
+                        <td>321,987</td>
+                        <td>28,901</td>
+                        <td>123,456</td>
+                        <td>98,765</td>
+                        <td>134,568</td>
                         <td>
                             28.6%
                             <div class="percentage-bar">
                                 <div class="percentage-fill" style="width: 28.6%"></div>
+                            </div>
+                        </td>
+                        <td class="positive">+12.3%</td>
+                    </tr>
+                    <tr>
+                        <td class="bank-name">
+                            <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjI0IiBoZWlnaHQ9IjI0IiBmaWxsPSIjMGI1M2YxIi8+Cjx0ZXh0IHg9IjEyIiB5PSIxNCIgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXNpemU9IjEwIiBmaWxsPSIjZmZmZmZmIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj5DQkM8L3RleHQ+Cjwvc3ZnPg==" alt="建设银行" class="bank-logo">
+                            建设银行
+                        </td>
+                        <td>298,765</td>
+                        <td>856.3</td>
+                        <td>3,876</td>
+                        <td>1,987</td>
+                        <td>267,890</td>
+                        <td>24,098</td>
+                        <td>98,765</td>
+                        <td>87,654</td>
+                        <td>112,316</td>
+                        <td>
+                            24.0%
+                            <div class="percentage-bar">
+                                <div class="percentage-fill" style="width: 24.0%"></div>
+                            </div>
+                        </td>
+                        <td class="positive">+8.7%</td>
+                    </tr>
+                    <tr>
+                        <td class="bank-name">
+                            <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjI0IiBoZWlnaHQ9IjI0IiBmaWxsPSIjZTM4ZjQ3Ii8+Cjx0ZXh0IHg9IjEyIiB5PSIxNCIgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXNpemU9IjEwIiBmaWxsPSIjZmZmZmZmIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj5BQkM8L3RleHQ+Cjwvc3ZnPg==" alt="农业银行" class="bank-logo">
+                            农业银行
+                        </td>
+                        <td>234,567</td>
+                        <td>678.9</td>
+                        <td>3,123</td>
+                        <td>1,654</td>
+                        <td>209,876</td>
+                        <td>19,876</td>
+                        <td>76,543</td>
+                        <td>65,432</td>
+                        <td>89,192</td>
+                        <td>
+                            18.9%
+                            <div class="percentage-bar">
+                                <div class="percentage-fill" style="width: 18.9%"></div>
+                            </div>
+                        </td>
+                        <td class="positive">+6.5%</td>
+                    </tr>
+                    <tr>
+                        <td class="bank-name">
+                            <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjI0IiBoZWlnaHQ9IjI0IiBmaWxsPSIjZmI3ZDI5Ii8+Cjx0ZXh0IHg9IjEyIiB5PSIxNCIgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXNpemU9IjEwIiBmaWxsPSIjZmZmZmZmIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj5CT0M8L3RleHQ+Cjwvc3ZnPg==" alt="中国银行" class="bank-logo">
+                            中国银行
+                        </td>
+                        <td>198,765</td>
+                        <td>543.2</td>
+                        <td>2,654</td>
+                        <td>1,321</td>
+                        <td>178,901</td>
+                        <td>16,789</td>
+                        <td>65,432</td>
+                        <td>54,321</td>
+                        <td>79,012</td>
+                        <td>
+                            16.0%
+                            <div class="percentage-bar">
+                                <div class="percentage-fill" style="width: 16.0%"></div>
+                            </div>
+                        </td>
+                        <td class="negative">-2.1%</td>
+                    </tr>
+                    <tr>
+                        <td class="bank-name">
+                            <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjI0IiBoZWlnaHQ9IjI0IiBmaWxsPSIjMGE0NjhiIi8+Cjx0ZXh0IHg9IjEyIiB5PSIxNCIgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXNpemU9IjEwIiBmaWxsPSIjZmZmZmZmIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj5DQk9NPC90ZXh0Pgo8L3N2Zz4=" alt="交通银行" class="bank-logo">
+                            交通银行
+                        </td>
+                        <td>156,792</td>
+                        <td>465.9</td>
+                        <td>2,212</td>
+                        <td>1,098</td>
+                        <td>145,802</td>
+                        <td>9,876</td>
+                        <td>52,593</td>
+                        <td>42,482</td>
+                        <td>61,717</td>
+                        <td>
+                            12.5%
+                            <div class="percentage-bar">
+                                <div class="percentage-fill" style="width: 12.5%"></div>
+                            </div>
+                        </td>
+                        <td class="positive">+4.3%</td>
+                    </tr>
                             </div>
                         </td>
                         <td class="positive">+12.3%</td>
@@ -686,6 +862,11 @@
                     document.body.removeChild(notification);
                 }, 500);
             }, 2000);
+        });
+
+        // 商户维度分析按钮
+        document.getElementById('merchantAnalysisBtn').addEventListener('click', function() {
+            window.location.href = './merchant-analysis.html';
         });
 
         // 刷新表格功能

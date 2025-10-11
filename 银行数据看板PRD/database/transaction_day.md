@@ -4,7 +4,7 @@
 
 - **表名**: transaction_day
 - **表描述**: 交易日统计表，基于transaction_main明细数据按日汇总的统计数据
-- **字段总数**: 25个字段
+- **字段总数**: 43个字段
 - **创建时间**: 2024年
 - **数据来源**: 从transaction_main表按日清洗汇总生成，以doris数据库形式提供查询
 - **更新频率**: 每日凌晨更新前一日数据
@@ -36,8 +36,27 @@
 | 21   | debit_card_amount        | decimal(20,3) | DEFAULT 0                                             | 借记卡交易金额（分）                  |
 | 22   | credit_card_amount       | decimal(20,3) | DEFAULT 0                                             | 贷记卡交易金额（分）                  |
 | 23   | unique_merchant_count    | bigint        | DEFAULT 0                                             | 活跃商户数                            |
-| 24   | created_time             | timestamp     | DEFAULT CURRENT_TIMESTAMP                             | 创建时间                              |
-| 25   | updated_time             | timestamp     | DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP | 更新时间                              |
+| 24   | total_merchant_count     | bigint        | DEFAULT 0                                             | 交易商户数                            |
+| 25   | created_time             | timestamp     | DEFAULT CURRENT_TIMESTAMP                             | 创建时间                              |
+| 26   | updated_time             | timestamp     | DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP | 更新时间                              |
+| 27   | consume_trans_count      | bigint        | DEFAULT 0                                             | 消费交易笔数                          |
+| 28   | consume_trans_amount     | decimal(20,3) | DEFAULT 0                                             | 消费交易金额（分）                    |
+| 29   | refund_trans_count       | bigint        | DEFAULT 0                                             | 退款交易笔数                          |
+| 30   | refund_trans_amount      | decimal(20,3) | DEFAULT 0                                             | 退款交易金额（分）                    |
+| 31   | preauth_complete_count   | bigint        | DEFAULT 0                                             | 预授权完成撤销交易笔数                |
+| 32   | preauth_complete_amount  | decimal(20,3) | DEFAULT 0                                             | 预授权完成撤销交易金额（分）          |
+| 33   | wechat_pay_count         | bigint        | DEFAULT 0                                             | 微信支付笔数                          |
+| 34   | wechat_pay_amount        | decimal(20,3) | DEFAULT 0                                             | 微信支付金额（分）                    |
+| 35   | alipay_count             | bigint        | DEFAULT 0                                             | 支付宝支付笔数                        |
+| 36   | alipay_amount            | decimal(20,3) | DEFAULT 0                                             | 支付宝支付金额（分）                  |
+| 37   | bank_card_count          | bigint        | DEFAULT 0                                             | 银行卡刷卡笔数                        |
+| 38   | bank_card_amount         | decimal(20,3) | DEFAULT 0                                             | 银行卡刷卡金额（分）                  |
+| 39   | preauth_finish_count     | bigint        | DEFAULT 0                                             | 预授权完成笔数                        |
+| 40   | preauth_finish_amount    | decimal(20,3) | DEFAULT 0                                             | 预授权完成金额（分）                  |
+| 41   | icbc_count               | bigint        | DEFAULT 0                                             | 工商银行交易笔数                      |
+| 42   | icbc_amount              | decimal(20,3) | DEFAULT 0                                             | 工商银行交易金额（分）                |
+| 43   | abc_count                | bigint        | DEFAULT 0                                             | 农业银行交易笔数                      |
+| 44   | abc_amount               | decimal(20,3) | DEFAULT 0                                             | 农业银行交易金额（分）                |
 
 ## 字段分类说明
 
@@ -65,13 +84,34 @@
 
 按借记卡和贷记卡分别统计交易笔数和金额。
 
-### 7. 商户活跃度字段 (23)
+### 7. 商户活跃度字段 (23-24)
 
-记录活跃商户数，用于商户活跃度分析。
+记录活跃商户数和交易商户数，用于商户活跃度分析。
 
-### 8. 系统管理字段 (24-25)
+### 8. 系统管理字段 (25-26)
 
 记录数据创建和更新时间。
+
+### 9. 交易方向统计字段 (27-32)
+
+按交易方向分类统计交易笔数和金额：
+- 消费交易统计
+- 退款交易统计
+- 预授权完成撤销交易统计
+
+### 10. 钱包类型统计字段 (33-40)
+
+按钱包类型分类统计交易笔数和金额：
+- 微信支付统计
+- 支付宝支付统计
+- 银行卡刷卡统计
+- 预授权完成统计
+
+### 11. 银行卡细分统计字段 (41-44)
+
+按发卡银行分类统计交易笔数和金额：
+- 工商银行统计
+- 农业银行统计
 
 ## 数据约束说明
 
