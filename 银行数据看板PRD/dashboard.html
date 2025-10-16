@@ -306,7 +306,6 @@
                         </select>
                     </div>
                     <button id="exportBtn">导出数据</button>
-                    <button id="merchantAnalysisBtn">商户维度分析</button>
                 </div>
         </div>
 
@@ -325,22 +324,6 @@
                 <div class="card-change positive">
                     <span>↑</span>
                     <span>8.7% 较上期</span>
-                </div>
-            </div>
-            <div class="card">
-                <div class="card-title">交易商户数</div>
-                <div class="card-value">15,432</div>
-                <div class="card-change positive">
-                    <span>↑</span>
-                    <span>5.3% 较上期</span>
-                </div>
-            </div>
-            <div class="card">
-                <div class="card-title">达标商户数</div>
-                <div class="card-value">8,765</div>
-                <div class="card-change positive">
-                    <span>↑</span>
-                    <span>9.2% 较上期</span>
                 </div>
             </div>
         </div>
@@ -452,8 +435,6 @@
                         <th>银行名称</th>
                         <th>交易笔数</th>
                         <th>交易金额(万元)</th>
-                        <th>交易商户数</th>
-                        <th>达标商户数</th>
                         <th>消费交易笔数</th>
                         <th>退款交易笔数</th>
                         <th>微信支付笔数</th>
@@ -862,11 +843,6 @@
                     document.body.removeChild(notification);
                 }, 500);
             }, 2000);
-        });
-
-        // 商户维度分析按钮
-        document.getElementById('merchantAnalysisBtn').addEventListener('click', function() {
-            window.location.href = './merchant-analysis.html';
         });
 
         // 刷新表格功能
