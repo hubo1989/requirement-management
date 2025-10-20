@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html xmlns:o='urn:schemas-microsoft-com:office:office' 
+      xmlns:w='urn:schemas-microsoft-com:office:word' 
+      xmlns='http://www.w3.org/TR/REC-html40'>
+<head>
+    <meta charset='utf-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+    <title>[需求名称] - 需求文档</title>
+    <!--[if gte mso 9]>
+    <xml>
+        <w:WordDocument>
+            <w:View>Print</w:View>
+            <w:Zoom>90</w:Zoom>
+            <w:DoNotPromptForConvert/>
+            <w:DoNotShowInsertionsAndDeletions/>
+        </w:WordDocument>
+    </xml>
+    <![endif]-->
+    <style>
+        body { 
+            font-family: '宋体', SimSun, serif; 
+            font-size: 14pt; 
+            line-height: 1.6; 
+            margin: 1in 10% 1in 10%;
+            background: white;
+        }
+        h1 { 
+            font-size: 20pt; 
+            color: #2c3e50; 
+            border-bottom: 2px solid #007bff; 
+            padding-bottom: 10pt; 
+            margin-top: 20pt;
+            margin-bottom: 15pt;
+            page-break-after: avoid;
+        }
+        h2 { 
+            font-size: 18pt; 
+            color: #007bff; 
+            margin-top: 20pt; 
+            margin-bottom: 10pt;
+            page-break-after: avoid;
+        }
+        h3 { 
+            font-size: 16pt; 
+            color: #495057; 
+            margin-top: 15pt; 
+            margin-bottom: 8pt;
+            page-break-after: avoid;
+        }
+        h4 { 
+            font-size: 14pt; 
+            color: #6c757d; 
+            margin-top: 10pt; 
+            margin-bottom: 6pt;
+            page-break-after: avoid;
+        }
+        p { 
+            margin-bottom: 6pt; 
+            text-align: justify; 
+            text-indent: 0;
+        }
+        ul, ol { 
+            margin-left: 20pt; 
+            margin-bottom: 10pt;
+        }
+        li { 
+            margin-bottom: 3pt; 
+        }
+        table { 
+            border-collapse: collapse; 
+            width: 100%; 
+            margin: 10pt 0; 
+            font-size: 12pt;
+        }
+        th, td { 
+            border: 1pt solid #000; 
+            padding: 6pt; 
+            text-align: left; 
+            vertical-align: top;
+        }
+        th { 
+            background-color: #f0f0f0; 
+            font-weight: bold; 
+        }
+        .code-block { 
+            background-color: #f8f9fa; 
+            border: 1pt solid #ccc; 
+            padding: 10pt; 
+            font-family: 'Courier New', monospace; 
+            font-size: 12pt;
+            margin: 10pt 0;
+        }
+        .highlight-box { 
+            background-color: #e7f3ff; 
+            border: 1pt solid #b3d9ff; 
+            padding: 10pt; 
+            margin: 10pt 0; 
+        }
+        .warning-box { 
+            background-color: #fff3cd; 
+            border: 1pt solid #ffeaa7; 
+            padding: 10pt; 
+            margin: 10pt 0; 
+        }
+        .success-box { 
+            background-color: #d4edda; 
+            border: 1pt solid #c3e6cb; 
+            padding: 10pt; 
+            margin: 10pt 0; 
+        }
+        .header { 
+            text-align: center; 
+            margin-bottom: 30pt; 
+            border-bottom: 3pt solid #007bff; 
+            padding-bottom: 20pt;
+        }
+        .meta { 
+            color: #666; 
+            font-size: 12pt; 
+            margin-top: 10pt;
+        }
+        .footer { 
+            text-align: center; 
+            margin-top: 30pt; 
+            border-top: 2pt solid #ccc; 
+            padding-top: 20pt; 
+            color: #666; 
+            font-size: 12pt;
+        }
+        .api-endpoint { 
+            background-color: #28a745; 
+            color: white; 
+            padding: 4pt 8pt; 
+            font-family: 'Courier New', monospace; 
+            font-size: 12pt;
+        }
+        .parameter-list { 
+            background-color: #f8f9fa; 
+            padding: 8pt; 
+            margin: 8pt 0; 
+            border-left: 3pt solid #007bff;
+        }
+        .url-link {
+            color: #0066cc;
+            text-decoration: underline;
+            font-family: 'Courier New', monospace;
+            font-size: 12pt;
+        }
+        .document-info {
+            background-color: #f8f9fa;
+            border: 1px solid #dee2e6;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+        .document-info table {
+            margin: 0;
+            border: none;
+        }
+        .document-info td {
+            border: none;
+            padding: 5px 10px;
+        }
+        .document-info td:first-child {
+            font-weight: bold;
+            color: #495057;
+        }
+        @page {
+            margin: 1in 10% 1in 10%;
+        }
+        @media print {
+            body { margin: 1in 10% 1in 10%; }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>[需求名称] - 需求文档</h1>
+        <div class="meta">
+            <p>版本：V1.0 | 创建日期：YYYY-MM-DD | 最后更新：YYYY-MM-DD</p>
+        </div>
+    </div>
+
+    <div class="document-info">
+        <table>
+            <tr>
+                <td>文档名称</td>
+                <td>[需求名称] - 产品需求文档</td>
+            </tr>
+            <tr>
+                <td>文档版本</td>
+                <td>V1.0</td>
+            </tr>
+            <tr>
+                <td>创建日期</td>
+                <td>YYYY-MM-DD</td>
+            </tr>
+            <tr>
+                <td>最后更新</td>
+                <td>YYYY-MM-DD</td>
+            </tr>
+            <tr>
+                <td>文档状态</td>
+                <td>[草稿/评审中/已批准/开发中/已上线]</td>
+            </tr>
+            <tr>
+                <td>负责人</td>
+                <td>[姓名]</td>
+            </tr>
+            <tr>
+                <td>相关人员</td>
+                <td>[产品/设计/开发/测试人员]</td>
+            </tr>
+        </table>
+    </div>
+
+    <h1>1. 项目概述</h1>
+    
+    <h3>1.1 项目背景</h3>
+    <p>[描述项目背景，包括市场环境、用户需求、业务痛点等]</p>
+
+    <h3>1.2 项目目标</h3>
+    <ul>
+        <li><strong>目标1：</strong>[具体目标描述]</li>
+        <li><strong>目标2：</strong>[具体目标描述]</li>
+        <li><strong>目标3：</strong>[具体目标描述]</li>
+    </ul>
+
+    <h3>1.3 成功指标</h3>
+    <ul>
+        <li><strong>业务指标：</strong>[具体指标描述]</li>
+        <li><strong>用户指标：</strong>[具体指标描述]</li>
+        <li><strong>技术指标：</strong>[具体指标描述]</li>
+    </ul>
+
+    <h1>2. 用户画像</h1>
+    
+    <h3>2.1 主要用户群体</h3>
+    <table>
+        <tr>
+            <th>用户群体</th>
+            <th>描述</th>
+            <th>比例</th>
+            <th>核心需求</th>
+        </tr>
+        <tr>
+            <td>[用户群体1]</td>
+            <td>[描述]</td>
+            <td>[比例]</td>
+            <td>[需求]</td>
+        </tr>
+        <tr>
+            <td>[用户群体2]</td>
+            <td>[描述]</td>
+            <td>[比例]</td>
+            <td>[需求]</td>
+        </tr>
+    </table>
+
+    <h3>2.2 用户场景</h3>
+    <p>[描述用户使用产品的典型场景，包括用户角色、使用环境、使用目的等]</p>
+
+    <h1>3. 功能需求</h1>
+    
+    <h3>3.1 功能列表</h3>
+    <table>
+        <tr>
+            <th>功能模块</th>
+            <th>功能名称</th>
+            <th>优先级</th>
+            <th>状态</th>
+            <th>备注</th>
+        </tr>
+        <tr>
+            <td>[模块1]</td>
+            <td>[功能1]</td>
+            <td>[高/中/低]</td>
+            <td>[未开始/进行中/已完成]</td>
+            <td>[备注]</td>
+        </tr>
+        <tr>
+            <td>[模块2]</td>
+            <td>[功能2]</td>
+            <td>[高/中/低]</td>
+            <td>[未开始/进行中/已完成]</td>
+            <td>[备注]</td>
+        </tr>
+    </table>
+
+    <h3>3.2 功能详述</h3>
+    
+    <h4>3.2.1 [功能模块1]</h4>
+    <p><strong>功能描述</strong><br>
+    [描述功能的主要作用和价值]</p>
+    
+    <p><strong>业务规则</strong><br>
+    [描述功能相关的业务规则和限制条件]</p>
+    
+    <p><strong>用户流程</strong><br>
+    [描述用户使用该功能的流程，可以使用流程图或步骤说明]</p>
+    
+    <p><strong>界面原型</strong><br>
+    [描述界面的主要元素和交互方式，可以附上原型图链接]</p>
+    
+    <p><strong>数据需求</strong><br>
+    [描述功能需要的数据，包括输入数据、输出数据、存储数据等]</p>
+
+    <h4>3.2.2 [功能模块2]</h4>
+    <p><strong>功能描述</strong><br>
+    [描述功能的主要作用和价值]</p>
+    
+    <p><strong>业务规则</strong><br>
+    [描述功能相关的业务规则和限制条件]</p>
+    
+    <p><strong>用户流程</strong><br>
+    [描述用户使用该功能的流程，可以使用流程图或步骤说明]</p>
+    
+    <p><strong>界面原型</strong><br>
+    [描述界面的主要元素和交互方式，可以附上原型图链接]</p>
+    
+    <p><strong>数据需求</strong><br>
+    [描述功能需要的数据，包括输入数据、输出数据、存储数据等]</p>
+
+    <h1>4. 非功能需求</h1>
+    
+    <h3>4.1 性能需求</h3>
+    <p>[描述系统性能要求，包括响应时间、并发量、吞吐量等]</p>
+
+    <h3>4.2 安全需求</h3>
+    <p>[描述系统安全要求，包括数据安全、访问控制、加密等]</p>
+
+    <h3>4.3 可用性需求</h3>
+    <p>[描述系统可用性要求，包括界面友好性、易用性、可访问性等]</p>
+
+    <h3>4.4 兼容性需求</h3>
+    <p>[描述系统兼容性要求，包括浏览器兼容性、设备兼容性、系统兼容性等]</p>
+
+    <h3>4.5 可扩展性需求</h3>
+    <p>[描述系统可扩展性要求，包括功能扩展、性能扩展、容量扩展等]</p>
+
+    <h1>5. 界面设计</h1>
+    
+    <h3>5.1 设计原则</h3>
+    <p>[描述界面设计的原则和规范]</p>
+
+    <h3>5.2 界面原型</h3>
+    <p>[附上界面原型图或链接]</p>
+
+    <h3>5.3 交互说明</h3>
+    <p>[描述界面的交互方式和用户体验设计]</p>
+
+    <h1>6. 数据需求</h1>
+    
+    <h3>6.1 数据模型</h3>
+    <p>[描述系统的数据模型，包括实体关系、数据结构等]</p>
+
+    <h3>6.2 数据字典</h3>
+    <table>
+        <tr>
+            <th>字段名</th>
+            <th>类型</th>
+            <th>长度</th>
+            <th>是否必填</th>
+            <th>默认值</th>
+            <th>描述</th>
+        </tr>
+        <tr>
+            <td>[字段1]</td>
+            <td>[类型]</td>
+            <td>[长度]</td>
+            <td>[是/否]</td>
+            <td>[默认值]</td>
+            <td>[描述]</td>
+        </tr>
+        <tr>
+            <td>[字段2]</td>
+            <td>[类型]</td>
+            <td>[长度]</td>
+            <td>[是/否]</td>
+            <td>[默认值]</td>
+            <td>[描述]</td>
+        </tr>
+    </table>
+
+    <h3>6.3 接口需求</h3>
+    <p>[描述系统需要对接的外部接口，包括接口名称、接口功能、接口参数等]</p>
+
+    <h1>7. 测试需求</h1>
+    
+    <h3>7.1 测试策略</h3>
+    <p>[描述测试的策略和方法]</p>
+
+    <h3>7.2 测试用例</h3>
+    <p>[描述主要的测试用例，包括测试场景、测试步骤、预期结果等]</p>
+
+    <h3>7.3 测试环境</h3>
+    <p>[描述测试需要的环境和资源]</p>
+
+    <h1>8. 上线计划</h1>
+    
+    <h3>8.1 上线策略</h3>
+    <p>[描述上线的策略和步骤]</p>
+
+    <h3>8.2 上线时间</h3>
+    <p>[描述上线的时间计划]</p>
+
+    <h3>8.3 上线检查清单</h3>
+    <p>[描述上线前需要检查的项目]</p>
+
+    <h1>9. 风险与依赖</h1>
+    
+    <h3>9.1 风险评估</h3>
+    <table>
+        <tr>
+            <th>风险描述</th>
+            <th>可能性</th>
+            <th>影响程度</th>
+            <th>应对措施</th>
+        </tr>
+        <tr>
+            <td>[风险1]</td>
+            <td>[高/中/低]</td>
+            <td>[高/中/低]</td>
+            <td>[措施]</td>
+        </tr>
+        <tr>
+            <td>[风险2]</td>
+            <td>[高/中/低]</td>
+            <td>[高/中/低]</td>
+            <td>[措施]</td>
+        </tr>
+    </table>
+
+    <h3>9.2 依赖关系</h3>
+    <p>[描述项目依赖的外部资源、系统或团队]</p>
+
+    <h1>10. 附录</h1>
+    
+    <h3>10.1 术语表</h3>
+    <p>[描述文档中使用的专业术语和缩写]</p>
+
+    <h3>10.2 参考文档</h3>
+    <p>[列出参考的相关文档和资料]</p>
+
+    <h3>10.3 变更记录</h3>
+    <table>
+        <tr>
+            <th>版本</th>
+            <th>日期</th>
+            <th>变更内容</th>
+            <th>变更人</th>
+        </tr>
+        <tr>
+            <td>V1.0</td>
+            <td>YYYY-MM-DD</td>
+            <td>初始版本</td>
+            <td>[姓名]</td>
+        </tr>
+        <tr>
+            <td>V1.1</td>
+            <td>YYYY-MM-DD</td>
+            <td>[变更内容]</td>
+            <td>[姓名]</td>
+        </tr>
+    </table>
+
+    <div class="footer">
+        <p>[需求名称] - 需求文档 | 版权所有 © 2025</p>
+    </div>
+</body>
+</html>

@@ -1,36 +1,10 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>活动报名优化 - 控台原型</title>
+    <title>联合营销平台 - 银行服务-商户信息校验</title>
     <style>
-        :root {
-            --background: 0 0% 100%;
-            --foreground: 222.2 84% 4.9%;
-            --card: 0 0% 100%;
-            --card-foreground: 222.2 84% 4.9%;
-            --primary: 221.2 83.2% 53.3%;
-            --primary-foreground: 210 40% 98%;
-            --secondary: 210 40% 96%;
-            --secondary-foreground: 222.2 84% 4.9%;
-            --muted: 210 40% 96%;
-            --muted-foreground: 215.4 16.3% 46.9%;
-            --border: 214.3 31.8% 91.4%;
-            --radius: 0.5rem;
-            --success: 160 90% 40%;
-            --error: 0 85% 50%;
-            --warning: 45 95% 50%;
-            --sidebar-bg: #050B16;
-            --sidebar-hover: #1a2332;
-            --sidebar-text: #94a3b8;
-            --sidebar-active: #ffffff;
-            --topbar-bg: #ffffff;
-            --sidebar-width: 240px;
-            --topbar-height: 64px;
-        }
-
         * {
             margin: 0;
             padding: 0;
@@ -38,588 +12,391 @@
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-            background-color: var(--background);
-            color: hsl(var(--foreground));
-            line-height: 1.6;
-            overflow: hidden;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: #f5f5f5;
+            color: #333;
+            width: 100%;
+            overflow-x: hidden;
         }
 
-        .app-layout {
+        /* 顶部导航 */
+        .header {
+            background-color: #4a90e2;
+            color: white;
+            padding: 0 20px;
+            height: 60px;
             display: flex;
-            height: 100vh;
-            overflow: hidden;
-        }
-
-        /* 左侧边栏 */
-        .sidebar {
-            width: var(--sidebar-width);
-            background-color: var(--sidebar-bg);
-            border-right: 1px solid hsl(var(--border));
-            display: flex;
-            flex-direction: column;
-            overflow-y: auto;
-        }
-
-        .sidebar-header {
-            padding: 20px 16px;
-            border-bottom: 1px solid hsl(var(--border));
-            display: flex;
+            justify-content: space-between;
             align-items: center;
-            gap: 10px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
 
         .logo {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: var(--sidebar-active);
+            font-size: 20px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
 
         .logo-icon {
+            width: 32px;
+            height: 32px;
+            background-color: white;
+            border-radius: 4px;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: var(--sidebar-active);
+            color: #4a90e2;
+            font-weight: bold;
         }
 
-        .logo-icon img {
-            width: 32px;
-            height: 32px;
-        }
-
-        .logo-icon svg {
-            width: 32px;
-            height: 32px;
-        }
-        .nav-menu {
-            flex: 1;
-            padding: 16px 0;
-        }
-
-        .nav-item {
+        .nav-info {
             display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 12px 16px;
-            color: var(--sidebar-text);
-            text-decoration: none;
-            transition: all 0.2s;
-            border-left: 3px solid transparent;
-            font-size: 0.95rem;
-        }
-
-        .nav-item:hover {
-            background-color: var(--sidebar-hover);
-            color: var(--sidebar-active);
-        }
-
-        .nav-item.active {
-            background-color: var(--sidebar-hover);
-            color: var(--sidebar-active);
-            border-left-color: var(--sidebar-active);
-        }
-
-        .nav-icon {
-            font-size: 1.1rem;
-            width: 20px;
-            text-align: center;
-            color: var(--sidebar-text);
-            opacity: 0.8;
-        }
-
-        .nav-item.active .nav-icon {
-            color: var(--sidebar-active);
-            opacity: 1;
-        }
-
-        /* 子菜单样式 */
-        .nav-submenu {
-            display: none;
-            flex-direction: column;
-            padding-left: 28px;
-        }
-
-        .nav-submenu.show {
-            display: flex;
-        }
-
-        .nav-subitem {
-            padding: 8px 16px;
-            font-size: 0.85rem;
-            border-left: 2px solid transparent;
-        }
-
-        .nav-subitem:hover {
-            background-color: var(--sidebar-hover);
-            color: var(--sidebar-active);
-        }
-
-        .nav-subitem.active {
-            background-color: #1890ff;
-            color: white;
-            border-left-color: #1890ff;
-        }
-
-        .nav-subitem.active .nav-icon {
-            color: white;
-        }
-
-        /* 顶部导航栏 */
-        .topbar {
-            height: var(--topbar-height);
-            background-color: var(--topbar-bg);
-            border-bottom: 1px solid hsl(var(--border));
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 0 24px;
-        }
-
-        .topbar-left {
-            display: flex;
-            align-items: center;
             gap: 20px;
+            font-size: 14px;
         }
 
+        /* 面包屑 */
         .breadcrumb {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 0.9rem;
-            color: hsl(var(--muted-foreground));
-        }
-
-        .breadcrumb-separator {
-            color: hsl(var(--border));
-        }
-
-        .breadcrumb-current {
-            color: hsl(var(--foreground));
-            font-weight: 500;
-        }
-
-        .topbar-right {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-        }
-
-        .user-info {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .user-avatar {
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
-            background-color: hsl(var(--primary));
-            color: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 600;
-            font-size: 0.9rem;
-        }
-
-        .user-name {
-            font-size: 0.9rem;
-            color: hsl(var(--foreground));
-        }
-
-        /* 主内容区域 */
-        .main-content {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
-        }
-
-        .content-area {
-            flex: 1;
-            padding: 24px;
-            overflow-y: auto;
-        }
-
-        .page-header {
-            margin-bottom: 24px;
-        }
-
-        .page-title {
-            font-size: 1.75rem;
-            font-weight: 700;
-            color: hsl(var(--foreground));
-            margin-bottom: 8px;
-        }
-
-        .page-description {
-            color: hsl(var(--muted-foreground));
-            font-size: 1rem;
-        }
-
-        .import-section {
-            background: hsl(var(--card));
-            border-radius: var(--radius);
-            padding: 24px;
-            margin-bottom: 24px;
-            box-shadow: 0 1px 3px 0 hsl(var(--border) / 0.1), 0 1px 2px 0 hsl(var(--border) / 0.06);
-        }
-
-        .import-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-            flex-wrap: wrap;
-            gap: 15px;
-        }
-
-        .import-header h2 {
-            font-size: 1.25rem;
-            color: hsl(var(--foreground));
-            font-weight: 600;
-        }
-
-        .upload-area {
-            border: 2px dashed hsl(var(--border));
-            border-radius: var(--radius);
-            padding: 40px;
-            text-align: center;
-            background-color: hsl(var(--muted));
-            cursor: pointer;
-            transition: all 0.2s;
-            margin-bottom: 20px;
-        }
-
-        .upload-area:hover {
-            border-color: hsl(var(--primary));
-            background-color: hsl(var(--secondary));
-        }
-
-        .upload-icon {
-            font-size: 2.5rem;
-            color: hsl(var(--muted-foreground));
-            margin-bottom: 15px;
-        }
-
-        .upload-text {
-            font-size: 1rem;
-            color: hsl(var(--foreground));
-            margin-bottom: 5px;
-        }
-
-        .upload-hint {
-            font-size: 0.85rem;
-            color: hsl(var(--muted-foreground));
-        }
-
-        .uploaded-file {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 10px 15px;
-            background: hsl(var(--secondary));
-            border-radius: var(--radius);
-            margin-bottom: 15px;
-        }
-
-        .file-info {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .file-icon {
-            font-size: 1.2rem;
-            color: hsl(var(--primary));
-        }
-
-        .file-name {
-            font-size: 0.9rem;
-            color: hsl(var(--foreground));
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-            max-width: 300px;
-        }
-
-        .remove-file {
-            background: none;
-            border: none;
-            color: hsl(var(--error));
-            cursor: pointer;
-            font-size: 1rem;
-            padding: 5px;
-        }
-
-        .action-buttons {
-            display: flex;
-            gap: 15px;
-            flex-wrap: wrap;
-        }
-
-        button {
+            background-color: #e8f3ff;
             padding: 10px 20px;
-            border-radius: 6px;
-            border: none;
-            font-size: 0.95rem;
-            font-weight: 500;
-            cursor: pointer;
-            transition: opacity 0.2s;
+            font-size: 14px;
+            color: #4a90e2;
+        }
+
+        .breadcrumb a {
+            color: #4a90e2;
+            text-decoration: none;
+        }
+
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+
+        /* 主容器 */
+        .main-container {
             display: flex;
-            align-items: center;
-            gap: 8px;
+            min-height: calc(100vh - 100px);
+            width: 100%;
         }
 
-        button:hover {
-            opacity: 0.9;
-        }
-
-        .primary-button {
-            background: hsl(var(--primary));
-            color: hsl(var(--primary-foreground));
-        }
-
-        .secondary-button {
-            background: hsl(var(--secondary));
-            color: hsl(var(--secondary-foreground));
-            border: 1px solid hsl(var(--border));
-        }
-
-        .success-button {
-            background: hsl(var(--success));
-            color: white;
-        }
-
-        .disabled-button {
-            opacity: 0.6;
-            cursor: not-allowed;
-        }
-
-        /* 线框按钮样式 */
-        .action-buttons button {
-            background: transparent !important;
-            color: #6b7280 !important;
-            border: 1px solid #d1d5db !important;
-            padding: 8px 16px !important;
-            display: flex !important;
-            align-items: center !important;
-            gap: 6px !important;
-            transition: all 0.2s ease !important;
-        }
-
-        .action-buttons button:hover {
-            background: #f9fafb !important;
-            border-color: #9ca3af !important;
-            color: #374151 !important;
-            opacity: 1 !important;
-        }
-
-        .action-buttons button:active {
-            background: #f3f4f6 !important;
-            transform: translateY(1px) !important;
-        }
-
-        .action-buttons button svg {
+        /* 左侧菜单 */
+        .sidebar {
+            width: 250px;
+            min-width: 250px;
+            max-width: 250px;
+            background-color: #080B15;
+            border-right: 1px solid #1a1f2e;
+            padding: 20px 0;
             flex-shrink: 0;
         }
 
-        .stats-cards {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 16px;
-            margin-bottom: 24px;
+        .menu-item {
+            margin-bottom: 5px;
         }
 
-        .stat-card {
-            background: hsl(var(--card));
-            border-radius: var(--radius);
-            padding: 20px;
-            box-shadow: 0 1px 3px 0 hsl(var(--border) / 0.1), 0 1px 2px 0 hsl(var(--border) / 0.06);
-            border: 1px solid hsl(var(--border));
-        }
-
-        .stat-title {
-            font-size: 0.875rem;
-            color: hsl(var(--muted-foreground));
-            margin-bottom: 8px;
-            font-weight: 500;
-        }
-
-        .stat-value {
-            font-size: 2rem;
-            font-weight: 700;
-            color: hsl(var(--foreground));
-        }
-
-        .stat-value.success,
-        .stat-value.error,
-        .stat-value.warning {
-            color: #6b7280; /* 浅灰色 */
-        }
-
-        .table-container {
-            background: hsl(var(--card));
-            border-radius: var(--radius);
-            padding: 24px;
-            box-shadow: 0 1px 3px 0 hsl(var(--border) / 0.1), 0 1px 2px 0 hsl(var(--border) / 0.06);
-            border: 1px solid hsl(var(--border));
-            overflow-x: auto;
-        }
-
-        .table-header {
+        .menu-title {
+            padding: 12px 20px;
+            cursor: pointer;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 20px;
-            flex-wrap: wrap;
-            gap: 15px;
+            color: #b8c5d6;
+            font-size: 14px;
+            transition: all 0.3s;
         }
 
-        .table-header h2 {
-            font-size: 1.3rem;
-            color: hsl(var(--foreground));
-            font-weight: 600;
+        .menu-title:hover {
+            background-color: #1a2332;
+            color: #ffffff;
         }
 
-        table {
-            width: 100%;
-            border-collapse: collapse;
+        .menu-title.active {
+            background-color: #1e3a5f;
+            color: #ffffff;
         }
 
-        th, td {
-            padding: 12px;
-            text-align: left;
-            border-bottom: 1px solid hsl(var(--border));
+        .menu-icon {
+            color: #4a90e2;
+            margin-right: 10px;
+            font-size: 12px;
         }
 
-        th {
-            background-color: hsl(var(--secondary));
-            font-weight: 600;
-            color: hsl(var(--secondary-foreground));
-            font-size: 0.9rem;
+        .menu-arrow {
+            transition: transform 0.3s;
+            font-size: 12px;
         }
 
-        td {
-            font-size: 0.9rem;
-            color: hsl(var(--foreground));
+        .menu-arrow.expanded {
+            transform: rotate(90deg);
         }
 
-        tr:hover {
-            background-color: hsl(var(--muted));
+        .submenu {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+            background-color: #0f1419;
         }
 
-        .status-badge {
-            display: inline-block;
-            padding: 4px 10px;
-            border-radius: 15px;
-            font-size: 0.8rem;
-            font-weight: 500;
+        .submenu.show {
+            max-height: 300px;
         }
 
-        .status-success,
-        .status-error,
-        .status-pending {
-            background-color: #f3f4f6;
-            color: #6b7280; /* 浅灰色 */
-        }
-
-        .pagination {
-            display: flex;
-            justify-content: flex-end;
-            align-items: center;
-            margin-top: 20px;
-            gap: 10px;
-            flex-wrap: wrap;
-        }
-
-        .pagination-info {
-            font-size: 0.9rem;
-            color: hsl(var(--muted-foreground));
-        }
-
-        .pagination-controls {
-            display: flex;
-            gap: 5px;
-        }
-
-        .pagination-button {
-            padding: 6px 12px;
-            border: 1px solid hsl(var(--border));
-            background: hsl(var(--background));
-            color: hsl(var(--foreground));
-            border-radius: 4px;
+        .submenu-item {
+            padding: 10px 20px 10px 50px;
             cursor: pointer;
-            font-size: 0.85rem;
+            font-size: 13px;
+            color: #9ca3af;
+            transition: all 0.3s;
         }
 
-        .pagination-button:hover:not(:disabled) {
-            background: hsl(var(--secondary));
+        .submenu-item:hover {
+            background-color: #1a2332;
+            color: #ffffff;
         }
 
-        .pagination-button:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
+        .submenu-item.active {
+            background-color: #2563eb;
+            color: #ffffff;
         }
 
-        .pagination-button.active {
-            background: hsl(var(--primary));
-            color: hsl(var(--primary-foreground));
-            border-color: hsl(var(--primary));
+        /* 右侧内容区 */
+        .content {
+            flex: 1;
+            padding: 20px;
+            background-color: #f5f5f5;
+            width: calc(100% - 250px);
+            overflow-x: hidden;
         }
 
-        /* 筛选区域样式 */
-        .filter-section {
-            background: hsl(var(--card));
-            border-radius: var(--radius);
-            padding: 24px;
-            margin-bottom: 24px;
-            box-shadow: 0 1px 3px 0 hsl(var(--border) / 0.1), 0 1px 2px 0 hsl(var(--border) / 0.06);
-            border: 1px solid hsl(var(--border));
+        .content-header {
+            margin-bottom: 20px;
         }
 
-        .filter-form {
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-        }
-
-        .filter-row {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 16px;
-        }
-
-        .filter-group {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
-
-        .filter-label {
-            font-size: 0.9rem;
+        .content-title {
+            margin: 0;
+            font-size: 24px;
+            color: #303133;
             font-weight: 500;
-            color: hsl(var(--foreground));
         }
 
-        /* 输入框和选择框样式 */
-        .filter-input,
-        .filter-select {
+        .tab-nav {
+            display: flex;
+            gap: 2px;
+            margin-bottom: 20px;
+        }
+
+        .tab-nav .tab-item {
+            padding: 10px 17px;
+            background-color: white;
+            border: 1px solid #dcdfe6;
+            cursor: pointer;
+            transition: all 0.3s;
+            border-radius: 4px 4px 0 0;
+            color: #4a90e2;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 150px !important;
+            font-size: 14px;
+            font-weight: 400;
+            line-height: 1.4;
+            text-align: center;
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+
+        .tab-nav .tab-item.active {
+            background-color: white;
+            color: #4a90e2;
+            border-color: #4a90e2;
+            border-bottom-color: white;
+            position: relative;
+            z-index: 1;
+            font-weight: 500;
+        }
+
+        .tab-nav .tab-item:hover:not(.active) {
+            background-color: #f8f9fa;
+            color: #4a90e2;
+            transform: translateY(-1px);
+            box-shadow: 0 2px 4px rgba(74, 144, 226, 0.2);
+        }
+
+        /* 标签栏响应式 */
+        @media (max-width: 768px) {
+            .tab-nav {
+                gap: 1px;
+                margin-bottom: 15px;
+            }
+            
+            .tab-nav .tab-item {
+                padding: 8px 13px;
+                width: 150px !important;
+                font-size: 13px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .tab-nav {
+                flex-direction: column;
+                gap: 0;
+            }
+            
+            .tab-nav .tab-item {
+                border-radius: 4px;
+                margin-bottom: 2px;
+                width: 100%;
+                padding: 10px 17px;
+            }
+            
+            .tab-nav .tab-item.active {
+                border-bottom-color: #4a90e2;
+            }
+        }
+
+        /* 通道标签 */
+        .tunnel-tags {
+            background-color: white;
+            padding: 15px 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            margin-bottom: 15px;
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .tunnel-tags::before {
+            content: '通道：';
+            color: #606266;
+            font-size: 14px;
+            margin-right: 5px;
+        }
+
+        .tunnel-tag {
+            padding: 8px 16px;
+            border: 1px solid #dcdfe6;
+            border-radius: 20px;
+            background-color: #f8f9fa;
+            color: #606266;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s;
+            -webkit-user-select: none;
+            user-select: none;
+        }
+
+        .tunnel-tag:hover {
+            border-color: #4a90e2;
+            color: #4a90e2;
+        }
+
+        .tunnel-tag.active {
+            background-color: #4a90e2;
+            border-color: #4a90e2;
+            color: white;
+        }
+
+        /* 查询表单 */
+        .query-form {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+
+        .form-row {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 15px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        
+        .form-row:last-child {
+            margin-bottom: 0;
+        }
+
+        .form-group {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex: 0 0 auto;
+            min-width: 280px;
+        }
+
+        .form-group label {
+            min-width: 120px;
+            color: #606266;
+            font-size: 14px;
+            white-space: nowrap;
+            text-align: right;
+            padding-right: 8px;
+        }
+
+        .form-group input,
+        .form-group select {
             padding: 8px 12px;
-            border: 1px solid hsl(var(--border));
-            border-radius: 6px;
-            background-color: hsl(var(--background));
-            color: hsl(var(--foreground));
-            font-size: 0.9rem;
-            transition: border-color 0.2s;
+            border: 1px solid #dcdfe6;
+            border-radius: 4px;
+            font-size: 14px;
+            min-width: 150px;
         }
 
-        .filter-input:focus,
-        .filter-select:focus {
+        /* 响应式布局 */
+        @media (max-width: 1400px) {
+            .form-row {
+                gap: 15px;
+            }
+            .form-group {
+                min-width: 300px;
+            }
+        }
+
+        @media (max-width: 1024px) {
+            .form-row {
+                gap: 12px;
+            }
+            .form-group {
+                min-width: 100%;
+                flex: 1 1 100%;
+            }
+            .form-group label {
+                min-width: 100px;
+                text-align: left;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .form-row {
+                gap: 10px;
+                flex-direction: column;
+            }
+            .form-group {
+                min-width: 100%;
+                flex: 1 1 100%;
+                gap: 4px;
+            }
+            .form-group label {
+                min-width: 80px;
+                text-align: left;
+                padding-right: 4px;
+            }
+            .form-group input,
+            .form-group select {
+                min-width: 180px;
+                flex: 1;
+            }
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
             outline: none;
-            border-color: hsl(var(--primary));
-            box-shadow: 0 0 0 2px hsl(var(--primary) / 0.2);
+            border-color: #409eff;
+            box-shadow: 0 0 0 2px rgba(64, 158, 255, 0.2);
         }
 
         .date-range {
@@ -628,1266 +405,1624 @@
             gap: 8px;
         }
 
-        .date-range input {
-            flex: 1;
-        }
-
-        /* 表格复选框和操作按钮样式 */
-        .checkbox-cell {
-            width: 40px;
-            text-align: center;
-        }
-
-        .checkbox-cell input[type="checkbox"] {
-            width: 16px;
-            height: 16px;
-            cursor: pointer;
-        }
-
-        .action-buttons-cell {
+        .form-actions {
             display: flex;
-            gap: 8px;
+            gap: 10px;
+            justify-content: flex-end;
         }
 
-        .action-button {
-            padding: 4px 8px;
-            font-size: 0.8rem;
+        .btn {
+            padding: 10px 20px;
+            border: none;
             border-radius: 4px;
-            border: none;
             cursor: pointer;
-            transition: opacity 0.2s;
+            font-size: 14px;
+            transition: all 0.3s;
         }
 
-        .action-button:hover {
-            opacity: 0.8;
-        }
-
-        .action-button.download {
-            color: #3b82f6;
-            background: none;
-            border: none;
-            padding: 4px 8px;
-            cursor: pointer;
-            font-size: 0.9rem;
-        }
-
-        .action-button.refresh {
-            color: #3b82f6;
-            background: none;
-            border: none;
-            padding: 4px 8px;
-            cursor: pointer;
-            font-size: 0.9rem;
-        }
-
-        .action-button.view {
-            background: hsl(var(--primary));
+        .btn-primary {
+            background-color: #4a90e2;
             color: white;
         }
 
-        .action-button.download:hover,
-        .action-button.refresh:hover {
-            color: #2563eb;
+        .btn-primary:hover {
+            background-color: #5ba0f2;
+        }
+
+        .btn-default {
+            background-color: #f5f7fa;
+            color: #606266;
+            border: 1px solid #dcdfe6;
+        }
+
+        .btn-default:hover {
+            background-color: #ecf5ff;
+            color: #4a90e2;
+            border-color: #4a90e2;
+        }
+
+        .btn-secondary {
+            background-color: #67c23a;
+            color: white;
+            border: 1px solid #67c23a;
+        }
+
+        .btn-secondary:hover {
+            background-color: #85ce61;
+            border-color: #85ce61;
+        }
+
+        .btn-gray {
+            background-color: #909399;
+            color: white;
+            border: 1px solid #909399;
+        }
+
+        .btn-gray:hover {
+            background-color: #82848a;
+            border-color: #82848a;
+        }
+
+        /* 数据表格 */
+        .data-table {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            overflow: hidden;
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        .table-header {
+            padding: 15px 20px;
+            background-color: #f8f9fa;
+            border-bottom: 1px solid #e8eaec;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .table-title {
+            font-weight: 600;
+            color: #2c3e50;
+        }
+
+        .table-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .table-container {
+            overflow-x: auto;
+            position: relative;
+            width: 100%;
+            max-height: 600px;
+            overflow-y: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 1400px;
+            table-layout: auto;
+        }
+
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #f0f0f0;
+            border-right: 1px solid #f0f0f0;
+            font-size: 14px;
+            white-space: nowrap;
+        }
+        
+        th:last-child, td:last-child {
+            border-right: none;
+        }
+
+        th {
+            background-color: #fafafa;
+            font-weight: 600;
+            color: #606266;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        .checkbox-col {
+            width: auto;
+            min-width: 50px;
+            text-align: center;
+        }
+        
+        .checkbox-col input[type="checkbox"] {
+            margin: 0 auto;
+            display: block;
+        }
+
+        .action-col {
+            width: auto;
+            min-width: 200px;
+            position: sticky;
+            right: 0;
+            background-color: #fafafa;
+            z-index: 15;
+            box-shadow: -2px 0 4px rgba(0,0,0,0.1);
+        }
+
+        tbody .action-col {
+            background-color: white;
+            z-index: 15;
+        }
+
+        .action-col::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 1px;
+            background-color: #f0f0f0;
+        }
+
+        tr:hover {
+            background-color: #f8f9fa;
+        }
+
+        .status-badge {
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 500;
+            width: fit-content;
+            min-width: auto;
+        }
+
+        .status-pending {
+            background-color: #fdf6ec;
+            color: #e6a23c;
+        }
+
+        .action-link {
+            color: #4a90e2;
+            text-decoration: none;
+            margin-right: 10px;
+            font-size: 12px;
+        }
+
+        .action-link:hover {
             text-decoration: underline;
+        }
+
+        /* 分页 */
+        .pagination {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+            background-color: #fafafa;
+        }
+
+        .pagination-left {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .pagination-info {
+            color: #606266;
+            font-size: 14px;
+        }
+
+        .page-size-selector {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #606266;
+            font-size: 14px;
+        }
+
+        .page-size-select {
+            padding: 5px 8px;
+            border: 1px solid #dcdfe6;
+            border-radius: 4px;
+            background-color: white;
+            color: #606266;
+            font-size: 14px;
+            outline: none;
+            cursor: pointer;
+        }
+
+        .pagination-controls {
+            display: flex;
+            gap: 5px;
+            flex-wrap: nowrap;
+            align-items: center;
+        }
+
+        .page-btn {
+            padding: 8px 12px;
+            border: 1px solid #dcdfe6;
+            background-color: white;
+            cursor: pointer;
+            font-size: 14px;
+            border-radius: 4px;
+            white-space: nowrap;
+            min-width: -webkit-fill-available;
+            min-width: -moz-available;
+            min-width: fit-content;
+        }
+
+        .page-btn:hover {
+            background-color: #f5f7fa;
+        }
+
+        .page-btn.active {
+            background-color: #4a90e2;
+            color: white;
+            border-color: #4a90e2;
+        }
+
+        .page-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* 批量上传模态框样式 */
+        .batch-upload-modal {
+            position: fixed;
+            top: 0;
+            right: -800px;
+            width: 800px;
+            height: 100vh;
+            background-color: white;
+            box-shadow: -4px 0 12px rgba(0, 0, 0, 0.15);
+            z-index: 1000;
+            transition: right 0.3s ease-in-out;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .batch-upload-modal.show {
+            right: 0;
+        }
+
+        .batch-upload-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
+        }
+
+        .batch-upload-overlay.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* 模态框打开时禁用背景滚动 */
+        body.modal-open {
+            overflow: hidden;
+        }
+
+        .batch-modal-header {
+            padding: 20px 24px;
+            border-bottom: 1px solid #e8eaec;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #fafafa;
+        }
+
+        .batch-modal-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #2c3e50;
+            margin: 0;
+        }
+
+        .batch-modal-close {
+            width: 32px;
+            height: 32px;
+            border: none;
+            background: none;
+            cursor: pointer;
+            font-size: 20px;
+            color: #666;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 4px;
+            transition: all 0.2s;
+        }
+
+        .batch-modal-close:hover {
+            background-color: #f0f0f0;
+            color: #333;
+        }
+
+        .batch-modal-body {
+            flex: 1;
+            overflow-y: auto;
+            padding: 24px;
+        }
+
+        .batch-filter-section {
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border: 1px solid #e8eaec;
+        }
+
+        .batch-filter-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .batch-filter-title::before {
+            content: '🔍';
+            font-size: 14px;
+        }
+
+        .batch-filter-form {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+        }
+
+        .batch-filter-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .batch-filter-label {
+            font-size: 14px;
+            font-weight: 500;
+            color: #606266;
+        }
+
+        .batch-filter-input,
+        .batch-filter-select {
+            padding: 8px 12px;
+            border: 1px solid #dcdfe6;
+            border-radius: 4px;
+            font-size: 14px;
+            transition: border-color 0.2s;
+        }
+
+        .batch-filter-input:focus,
+        .batch-filter-select:focus {
+            outline: none;
+            border-color: #4a90e2;
+            box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.2);
+        }
+
+        .batch-action-section {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .batch-btn {
+            padding: 10px 20px;
+            border: 1px solid #dcdfe6;
+            border-radius: 4px;
+            background-color: white;
+            color: #606266;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .batch-btn:hover {
+            border-color: #4a90e2;
+            color: #4a90e2;
+            background-color: #ecf5ff;
+        }
+
+        .batch-btn-primary {
+            background-color: #4a90e2;
+            color: white;
+            border-color: #4a90e2;
+        }
+
+        .batch-btn-primary:hover {
+            background-color: #5ba0f2;
+            border-color: #5ba0f2;
+        }
+
+        .batch-btn-success {
+            background-color: #67c23a;
+            color: white;
+            border-color: #67c23a;
+        }
+
+        .batch-btn-success:hover {
+            background-color: #85ce61;
+            border-color: #85ce61;
+        }
+
+        .batch-records-section {
+            background-color: white;
+            border-radius: 8px;
+            border: 1px solid #e8eaec;
+            overflow: hidden;
+        }
+
+        .batch-records-header {
+            padding: 16px 20px;
+            background-color: #fafafa;
+            border-bottom: 1px solid #e8eaec;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .batch-records-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #2c3e50;
+            margin: 0;
+        }
+
+        .batch-records-count {
+            font-size: 14px;
+            color: #909399;
+        }
+
+        .batch-records-table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 800px;
+        }
+
+        .batch-records-table th {
+            background-color: #fafafa;
+            padding: 12px 15px;
+            text-align: left;
+            font-weight: 600;
+            color: #606266;
+            font-size: 13px;
+            border-bottom: 1px solid #e8eaec;
+            white-space: nowrap;
+            min-width: 120px;
+        }
+
+        .batch-records-table td {
+            padding: 12px 15px;
+            font-size: 13px;
+            color: #606266;
+            border-bottom: 1px solid #f0f0f0;
+            white-space: nowrap;
+            min-width: 120px;
+        }
+
+        .batch-records-table tr:hover {
+            background-color: #f8f9fa;
+        }
+
+        .batch-status-badge {
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .batch-status-success {
+            background-color: #f0f9ff;
+            color: #1890ff;
+        }
+
+        .batch-status-processing {
+            background-color: #fff7e6;
+            color: #fa8c16;
+        }
+
+        .batch-status-failed {
+            background-color: #fff1f0;
+            color: #ff4d4f;
+        }
+
+        .batch-status-pending {
+            background-color: #f6f6f6;
+            color: #8c8c8c;
+        }
+
+        .batch-empty-state {
+            padding: 40px;
+            text-align: center;
+            color: #909399;
+        }
+
+        .batch-empty-icon {
+            font-size: 48px;
+            margin-bottom: 16px;
+            opacity: 0.5;
+        }
+
+        .batch-empty-text {
+            font-size: 14px;
+            margin-bottom: 8px;
+        }
+
+        .batch-empty-hint {
+            font-size: 12px;
+            color: #c0c4cc;
         }
 
         /* 响应式设计 */
         @media (max-width: 1024px) {
-            .sidebar {
-                width: 200px;
+            .batch-upload-modal {
+                width: 90%;
+                right: -90%;
+            }
+            
+            .batch-filter-form {
+                grid-template-columns: 1fr;
             }
         }
 
         @media (max-width: 768px) {
-            .app-layout {
-                flex-direction: column;
-            }
-
-            .sidebar {
+            .batch-upload-modal {
                 width: 100%;
-                height: auto;
-                border-right: none;
-                border-bottom: 1px solid hsl(var(--border));
-            }
-
-            .sidebar-header {
-                padding: 16px;
-            }
-
-            .nav-menu {
-                display: flex;
-                padding: 0;
-                overflow-x: auto;
-            }
-
-            .nav-item {
-                white-space: nowrap;
-                border-left: none;
-                border-bottom: 3px solid transparent;
-            }
-
-            .nav-item.active {
-                border-left: none;
-                border-bottom-color: hsl(var(--primary));
-            }
-
-            .topbar {
-                padding: 0 16px;
-            }
-
-            .content-area {
-                padding: 16px;
-            }
-
-            .import-header,
-            .table-header,
-            .action-buttons {
-                flex-direction: column;
-                align-items: stretch;
-            }
-
-            .upload-area {
-                padding: 20px;
-            }
-
-            .stats-cards {
-                grid-template-columns: repeat(2, 1fr);
-            }
-
-            .breadcrumb {
-                font-size: 0.8rem;
-            }
-
-            .user-name {
-                display: none;
-            }
-
-            /* 筛选区域响应式设计 */
-            .filter-row {
-                grid-template-columns: 1fr;
+                right: -100%;
             }
             
-            .date-range {
+            .batch-action-section {
                 flex-direction: column;
-                align-items: stretch;
             }
             
-            .action-buttons-cell {
-                flex-direction: column;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .stats-cards {
-                grid-template-columns: 1fr;
-            }
-
-            .pagination {
+            .batch-btn {
+                width: 100%;
                 justify-content: center;
-            }
-
-            .page-title {
-                font-size: 1.5rem;
-            }
-
-            .import-section,
-            .table-container {
-                padding: 16px;
             }
         }
     </style>
-    <!-- 引入 SheetJS 库用于 Excel 文件处理 -->
-    <script src="https://cdn.sheetjs.com/xlsx-0.20.1/package/dist/xlsx.full.min.js"></script>
 </head>
-
 <body>
-    <div class="app-layout">
-        <!-- 左侧边栏 -->
-        <aside class="sidebar">
-            <div class="sidebar-header">
-                <div class="logo-icon">
-                    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEcAAABICAYAAACk5ujKAAAACXBIWXMAAAsTAAALEwEAmpwYAAAG0mlUWHRYTUw6Y29tLmFkb2JlLnhtcAAAAAAAPD94cGFja2V0IGJlZ2luPSLvu78iIGlkPSJXNU0wTXBDZWhpSHpyZVN6TlRjemtjOWQiPz4gPHg6eG1wbWV0YSB4bWxuczp4PSJhZG9iZTpuczptZXRhLyIgeDp4bXB0az0iQWRvYmUgWE1QIENvcmUgNS42LWMxNDUgNzkuMTYzNDk5LCAyMDE4LzA4LzEzLTE2OjQwOjIyICAgICAgICAiPiA8cmRmOlJERiB4bWxuczpyZGY9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkvMDIvMjItcmRmLXN5bnRheC1ucyMiPiA8cmRmOkRlc2NyaXB0aW9uIHJkZjphYm91dD0iIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtbG5zOmRjPSJodHRwOi8vcHVybC5vcmcvZGMvZWxlbWVudHMvMS4xLyIgeG1sbnM6cGhvdG9zaG9wPSJodHRwOi8vbnMuYWRvYmUuY29tL3Bob3Rvc2hvcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RFdnQ9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZUV2ZW50IyIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ0MgMjAxOSAoTWFjaW50b3NoKSIgeG1wOkNyZWF0ZURhdGU9IjIwMTktMDgtMjFUMTc6MzQ6NDgrMDg6MDAiIHhtcDpNb2RpZnlEYXRlPSIyMDE5LTA4LTIxVDE3OjM5OjM2KzA4OjAwIiB4bXA6TWV0YWRhdGFEYXRlPSIyMDE5LTA4LTIxVDE3OjM5OjM2KzA4OjAwIiBkYzpmb3JtYXQ9ImltYWdlL3BuZyIgcGhvdG9zaG9wOkNvbG9yTW9kZT0iMyIgcGhvdG9zaG9wOklDQ1Byb2ZpbGU9InNSR0IgSUVDNjE5NjYtMi4xIiB4bXBNTTpJbnN0YW5jZUlEPSJ4bXAuaWlkOjE4NDNjY2E3LTMyMzQtNDhmMi04NmJiLTUxYWVhNTY0NDEyOCIgeG1wTU06RG9jdW1lbnRJRD0iYWRvYmU6ZG9jaWQ6cGhvdG9zaG9wOjVmYzg3ODYyLTFiMjAtNjU0YS04MDg1LTljYmY3NTUzYzU5YyIgeG1wTU06T3JpZ2luYWxEb2N1bWVudElEPSJ4bXAuZGlkOjZmNmExZmI2LWQ5YmItNDYzMC05MTlkLTJkZWVjOGExYmFhYSI+IDx4bXBNTTpIaXN0b3J5PiA8cmRmOlNlcT4gPHJkZjpsaSBzdEV2dDphY3Rpb249ImNyZWF0ZWQiIHN0RXZ0Omluc3RhbmNlSUQ9InhtcC5paWQ6NmY2YTFmYjYtZDliYi00NjMwLTkxOWQtMmRlZWM4YTFiYWFhIiBzdEV2dDp3aGVuPSIyMDE5LTA4LTIxVDE3OjM0OjQ4KzA4OjAwIiBzdEV2dDpzb2Z0d2FyZUFnZW50PSJBZG9iZSBQaG90b3Nob3AgQ0MgMjAxOSAoTWFjaW50b3NoKSIvPiA8cmRmOmxpIHN0RXZ0OmFjdGlvbj0ic2F2ZWQiIHN0RXZ0Omluc3RhbmNlSUQ9InhtcC5paWQ6YmViNzcyODctMzZhZS00ZDVjLTliZWUtZTJkYjI1ZTA2YTY0IiBzdEV2dDp3aGVuPSIyMDE5LTA4LTIxVDE3OjM2OjI2KzA4OjAwIiBzdEV2dDpzb2Z0d2FyZUFnZW50PSJBZG9iZSBQaG90b3Nob3AgQ0MgMjAxOSAoTWFjaW50b3NoKSIgc3RFdnQ6Y2hhbmdlZD0iLyIvPiA8cmRmOmxpIHN0RXZ0OmFjdGlvbj0ic2F2ZWQiIHN0RXZ0Omluc3RhbmNlSUQ9InhtcC5paWQ6MTg0M2NjYTctMzIzNC00OGYyLTg2YmItNTFhZWE1NjQ0MTI4IiBzdEV2dDp3aGVuPSIyMDE5LTA4LTIxVDE3OjM5OjM2KzA4OjAwIiBzdEV2dDpzb2Z0d2FyZUFnZW50PSJBZG9iZSBQaG90b3Nob3AgQ0MgMjAxOSAoTWFjaW50b3NoKSIgc3RFdnQ6Y2hhbmdlZD0iLyIvPiA8L3JkZjpTZXE+IDwveG1wTU06SGlzdG9yeT4gPC9yZGY6RGVzY3JpcHRpb24+IDwvcmRmOlJERj4gPC94OnhtcG1ldGE+IDw/eHBhY2tldCBlbmQ9InIiPz781p5rAAACBUlEQVR4nO3c0W3aUBiG4fdYuQ+SB2g2KBuUTuBsULoBG5QNwgalG3A2oBuQCRLuaylMcHqBqVAKX1TqHtvley7B6D96BQckG4eUEueEWE/OPvlnNqkqXy55YYj1GBi1tI5TnlNVPp964ubVQkbADJgC71pcwEdgfeFrF8CH1lZyQoj1DlgB8+NQxdEBY2ADfKHdMENwC3wCnkKsZ4cHC/gVZs31RTnl4RCoaD5KK/b1bO8hxPquoP395X8xP8Sx390XwPuuV9FTt8Xbx1wvxxEcR3AcwXEExxEcR3AcwXEExxEcR3AcwXEExxEcR3AcwXEExxEcR3AcYQhx1l0NHkKcZVeDex+nObH/rYvZvY/TmAGPuYcOIk5zbc8E+J5z7iDiwD5QqsoJ8BmIOWbevH1Iv6SqXJJpkx7MO6cLjiM4juA4guMIjiPkijPKNKdVueKMM81pleMIueJUIdZ3mWa1JueGvMg4qxU541Qh1tOM8/5a7q/yryHW88wzLxZY/Tj/h6t/ZwvMgfW5/zr1QVdxBsG/kAXHERxHcBzBcQTHERxHcBzBcQTHERxHcBzBcQTHERxHcByhoIPLyQZiWzDAswKZLEJKiRDrDb7hx7EtMD7sOVNg191aemUH3KeqfCkAUlVu2F+tee37zxaYND0Ir2+F15x4m3FdH7NHYJmqcnH84E83UWqoe327lAAAAABJRU5ErkJggg==" alt>
-                </div>
-                <div class="logo">联合营销平台</div>
-            </div>
-            <nav class="nav-menu">
-                <a href="#" class="nav-item active">
-                    <span class="nav-icon"><svg width="20" height="20" viewBox="0 0 1024 1024" fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M926 164H94c-17.7 0-32 14.3-32 32v640c0 17.7 14.3 32 32 32h832c17.7 0 32-14.3 32-32V196c0-17.7-14.3-32-32-32zm-40 632H134V236h752v560zm-658.9-82.3c3.1 3.1 8.2 3.1 11.3 0l172.5-172.5 114.4 114.5c3.1 3.1 8.2 3.1 11.3 0l297-297.2c3.1-3.1 3.1-8.2 0-11.3l-36.8-36.8a8.03 8.03 0 0 0-11.3 0L531 565 416.6 450.5a8.03 8.03 0 0 0-11.3 0l-214.9 215a8.03 8.03 0 0 0 0 11.3l36.7 36.9z"></path></svg></span>
-                    <span>数据看板</span>
-                </a>
-                <a href="#" class="nav-item">
-                    <span class="nav-icon"><svg width="20" height="20" viewBox="0 0 1024 1024" fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M296 250c-4.4 0-8 3.6-8 8v48c0 4.4 3.6 8 8 8h384c4.4 0 8-3.6 8-8v-48c0-4.4-3.6-8-8-8H296zm184 144H296c-4.4 0-8 3.6-8 8v48c0 4.4 3.6 8 8 8h184c4.4 0 8-3.6 8-8v-48c0-4.4-3.6-8-8-8zm-48 458H208V148h560v320c0 4.4 3.6 8 8 8h56c4.4 0 8-3.6 8-8V108c0-17.7-14.3-32-32-32H168c-17.7 0-32 14.3-32 32v784c0 17.7 14.3 32 32 32h264c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm440-88H728v-36.6c46.3-13.8 80-56.6 80-107.4 0-61.9-50.1-112-112-112s-112 50.1-112 112c0 50.7 33.7 93.6 80 107.4V764H520c-8.8 0-16 7.2-16 16v152c0 8.8 7.2 16 16 16h352c8.8 0 16-7.2 16-16V780c0-8.8-7.2-16-16-16zM646 620c0-27.6 22.4-50 50-50s50 22.4 50 50-22.4 50-50 50-50-22.4-50-50zm180 266H566v-60h260v60z"></path></svg></span>
+    <!-- 顶部导航 -->
+    <div class="header">
+        <div class="logo">
+            <div class="logo-icon">L</div>
+            <span>联合营销平台</span>
+        </div>
+        <div class="nav-info">
+            <span>银行服务 / 商户信息校验</span>
+            <span>管理员</span>
+        </div>
+    </div>
+
+    <!-- 面包屑导航 -->
+    <div class="breadcrumb">
+        <a href="#">银行服务</a> / 商户信息校验
+    </div>
+
+    <!-- 主体内容 -->
+    <div class="main-container">
+        <!-- 左侧菜单 -->
+        <div class="sidebar">
+            <div class="menu-item">
+                <div class="menu-title">
                     <span>运营中心</span>
-                </a>
-                <a href="#" class="nav-item">
-                    <span class="nav-icon"><svg width="20" height="20" viewBox="0 0 1024 1024" fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M832 64H192c-17.7 0-32 14.3-32 32v832c0 17.7 14.3 32 32 32h640c17.7 0 32-14.3 32-32V96c0-17.7-14.3-32-32-32zm-600 72h560v208H232V136zm560 480H232V408h560v208zm0 272H232V680h560v208zM304 240a40 40 0 1 0 80 0 40 40 0 1 0-80 0zm0 272a40 40 0 1 0 80 0 40 40 0 1 0-80 0zm0 272a40 40 0 1 0 80 0 40 40 0 1 0-80 0z"></path></svg></span>
+                </div>
+            </div>
+            <div class="menu-item">
+                <div class="menu-title">
                     <span>数据中心</span>
-                </a>
-                <a href="#" class="nav-item">
-                    <span class="nav-icon"><svg width="20" height="20" viewBox="0 0 1024 1024" fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M924.8 625.7l-65.5-56c3.1-19 4.7-38.4 4.7-57.8s-1.6-38.8-4.7-57.8l65.5-56a32.03 32.03 0 0 0 9.3-35.2l-.9-2.6a443.74 443.74 0 0 0-79.7-137.9l-1.8-2.1a32.12 32.12 0 0 0-35.1-9.5l-81.3 28.9c-30-24.6-63.5-44-99.7-57.6l-15.7-85a32.05 32.05 0 0 0-25.8-25.7l-2.7-.5c-52.1-9.4-106.9-9.4-159 0l-2.7.5a32.05 32.05 0 0 0-25.8 25.7l-15.8 85.4a351.86 351.86 0 0 0-99 57.4l-81.9-29.1a32 32 0 0 0-35.1 9.5l-1.8 2.1a446.02 446.02 0 0 0-79.7 137.9l-.9 2.6c-4.5 12.5-.8 26.5 9.3 35.2l66.3 56.6c-3.1 18.8-4.6 38-4.6 57.1 0 19.2 1.5 38.4 4.6 57.1L99 625.5a32.03 32.03 0 0 0-9.3 35.2l.9 2.6c18.1 50.4 44.9 96.9 79.7 137.9l1.8 2.1a32.12 32.12 0 0 0 35.1 9.5l81.9-29.1c29.8 24.5 63.1 43.9 99 57.4l15.8 85.4a32.05 32.05 0 0 0 25.8 25.7l2.7.5a449.4 449.4 0 0 0 159 0l2.7-.5a32.05 32.05 0 0 0 25.8-25.7l15.7-85a350 350 0 0 0 99.7-57.6l81.3 28.9a32 32 0 0 0 35.1-9.5l1.8-2.1c34.8-41.1 61.6-87.5 79.7-137.9l.9-2.6c4.5-12.3.8-26.3-9.3-35zM788.3 465.9c2.5 15.1 3.8 30.6 3.8 46.1s-1.3 31-3.8 46.1l-6.6 40.1 74.7 63.9a370.03 370.03 0 0 1-42.6 73.6L721 702.8l-31.4 25.8c-23.9 19.6-50.5 35-79.3 45.8l-38.1 14.3-17.9 97a377.5 377.5 0 0 1-85 0l-17.9-97.2-37.8-14.5c-28.5-10.8-55-26.2-78.7-45.7l-31.4-25.9-93.4 33.2c-17-22.9-31.2-47.6-42.6-73.6l75.5-64.5-6.5-40c-2.4-14.9-3.7-30.3-3.7-45.5 0-15.3 1.2-30.6 3.7-45.5l6.5-40-75.5-64.5c11.3-26.1 25.6-50.7 42.6-73.6l93.4 33.2 31.4-25.9c23.7-19.5 50.2-34.9 78.7-45.7l37.9-14.3 17.9-97.2c28.1-3.2 56.8-3.2 85 0l17.9 97 38.1 14.3c28.7 10.8 55.4 26.2 79.3 45.8l31.4 25.8 92.8-32.9c17 22.9 31.2 47.6 42.6 73.6L781.8 426l6.5 39.9zM512 326c-97.2 0-176 78.8-176 176s78.8 176 176 176 176-78.8 176-176-78.8-176-176-176zm79.2 255.2A111.6 111.6 0 0 1 512 614c-29.9 0-58-11.7-79.2-32.8A111.6 111.6 0 0 1 400 502c0-29.9 11.7-58 32.8-79.2C454 401.6 482.1 390 512 390c29.9 0 58 11.6 79.2 32.8A111.6 111.6 0 0 1 624 502c0 29.9-11.7 58-32.8 79.2z"></path></svg></span>
+                </div>
+            </div>
+            <div class="menu-item">
+                <div class="menu-title">
                     <span>配置中心</span>
-                </a>
-                <a href="#" class="nav-item">
-                    <span class="nav-icon"><svg width="20" height="20" viewBox="0 0 1024 1024" fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M624 706.3h-74.1V464c0-4.4-3.6-8-8-8h-60c-4.4 0-8 3.6-8 8v242.3H400c-6.7 0-10.4 7.7-6.3 12.9l112 141.7a8 8 0 0 0 12.6 0l112-141.7c4.1-5.2.4-12.9-6.3-12.9z"></path>
-                        <path d="M811.4 366.7C765.6 245.9 648.9 160 512.2 160S258.8 245.8 213 366.6C127.3 389.1 64 467.2 64 560c0 110.5 89.5 200 199.9 200H304c4.4 0 8-3.6 8-8v-60c0-4.4-3.6-8-8-8h-40.1c-33.7 0-65.4-13.4-89-37.7-23.5-24.2-36-56.8-34.9-90.6.9-26.4 9.9-51.2 26.2-72.1 16.7-21.3 40.1-36.8 66.1-43.7l37.9-9.9 13.9-36.6c8.6-22.8 20.6-44.1 35.7-63.4a245.6 245.6 0 0 1 52.4-49.9c41.1-28.9 89.5-44.2 140-44.2s98.9 15.3 140 44.2c19.9 14 37.5 30.8 52.4 49.9 15.1 19.3 27.1 40.7 35.7 63.4l13.8 36.5 37.8 10C846.1 454.5 884 503.8 884 560c0 33.1-12.9 64.3-36.3 87.7a123.07 123.07 0 0 1-87.6 36.3H720c-4.4 0-8 3.6-8 8v60c0 4.4 3.6 8 8 8h40.1C870.5 760 960 670.5 960 560c0-92.7-63.1-170.7-148.6-193.3z"></path></svg></span>
-                    
+                </div>
+            </div>
+            <div class="menu-item">
+                <div class="menu-title">
                     <span>下载中心</span>
-                </a>
-                <a href="#" class="nav-item">
-                    <span class="nav-icon"><svg width="20" height="20" viewBox="0 0 1024 1024" fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M296 250c-4.4 0-8 3.6-8 8v48c0 4.4 3.6 8 8 8h384c4.4 0 8-3.6 8-8v-48c0-4.4-3.6-8-8-8H296zm184 144H296c-4.4 0-8 3.6-8 8v48c0 4.4 3.6 8 8 8h184c4.4 0 8-3.6 8-8v-48c0-4.4-3.6-8-8-8zm-48 458H208V148h560v320c0 4.4 3.6 8 8 8h56c4.4 0 8-3.6 8-8V108c0-17.7-14.3-32-32-32H168c-17.7 0-32 14.3-32 32v784c0 17.7 14.3 32 32 32h264c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm440-88H728v-36.6c46.3-13.8 80-56.6 80-107.4 0-61.9-50.1-112-112-112s-112 50.1-112 112c0 50.7 33.7 93.6 80 107.4V764H520c-8.8 0-16 7.2-16 16v152c0 8.8 7.2 16 16 16h352c8.8 0 16-7.2 16-16V780c0-8.8-7.2-16-16-16zM646 620c0-27.6 22.4-50 50-50s50 22.4 50 50-22.4 50-50 50-50-22.4-50-50zm180 266H566v-60h260v60z"></path></svg></span>
+                </div>
+            </div>
+            <div class="menu-item">
+                <div class="menu-title">
                     <span>营销中心</span>
-                </a>
-                <a href="#" class="nav-item">
-                    <span class="nav-icon"><svg width="20" height="20" viewBox="0 0 1024 1024" fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M894 462c30.9 0 43.8-39.7 18.7-58L530.8 126.2a31.81 31.81 0 0 0-37.6 0L111.3 404c-25.1 18.2-12.2 58 18.8 58H192v374h-72c-4.4 0-8 3.6-8 8v52c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-52c0-4.4-3.6-8-8-8h-72V462h62zM512 196.7l271.1 197.2H240.9L512 196.7zM264 462h117v374H264V462zm189 0h117v374H453V462zm307 374H642V462h118v374z"></path></svg></span>
+                </div>
+            </div>
+            <div class="menu-item">
+                <div class="menu-title">
+                    <span>三方营销配置</span>
+                </div>
+            </div>
+            <div class="menu-item">
+                <div class="menu-title">
                     <span>机构管理</span>
-                </a>
-                <a href="#" class="nav-item">
-                    <span class="nav-icon"><svg width="20" height="20" viewBox="0 0 1024 1024" fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M251.2 387H320v68.8c0 1.8 1.8 3.2 4 3.2h48c2.2 0 4-1.4 4-3.3V387h68.8c1.8 0 3.2-1.8 3.2-4v-48c0-2.2-1.4-4-3.3-4H376v-68.8c0-1.8-1.8-3.2-4-3.2h-48c-2.2 0-4 1.4-4 3.2V331h-68.8c-1.8 0-3.2 1.8-3.2 4v48c0 2.2 1.4 4 3.2 4zm328 0h193.6c1.8 0 3.2-1.8 3.2-4v-48c0-2.2-1.4-4-3.3-4H579.2c-1.8 0-3.2 1.8-3.2 4v48c0 2.2 1.4 4 3.2 4zm0 265h193.6c1.8 0 3.2-1.8 3.2-4v-48c0-2.2-1.4-4-3.3-4H579.2c-1.8 0-3.2 1.8-3.2 4v48c0 2.2 1.4 4 3.2 4zm0 104h193.6c1.8 0 3.2-1.8 3.2-4v-48c0-2.2-1.4-4-3.3-4H579.2c-1.8 0-3.2 1.8-3.2 4v48c0 2.2 1.4 4 3.2 4zm-195.7-81l61.2-74.9c4.3-5.2.7-13.1-5.9-13.1H388c-2.3 0-4.5 1-5.9 2.9l-34 41.6-34-41.6a7.85 7.85 0 0 0-5.9-2.9h-50.9c-6.6 0-10.2 7.9-5.9 13.1l61.2 74.9-62.7 76.8c-4.4 5.2-.8 13.1 5.8 13.1h50.8c2.3 0 4.5-1 5.9-2.9l35.5-43.5 35.5 43.5c1.5 1.8 3.7 2.9 5.9 2.9h50.8c6.6 0 10.2-7.9 5.9-13.1L383.5 675zM880 112H144c-17.7 0-32 14.3-32 32v736c0 17.7 14.3 32 32 32h736c17.7 0 32-14.3 32-32V144c0-17.7-14.3-32-32-32zm-36 732H180V180h664v664z"></path></svg></span>
+                </div>
+            </div>
+            <div class="menu-item">
+                <div class="menu-title">
                     <span>对账中心</span>
-                </a>
-                <a href="#" class="nav-item" onclick="toggleSubmenu(event, 'bank-service-submenu')">
-                    <span class="nav-icon"><svg width="20" height="20" viewBox="0 0 1024 1024" fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M894 462c30.9 0 43.8-39.7 18.7-58L530.8 126.2a31.81 31.81 0 0 0-37.6 0L111.3 404c-25.1 18.2-12.2 58 18.8 58H192v374h-72c-4.4 0-8 3.6-8 8v52c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-52c0-4.4-3.6-8-8-8h-72V462h62zM512 196.7l271.1 197.2H240.9L512 196.7zM264 462h117v374H264V462zm189 0h117v374H453V462zm307 374H642V462h118v374z"></path></svg></span>
-                    <span>银行服务管理</span>
-                </a>
-                <div class="nav-submenu" id="bank-service-submenu">
-                    <a href="#" class="nav-item nav-subitem" onclick="setActiveSubmenu(event, this, '兴业银行额度查询')">
-                        <span class="nav-icon"><svg width="16" height="16" viewBox="0 0 1024 1024" fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M946.5 505L560.1 118.8l-25.9-25.9a31.5 31.5 0 0 0-44.4 0L77.5 505a63.6 63.6 0 0 0-18 44.4c0 35.2 28.5 63.7 63.7 63.7H188v344.7c0 17.8 14.4 32.2 32.2 32.2h124.8c17.8 0 32.2-14.4 32.2-32.2V703h128v128.8c0 17.8 14.4 32.2 32.2 32.2h124.8c17.8 0 32.2-14.4 32.2-32.2V613h64.8c35.2 0 63.7-28.5 63.7-63.7a63.6 63.6 0 0 0-18-44.3z"></path></svg></span>
-                        <span>兴业银行额度查询</span>
-                    </a>
-                    <a href="#" class="nav-item nav-subitem" onclick="setActiveSubmenu(event, this, '商户信息同步')">
-                        <span class="nav-icon"><svg width="16" height="16" viewBox="0 0 1024 1024" fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M696 480H328c-4.4 0-8 3.6-8 8v48c0 4.4 3.6 8 8 8h368c4.4 0 8-3.6 8-8v-48c0-4.4-3.6-8-8-8z"></path><path d="M696 352H328c-4.4 0-8 3.6-8 8v48c0 4.4 3.6 8 8 8h368c4.4 0 8-3.6 8-8v-48c0-4.4-3.6-8-8-8z"></path><path d="M696 608H328c-4.4 0-8 3.6-8 8v48c0 4.4 3.6 8 8 8h368c4.4 0 8-3.6 8-8v-48c0-4.4-3.6-8-8-8z"></path><path d="M880 112H144c-17.7 0-32 14.3-32 32v736c0 17.7 14.3 32 32 32h736c17.7 0 32-14.3 32-32V144c0-17.7-14.3-32-32-32zm-40 724H184V184h656v652z"></path></svg></span>
-                        <span>商户信息同步</span>
-                    </a>
-                    <a href="#" class="nav-item nav-subitem active" style="background-color: #1890ff; color: white;" onclick="setActiveSubmenu(event, this, '商户信息核验')">
-                        <span class="nav-icon"><svg width="16" height="16" viewBox="0 0 1024 1024" fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M696 480H328c-4.4 0-8 3.6-8 8v48c0 4.4 3.6 8 8 8h368c4.4 0 8-3.6 8-8v-48c0-4.4-3.6-8-8-8z"></path><path d="M880 112H144c-17.7 0-32 14.3-32 32v736c0 17.7 14.3 32 32 32h736c17.7 0 32-14.3 32-32V144c0-17.7-14.3-32-32-32zm-36 732H180V180h664v664z"></path><path d="M340 388c0-4.4 3.6-8 8-8h48c4.4 0 8 3.6 8 8v48c0 4.4-3.6 8-8 8h-48c-4.4 0-8-3.6-8-8v-48zm332 0c0-4.4 3.6-8 8-8h48c4.4 0 8 3.6 8 8v48c0 4.4-3.6 8-8 8h-48c-4.4 0-8-3.6-8-8v-48z"></path></svg></span>
-                        <span>商户信息核验</span>
-                    </a>
                 </div>
-            </nav>
-        </aside>
-
-        <!-- 主内容区域 -->
-        <main class="main-content">
-            <!-- 顶部导航栏 -->
-            <header class="topbar">
-                <div class="topbar-left">
-                    <div class="breadcrumb">
-                        <span>首页</span>
-                        <span class="breadcrumb-separator">/</span>
-                        <span>数据看板</span>
-                        <span class="breadcrumb-separator">/</span>
-                        <span class="breadcrumb-current">商户信息核验</span>
-                    </div>
-                </div>
-                <div class="topbar-right">
-                    <div class="user-info">
-                        <div class="user-avatar">管</div>
-                        <div class="user-name">管理员</div>
-                    </div>
-                </div>
-            </header>
-
-            <!-- 内容区域 -->
-            <div class="content-area">
-                <!-- 页面头部 -->
-                <div class="page-header">
-                    <h1 class="page-title">商户信息核验</h1>
-                    <p class="page-description">查询每次上传的校验记录，包括批次号、文件名、上传时间、操作人等统计信息</p>
-                </div>
-
-                <!-- 查询筛选区域 -->
-                <div class="filter-section">
-                    <div class="import-header">
-                        <h2>查询筛选</h2>
-                    </div>
-
-                    <!-- 筛选表单 -->
-                    <div class="filter-form">
-                        <div class="filter-row">
-                            <div class="filter-group">
-                                <label class="filter-label">批次号</label>
-                                <input type="text" id="batchNo" placeholder="请输入批次号" class="filter-input">
-                            </div>
-                            <div class="filter-group">
-                                <label class="filter-label">文件名</label>
-                                <input type="text" id="fileName" placeholder="请输入文件名" class="filter-input">
-                            </div>
-                            <div class="filter-group">
-                                <label class="filter-label">操作人</label>
-                                <select id="operator" class="filter-select">
-                                    <option value="">全部</option>
-                                    <option value="admin">管理员</option>
-                                    <option value="operator1">操作员1</option>
-                                    <option value="operator2">操作员2</option>
-                                </select>
-                            </div>
-                            <div class="filter-group">
-                                <label class="filter-label">校验状态</label>
-                                <select id="validationStatus" class="filter-select">
-                                    <option value="">全部</option>
-                                    <option value="success">校验成功</option>
-                                    <option value="error">校验失败</option>
-                                    <option value="pending">处理中</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="filter-row">
-                            <div class="filter-group">
-                                <label class="filter-label">机构银行</label>
-                                <select id="institutionBank" class="filter-select">
-                                    <option value="">全部</option>
-                                    <option value="icbc">中国工商银行</option>
-                                    <option value="ccb">中国建设银行</option>
-                                    <option value="abc">中国农业银行</option>
-                                    <option value="boc">中国银行</option>
-                                    <option value="bocom">交通银行</option>
-                                    <option value="cmb">招商银行</option>
-                                </select>
-                            </div>
-                            <div class="filter-group">
-                                <label class="filter-label">日期范围</label>
-                                <div class="date-range">
-                                    <input type="date" id="startDate" class="filter-input">
-                                    <span>至</span>
-                                    <input type="date" id="endDate" class="filter-input">
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- 操作按钮 -->
-                        <div class="action-buttons" style="justify-content: flex-end;">
-                            <button id="uploadBtn" class="secondary-button" style="background: transparent; color: #6b7280; border: 1px solid #d1d5db; padding: 8px 16px; margin-right: 8px; display: flex; align-items: center; gap: 6px;">
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-                                    <polyline points="17,8 12,3 7,8"></polyline>
-                                    <line x1="12" y1="3" x2="12" y2="15"></line>
-                                </svg>
-                                上传
-                            </button>
-                            <button id="downloadTemplateBtn" class="secondary-button" style="background: transparent; color: #6b7280; border: 1px solid #d1d5db; padding: 8px 16px; margin-right: 8px; display: flex; align-items: center; gap: 6px;">
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-                                    <polyline points="7,10 12,15 17,10"></polyline>
-                                    <line x1="12" y1="15" x2="12" y2="3"></line>
-                                </svg>
-                                模版下载
-                            </button>
-                            <button id="searchBtn" class="primary-button" style="background: transparent; color: #6b7280; border: 1px solid #d1d5db; padding: 8px 16px; display: flex; align-items: center; gap: 6px;">
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                    <circle cx="11" cy="11" r="8"></circle>
-                                    <path d="m21 21-4.35-4.35"></path>
-                                </svg>
-                                查询
-                            </button>
-                            <button id="resetBtn" class="secondary-button" style="background: transparent; color: #6b7280; border: 1px solid #d1d5db; padding: 8px 16px; display: flex; align-items: center; gap: 6px;">
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                    <polyline points="1,4 1,10 7,10"></polyline>
-                                    <path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"></path>
-                                </svg>
-                                重置
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-        <!-- 统计卡片 -->
-        <div class="stats-cards">
-            <div class="stat-card">
-                <div class="stat-title">总记录数</div>
-                <div class="stat-value" id="totalCount">5</div>
             </div>
-            <div class="stat-card">
-                <div class="stat-title">校验成功</div>
-                <div class="stat-value success" id="successCount">2</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-title">校验失败</div>
-                <div class="stat-value error" id="errorCount">2</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-title">处理中</div>
-                <div class="stat-value warning" id="pendingCount">1</div>
+            <div class="menu-item">
+                <div class="menu-title active" onclick="toggleSubmenu(this)">
+                    <span>银行服务</span>
+                    <span class="menu-arrow expanded">▶</span>
+                </div>
+                <div class="submenu show">
+                    <div class="submenu-item" onclick="navigateToPage('')">兴业银行额度查询</div>
+                    <div class="submenu-item" onclick="navigateToPage('')">商户信息同步</div>
+                    <div class="submenu-item active" onclick="navigateToPage('')">商户信息校验</div>
+                </div>
             </div>
         </div>
 
-        <!-- 结果表格 -->
-        <div class="table-container">
-            <div class="table-header">
-                <h2>历史记录</h2>
+        <!-- 右侧内容区 -->
+        <div class="content">
+            <div class="content-header">
+                <h2 class="content-title">商户信息校验</h2>
             </div>
 
-            <table id="resultTable">
-                <thead>
-                    <tr>
-                        <th class="checkbox-cell"><input type="checkbox" id="selectAll"></th>
-                        <th>批次号</th>
-                        <th>文件名</th>
-                        <th>上传时间</th>
-                        <th>操作人</th>
-                        <th>机构银行</th>
-                        <th>总数量</th>
-                        <th>校验通过数量</th>
-                        <th>校验失败数量</th>
-                        <th>校验状态</th>
-                        <th>操作</th>
-                    </tr>
-                </thead>
-                <tbody id="resultTableBody">
-                    <!-- 示例数据行 -->
-                    <tr>
-                        <td><input type="checkbox" data-id="1"></td>
-                        <td>BT202400001</td>
-                        <td>校验文件_2024-10-15_1.csv</td>
-                        <td>2024-10-15 09:30:25</td>
-                        <td>管理员</td>
-                        <td>中国工商银行</td>
-                        <td>1,234</td>
-                        <td>1,200</td>
-                        <td>34</td>
-                        <td><span class="status-badge success">校验成功</span></td>
-                        <td>
-                            <button class="action-button refresh" onclick="refreshRecord(1)">刷新</button>
-                            <button class="action-button download" onclick="downloadRecord(1)">下载</button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td><input type="checkbox" data-id="2"></td>
-                        <td>BT202400002</td>
-                        <td>校验文件_2024-10-14_2.csv</td>
-                        <td>2024-10-14 14:22:18</td>
-                        <td>操作员1</td>
-                        <td>中国建设银行</td>
-                        <td>856</td>
-                        <td>680</td>
-                        <td>176</td>
-                        <td><span class="status-badge error">校验失败</span></td>
-                        <td>
-                            <button class="action-button refresh" onclick="refreshRecord(2)">刷新</button>
-                            <button class="action-button download" onclick="downloadRecord(2)">下载</button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td><input type="checkbox" data-id="3"></td>
-                        <td>BT202400003</td>
-                        <td>校验文件_2024-10-13_3.csv</td>
-                        <td>2024-10-13 11:45:33</td>
-                        <td>操作员2</td>
-                        <td>中国农业银行</td>
-                        <td>2,100</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td><span class="status-badge pending">处理中</span></td>
-                        <td>
-                            <button class="action-button refresh" onclick="refreshRecord(3)">刷新</button>
-                            <button class="action-button download" onclick="downloadRecord(3)">下载</button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td><input type="checkbox" data-id="4"></td>
-                        <td>BT202400004</td>
-                        <td>校验文件_2024-10-12_4.csv</td>
-                        <td>2024-10-12 16:08:45</td>
-                        <td>管理员</td>
-                        <td>中国银行</td>
-                        <td>567</td>
-                        <td>540</td>
-                        <td>27</td>
-                        <td><span class="status-badge success">校验成功</span></td>
-                        <td>
-                            <button class="action-button refresh" onclick="refreshRecord(4)">刷新</button>
-                            <button class="action-button download" onclick="downloadRecord(4)">下载</button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td><input type="checkbox" data-id="5"></td>
-                        <td>BT202400005</td>
-                        <td>校验文件_2024-10-11_5.csv</td>
-                        <td>2024-10-11 10:15:22</td>
-                        <td>操作员1</td>
-                        <td>招商银行</td>
-                        <td>3,456</td>
-                        <td>3,200</td>
-                        <td>256</td>
-                        <td><span class="status-badge error">校验失败</span></td>
-                        <td>
-                            <button class="action-button refresh" onclick="refreshRecord(5)">刷新</button>
-                            <button class="action-button download" onclick="downloadRecord(5)">下载</button>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+            <!-- 查询表单 -->
+            <!-- 开发注意事项：
+                 1. 所有筛选条件支持模糊查询和精确匹配
+                 2. 活动编码：支持32位UUID格式，需要验证格式正确性
+                 3. 活动名称：最大长度100字符，支持中英文混合
+                 4. 时效类型：相对时效(relative)指相对于用户领取时间，绝对时效(absolute)指固定的开始结束时间
+                 5. 活动状态：需要根据当前时间和活动时间范围自动计算状态
+            -->
+            <!-- 商户信息校验查询表单 -->
+            <div class="query-form">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>机构银行：</label>
+                        <input type="text" placeholder="请输入机构银行" maxlength="100">
+                    </div>
+                    <div class="form-group">
+                        <label>商户号：</label>
+                        <input type="text" placeholder="请输入商户号" maxlength="50">
+                    </div>
+                    <div class="form-group">
+                        <label>文件名：</label>
+                        <input type="text" placeholder="请输入文件名" maxlength="100">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>校验时间：</label>
+                        <div class="date-range">
+                            <input type="date" value="2025-01-20" aria-label="开始日期">
+                            <span>至</span>
+                            <input type="date" value="2025-01-20" aria-label="结束日期">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>校验状态：</label>
+                        <select aria-label="校验状态">
+                            <option value="">请选择</option>
+                            <option value="pending">待校验</option>
+                            <option value="processing">校验中</option>
+                            <option value="completed">已完成</option>
+                            <option value="failed">校验失败</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>校验结果：</label>
+                        <select aria-label="校验结果">
+                            <option value="">请选择</option>
+                            <option value="pass">通过</option>
+                            <option value="fail">未通过</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-actions">
+                    <button class="btn btn-secondary" onclick="batchUpload()">批量上传</button>
+                    <button class="btn btn-default" onclick="batchExport()">批量导出</button>
+                    <button class="btn btn-primary" onclick="queryData()">查询</button>
+                    <button class="btn btn-default" onclick="resetForm()">重置</button>
+                </div>
+            </div>
 
-            <!-- 分页控件 -->
-            <div class="pagination">
-                <div class="pagination-info">共 <span id="totalPages">1</span> 页，当前第 <span id="currentPage">1</span> 页</div>
-                <div class="pagination-controls">
-                    <button class="pagination-button" id="prevPage" disabled>
-                        上一页
-                    </button>
-                    <button class="pagination-button" id="nextPage" disabled>
-                        下一页
-                    </button>
+            
+
+            
+
+            <!-- 数据表格 -->
+            <!-- 表格功能说明：
+                 1. 支持按列排序，点击表头可切换升序/降序
+                 2. 数据分页显示，每页最多20条记录
+                 3. 支持全选和批量操作
+                 4. 状态字段根据时间自动计算显示
+            -->
+            <div class="data-table">
+                <div class="table-header">
+                    <span class="table-title">商户信息校验记录</span>
+                </div>
+
+                <div class="table-container">
+                    <!-- 表格字段说明：
+                         1. 所有时间字段格式：YYYY-MM-DD HH:mm:ss
+                         2. 状态字段支持颜色标识：启用(绿色)、禁用(灰色)、已结束(红色)
+                         3. 操作列根据活动状态和用户权限动态显示可用操作
+                         4. 支持表头点击排序，默认按创建时间倒序
+                    -->
+                    <table>
+                        <thead>
+                            <tr>
+                                <th class="checkbox-col"><input type="checkbox" id="selectAll" onchange="toggleSelectAll()" aria-label="全选"></th>
+                                <th>ID</th>
+                                <th>机构银行</th>
+                                <th>商户号</th>
+                                <th>结算卡号（脱敏）</th>
+                                <th>校验状态</th>
+                                <th>校验结果</th>
+                                <th>文件名</th>
+                                <th>校验时间</th>
+                                <th>操作人</th>
+                                <th class="action-col">操作</th>
+                            </tr>
+                        </thead>
+                    <tbody>
+                        <tr>
+                            <td class="checkbox-col"><input type="checkbox" class="row-checkbox" onchange="updateSelectAll()" aria-label="选择此行"></td>
+                            <td>1</td>
+                            <td>中国建设银行股份有限公司</td>
+                            <td>822202401280001</td>
+                            <td>6227********1234</td>
+                            <td><span class="status-badge status-success">已完成</span></td>
+                            <td><span class="status-badge status-success">通过</span></td>
+                            <td>商户信息校验文件_20250120.xlsx</td>
+                            <td>2025-01-20 08:30:25</td>
+                            <td>张三</td>
+                            <td class="action-col">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="checkbox-col"><input type="checkbox" class="row-checkbox" onchange="updateSelectAll()" aria-label="选择此行"></td>
+                            <td>2</td>
+                            <td>招商银行股份有限公司</td>
+                            <td>822202401280002</td>
+                            <td>6225********5678</td>
+                            <td><span class="status-badge status-warning">校验中</span></td>
+                            <td><span class="status-badge status-info">-</span></td>
+                            <td>商户信息校验文件_20250120.xlsx</td>
+                            <td>2025-01-20 09:15:32</td>
+                            <td>李四</td>
+                            <td class="action-col">
+                                <a href="#" class="action-link" onclick="refreshRecord(this); return false;">刷新</a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="checkbox-col"><input type="checkbox" class="row-checkbox" onchange="updateSelectAll()" aria-label="选择此行"></td>
+                            <td>3</td>
+                            <td>中国工商银行股份有限公司</td>
+                            <td>822202401280003</td>
+                            <td>6222********9012</td>
+                            <td><span class="status-badge status-danger">校验失败</span></td>
+                            <td><span class="status-badge status-danger">-</span></td>
+                            <td>商户信息校验文件_20250120.xlsx</td>
+                            <td>2025-01-20 10:45:18</td>
+                            <td>王五</td>
+                            <td class="action-col">
+                                <a href="#" class="action-link" onclick="refreshRecord(this); return false;">刷新</a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="checkbox-col"><input type="checkbox" class="row-checkbox" onchange="updateSelectAll()" aria-label="选择此行"></td>
+                            <td>4</td>
+                            <td>中国农业银行股份有限公司</td>
+                            <td>822202401280004</td>
+                            <td>6228********3456</td>
+                            <td><span class="status-badge status-success">已完成</span></td>
+                            <td><span class="status-badge status-warning">未通过</span></td>
+                            <td>商户信息校验文件_20250120.xlsx</td>
+                            <td>2025-01-20 11:20:45</td>
+                            <td>赵六</td>
+                            <td class="action-col">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="checkbox-col"><input type="checkbox" class="row-checkbox" onchange="updateSelectAll()" aria-label="选择此行"></td>
+                            <td>5</td>
+                            <td>中国银行股份有限公司</td>
+                            <td>822202401280005</td>
+                            <td>6217********7890</td>
+                            <td><span class="status-badge status-info">待校验</span></td>
+                            <td><span class="status-badge status-info">-</span></td>
+                            <td>商户信息校验文件_20250120.xlsx</td>
+                            <td>2025-01-20 12:05:22</td>
+                            <td>孙七</td>
+                            <td class="action-col">
+                                <a href="#" class="action-link" onclick="refreshRecord(this); return false;">刷新</a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="checkbox-col"><input type="checkbox" class="row-checkbox" onchange="updateSelectAll()" aria-label="选择此行"></td>
+                            <td>6</td>
+                            <td>交通银行股份有限公司</td>
+                            <td>822202401280006</td>
+                            <td>6222****2345</td>
+                            <td><span class="status-badge status-success">已完成</span></td>
+                            <td><span class="status-badge status-success">通过</span></td>
+                            <td>商户信息校验文件_20250120.xlsx</td>
+                            <td>2025-01-20 13:30:15</td>
+                            <td>周八</td>
+                            <td class="action-col">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="checkbox-col"><input type="checkbox" class="row-checkbox" onchange="updateSelectAll()" aria-label="选择此行"></td>
+                            <td>7</td>
+                            <td>中信银行股份有限公司</td>
+                            <td>822202401280007</td>
+                            <td>6226****6789</td>
+                            <td><span class="status-badge status-warning">校验中</span></td>
+                            <td><span class="status-badge status-info">-</span></td>
+                            <td>商户信息校验文件_20250120.xlsx</td>
+                            <td>2025-01-20 14:15:38</td>
+                            <td>吴九</td>
+                            <td class="action-col">
+                                <a href="#" class="action-link" onclick="refreshRecord(this); return false;">刷新</a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="checkbox-col"><input type="checkbox" class="row-checkbox" onchange="updateSelectAll()" aria-label="选择此行"></td>
+                            <td>8</td>
+                            <td>光大银行股份有限公司</td>
+                            <td>822202401280008</td>
+                            <td>6226****0123</td>
+                            <td><span class="status-badge status-success">已完成</span></td>
+                            <td><span class="status-badge status-success">通过</span></td>
+                            <td>商户信息校验文件_20250120.xlsx</td>
+                            <td>2025-01-20 15:40:52</td>
+                            <td>郑十</td>
+                            <td class="action-col">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="checkbox-col"><input type="checkbox" class="row-checkbox" onchange="updateSelectAll()" aria-label="选择此行"></td>
+                            <td>9</td>
+                            <td>民生银行股份有限公司</td>
+                            <td>822202401280009</td>
+                            <td>6226****4567</td>
+                            <td><span class="status-badge status-danger">校验失败</span></td>
+                            <td><span class="status-badge status-danger">-</span></td>
+                            <td>商户信息校验文件_20250120.xlsx</td>
+                            <td>2025-01-20 16:25:08</td>
+                            <td>冯一</td>
+                            <td class="action-col">
+                                <a href="#" class="action-link" onclick="refreshRecord(this); return false;">刷新</a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="checkbox-col"><input type="checkbox" class="row-checkbox" onchange="updateSelectAll()" aria-label="选择此行"></td>
+                            <td>10</td>
+                            <td>平安银行股份有限公司</td>
+                            <td>822202401280010</td>
+                            <td>6222****8901</td>
+                            <td><span class="status-badge status-success">已完成</span></td>
+                            <td><span class="status-badge status-warning">部分通过</span></td>
+                            <td>商户信息校验文件_20250120.xlsx</td>
+                            <td>2025-01-20 17:10:33</td>
+                            <td>陈二</td>
+                            <td class="action-col">
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                </div>
+
+                <div class="pagination">
+                    <div class="pagination-left">
+                        <div class="pagination-info">共 243 条记录</div>
+                        <div class="page-size-selector">
+                            <span>每页显示</span>
+                            <select class="page-size-select" aria-label="每页显示条数">
+                                <option value="10" selected>10</option>
+                                <option value="20">20</option>
+                                <option value="50">50</option>
+                                <option value="100">100</option>
+                            </select>
+                            <span>条</span>
+                        </div>
+                    </div>
+                    <div class="pagination-controls">
+                        <button class="page-btn" disabled>上一页</button>
+                        <button class="page-btn active">1</button>
+                        <button class="page-btn">2</button>
+                        <button class="page-btn">3</button>
+                        <button class="page-btn">4</button>
+                        <button class="page-btn">5</button>
+                        <button class="page-btn">...</button>
+                        <button class="page-btn">25</button>
+                        <button class="page-btn">下一页</button>
+                    </div>
                 </div>
             </div>
+        </div>
+    </div>
+
+    <!-- 批量上传模态框 -->
+    <div class="batch-upload-overlay" id="batchUploadOverlay" onclick="closeBatchUploadModal()"></div>
+    <div class="batch-upload-modal" id="batchUploadModal">
+        <div class="batch-modal-header">
+            <h3 class="batch-modal-title">批量上传商户信息</h3>
+            <button class="batch-modal-close" onclick="closeBatchUploadModal()">&times;</button>
+        </div>
+        <div class="batch-modal-body">
+            <!-- 筛选区域 -->
+            <div class="batch-filter-section">
+                <h4 class="batch-filter-title">筛选条件</h4>
+                <div class="batch-filter-form">
+                    <div class="batch-filter-group">
+                        <label class="batch-filter-label">文件名</label>
+                        <input type="text" class="batch-filter-input" placeholder="请输入文件名" id="batchFilterFileName">
+                    </div>
+                    <div class="batch-filter-group">
+                        <label class="batch-filter-label">机构银行</label>
+                        <select class="batch-filter-select" id="batchFilterBank">
+                            <option value="">全部</option>
+                            <option value="icbc">中国工商银行</option>
+                            <option value="ccb">中国建设银行</option>
+                            <option value="abc">中国农业银行</option>
+                            <option value="boc">中国银行</option>
+                            <option value="bocom">交通银行</option>
+                            <option value="cmb">招商银行</option>
+                        </select>
+                    </div>
+                    <div class="batch-filter-group">
+                        <label class="batch-filter-label">校验状态</label>
+                        <select class="batch-filter-select" id="batchFilterStatus">
+                            <option value="success">全部</option>
+                            <option value="success">已完成</option>
+                            <option value="processing">处理中</option>
+                            <option value="pending">待处理</option>
+                        </select>
+                    </div>
+                    <div class="batch-filter-group">
+                        <label class="batch-filter-label">开始日期</label>
+                        <input type="date" class="batch-filter-input" id="batchFilterStartDate">
+                    </div>
+                    <div class="batch-filter-group">
+                        <label class="batch-filter-label">结束日期</label>
+                        <input type="date" class="batch-filter-input" id="batchFilterEndDate">
+                    </div>
                 </div>
             </div>
-        </main>
+
+            <!-- 操作按钮 -->
+            <div class="batch-action-section">
+                <button class="batch-btn batch-btn-primary" onclick="handleBatchUpload()">
+                    <span>📤</span> 上传文件
+                </button>
+                <button class="batch-btn batch-btn-success" onclick="handleBatchExport()">
+                    <span>📥</span> 导出记录
+                </button>
+                <button class="batch-btn" onclick="handleBatchQuery()">
+                    <span>🔍</span> 查询
+                </button>
+                <button class="batch-btn" onclick="handleBatchReset()">
+                    <span>🔄</span> 重置
+                </button>
+            </div>
+
+            <!-- 上传记录展示 -->
+            <div class="batch-records-section">
+                <div class="batch-records-header">
+                    <h4 class="batch-records-title">上传记录</h4>
+                    <span class="batch-records-count" id="batchRecordsCount">共 0 条记录</span>
+                </div>
+                <div id="batchRecordsContainer" style="overflow-x: auto;">
+                    <!-- 上传记录表格 -->
+                    <table class="batch-records-table" id="batchRecordsTable">
+                        <thead>
+                            <tr>
+                                <th>文件名</th>
+                                <th>机构银行</th>
+                                <th>上传时间</th>
+                                <th>状态</th>
+                                <th>操作</th>
+                            </tr>
+                        </thead>
+                        <tbody id="batchRecordsBody">
+                            <tr>
+                                <td>商户信息校验文件_20250120_001.xlsx</td>
+                                <td>中国建设银行股份有限公司</td>
+                                <td>2025-01-20 08:30:25</td>
+                                <td><span class="batch-status-badge batch-status-success">已完成</span></td>
+                                <td>
+                                    <a href="#" class="action-link" onclick="downloadBatchRecord('BATCH20250120001'); return false;">下载</a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>商户信息校验文件_20250120_002.xlsx</td>
+                                <td>招商银行股份有限公司</td>
+                                <td>2025-01-20 09:15:32</td>
+                                <td><span class="batch-status-badge batch-status-processing">处理中</span></td>
+                                <td>
+                                    <a href="#" class="action-link" onclick="refreshBatchRecord('BATCH20250120002'); return false;">刷新</a>
+                                    <a href="#" class="action-link" onclick="downloadBatchRecord('BATCH20250120002'); return false;">下载</a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>商户信息校验文件_20250120_003.xlsx</td>
+                                <td>中国工商银行股份有限公司</td>
+                                <td>2025-01-20 10:45:18</td>
+                                <td><span class="batch-status-badge batch-status-success">已完成</span></td>
+                                <td>
+                                    <a href="#" class="action-link" onclick="downloadBatchRecord('BATCH20250120003'); return false;">下载</a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>商户信息校验文件_20250120_004.xlsx</td>
+                                <td>中国农业银行股份有限公司</td>
+                                <td>2025-01-20 11:20:45</td>
+                                <td><span class="batch-status-badge batch-status-pending">待处理</span></td>
+                                <td>
+                                    <a href="#" class="action-link" onclick="refreshBatchRecord('BATCH20250120004'); return false;">刷新</a>
+                                    <a href="#" class="action-link" onclick="downloadBatchRecord('BATCH20250120004'); return false;">下载</a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>商户信息校验文件_20250120_005.xlsx</td>
+                                <td>中国银行股份有限公司</td>
+                                <td>2025-01-20 12:05:22</td>
+                                <td><span class="batch-status-badge batch-status-success">已完成</span></td>
+                                <td>
+                                    <a href="#" class="action-link" onclick="downloadBatchRecord('BATCH20250120005'); return false;">下载</a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>商户信息校验文件_20250120_006.xlsx</td>
+                                <td>交通银行股份有限公司</td>
+                                <td>2025-01-20 13:30:15</td>
+                                <td><span class="batch-status-badge batch-status-processing">处理中</span></td>
+                                <td>
+                                    <a href="#" class="action-link" onclick="refreshBatchRecord('BATCH20250120006'); return false;">刷新</a>
+                                    <a href="#" class="action-link" onclick="downloadBatchRecord('BATCH20250120006'); return false;">下载</a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>商户信息校验文件_20250120_007.xlsx</td>
+                                <td>中信银行股份有限公司</td>
+                                <td>2025-01-20 14:15:38</td>
+                                <td><span class="batch-status-badge batch-status-success">已完成</span></td>
+                                <td>
+                                    <a href="#" class="action-link" onclick="downloadBatchRecord('BATCH20250120007'); return false;">下载</a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>商户信息校验文件_20250120_008.xlsx</td>
+                                <td>光大银行股份有限公司</td>
+                                <td>2025-01-20 15:40:52</td>
+                                <td><span class="batch-status-badge batch-status-success">已完成</span></td>
+                                <td>
+                                    <a href="#" class="action-link" onclick="downloadBatchRecord('BATCH20250120008'); return false;">下载</a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>商户信息校验文件_20250120_009.xlsx</td>
+                                <td>民生银行股份有限公司</td>
+                                <td>2025-01-20 16:25:08</td>
+                                <td><span class="batch-status-badge batch-status-pending">待处理</span></td>
+                                <td>
+                                    <a href="#" class="action-link" onclick="refreshBatchRecord('BATCH20250120009'); return false;">刷新</a>
+                                    <a href="#" class="action-link" onclick="downloadBatchRecord('BATCH20250120009'); return false;">下载</a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>商户信息校验文件_20250120_010.xlsx</td>
+                                <td>平安银行股份有限公司</td>
+                                <td>2025-01-20 17:10:33</td>
+                                <td><span class="batch-status-badge batch-status-processing">处理中</span></td>
+                                <td>
+                                    <a href="#" class="action-link" onclick="refreshBatchRecord('BATCH20250120010'); return false;">刷新</a>
+                                    <a href="#" class="action-link" onclick="downloadBatchRecord('BATCH20250120010'); return false;">下载</a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    
+                    <!-- 空状态 -->
+                    <div class="batch-empty-state" id="batchEmptyState" style="display: none;">
+                        <div class="batch-empty-icon">📁</div>
+                        <div class="batch-empty-text">暂无上传记录</div>
+                        <div class="batch-empty-hint">点击"上传文件"按钮开始批量上传商户信息</div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
     <script>
-        // 初始化变量 - 商户信息核验相关
-        let historyRecords = [];           // 历史记录数据
-        let filteredRecords = [];          // 筛选后的记录
-        let selectedItems = new Set();     // 选中的记录ID集合
-        let filterConditions = {};         // 筛选条件
-        let currentPage = 1;               // 当前页码
-        const pageSize = 10;               // 每页显示数量
-        let isLoading = false;             // 加载状态标识
-
-        // DOM元素
-        const searchBtn = document.getElementById('searchBtn');
-        const resetBtn = document.getElementById('resetBtn');
-        const exportBtn = document.getElementById('exportBtn');
-        const uploadBtn = document.getElementById('uploadBtn');
-        const downloadTemplateBtn = document.getElementById('downloadTemplateBtn');
-        const resultTableBody = document.getElementById('resultTableBody');
-        const totalCount = document.getElementById('totalCount');
-        const successCount = document.getElementById('successCount');
-        const errorCount = document.getElementById('errorCount');
-        const pendingCount = document.getElementById('pendingCount');
-        const totalPages = document.getElementById('totalPages');
-        const currentPageEl = document.getElementById('currentPage');
-        const prevPageBtn = document.getElementById('prevPage');
-        const nextPageBtn = document.getElementById('nextPage');
-        const selectAllCheckbox = document.getElementById('selectAll');
-        
-        // 筛选表单元素
-        const batchNoInput = document.getElementById('batchNo');
-        const fileNameInput = document.getElementById('fileName');
-        const operatorSelect = document.getElementById('operator');
-        const validationStatusSelect = document.getElementById('validationStatus');
-        const institutionBankSelect = document.getElementById('institutionBank');
-        const startDateInput = document.getElementById('startDate');
-        const endDateInput = document.getElementById('endDate');
-
-        // 初始化事件监听器
-        function initializeEventListeners() {
-            // 查询按钮事件
-            searchBtn.addEventListener('click', handleSearch);
-            
-            // 重置按钮事件
-            resetBtn.addEventListener('click', handleReset);
-            
-            // 导出按钮事件
-            exportBtn.addEventListener('click', handleExport);
-            
-            // 上传按钮事件
-            uploadBtn.addEventListener('click', handleUpload);
-            
-            // 模版下载按钮事件
-            downloadTemplateBtn.addEventListener('click', handleDownloadTemplate);
-            
-            // 全选复选框事件
-            selectAllCheckbox.addEventListener('change', handleSelectAll);
-            
-            // 分页按钮事件
-            prevPageBtn.addEventListener('click', handlePrevPage);
-            nextPageBtn.addEventListener('click', handleNextPage);
-            
-            // 初始化页面时自动查询历史记录
-            handleSearch();
+        // 批量上传功能 - 打开模态框
+        function batchUpload() {
+            document.getElementById('batchUploadOverlay').classList.add('show');
+            document.getElementById('batchUploadModal').classList.add('show');
+            document.body.classList.add('modal-open');
+            loadBatchRecords();
         }
 
-        // 查询历史记录
-        function handleSearch() {
-            if (isLoading) return;
-            
-            // 获取筛选条件
-            filterConditions = {
-                batchNo: batchNoInput.value.trim(),
-                fileName: fileNameInput.value.trim(),
-                operator: operatorSelect.value,
-                validationStatus: validationStatusSelect.value,
-                institutionBank: institutionBankSelect.value,
-                startDate: startDateInput.value,
-                endDate: endDateInput.value
-            };
-            
-            // 显示加载状态
-            isLoading = true;
-            searchBtn.innerHTML = '<span>⏳</span><span>查询中...</span>';
-            searchBtn.disabled = true;
-            
-            // 模拟API调用
-            setTimeout(() => {
-                // 生成模拟历史记录数据
-                historyRecords = generateHistoryRecords(5);
-                
-                // 应用筛选条件
-                applyFilters();
-                
-                // 重置分页
-                currentPage = 1;
-                
-                // 更新UI
-                updateTable();
-                updateStats();
-                updatePagination();
-                
-                // 恢复按钮状态
-                isLoading = false;
-                searchBtn.innerHTML = '查询';
-                searchBtn.disabled = false;
-            }, 1000);
+        // 关闭批量上传模态框
+        function closeBatchUploadModal() {
+            document.getElementById('batchUploadOverlay').classList.remove('show');
+            document.getElementById('batchUploadModal').classList.remove('show');
+            document.body.classList.remove('modal-open');
         }
-        
-        // 重置筛选条件
-        function handleReset() {
-            batchNoInput.value = '';
-            fileNameInput.value = '';
-            operatorSelect.value = '';
-            validationStatusSelect.value = '';
-            institutionBankSelect.value = '';
-            startDateInput.value = '';
-            endDateInput.value = '';
-            
-            // 清空选择项
-            selectedItems.clear();
-            selectAllCheckbox.checked = false;
-            
-            // 重新查询
-            handleSearch();
-        }
-        
-        // 导出结果
-        function handleExport() {
-            if (selectedItems.size === 0) {
-                alert('请先选择要导出的记录');
-                return;
-            }
-            
-            // 获取选中的记录
-            const selectedRecords = Array.from(selectedItems).map(id =>
-                historyRecords.find(record => record.id === id)
-            );
-            
-            // 模拟导出功能
-            console.log('导出记录:', selectedRecords);
-            alert(`成功导出 ${selectedItems.size} 条记录！`);
-        }
-        
-        // 上传文件
-        function handleUpload() {
-            // 创建隐藏的文件输入元素
-            const fileInput = document.createElement('input');
-            fileInput.type = 'file';
-            fileInput.accept = '.xlsx,.xls,.csv';
-            fileInput.style.display = 'none';
-            
-            fileInput.addEventListener('change', function(e) {
+
+        // 处理批量上传
+        function handleBatchUpload() {
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.accept = '.xlsx,.xls,.csv';
+            input.onchange = function(e) {
                 const file = e.target.files[0];
                 if (file) {
-                    // 验证文件类型
-                    const allowedTypes = ['application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', 
-                                        'application/vnd.ms-excel', 
-                                        'text/csv'];
-                    if (!allowedTypes.includes(file.type) && !file.name.match(/\.(xlsx|xls|csv)$/i)) {
-                        alert('请选择Excel文件（.xlsx/.xls）或CSV文件');
-                        return;
-                    }
-                    
-                    // 验证文件大小（限制为10MB）
-                    if (file.size > 10 * 1024 * 1024) {
-                        alert('文件大小不能超过10MB');
-                        return;
-                    }
-                    
                     // 模拟上传过程
-                    console.log('上传文件:', file);
-                    alert(`开始上传文件: ${file.name}`);
-                    
-                    // 这里可以添加实际的文件上传逻辑
-                    // 例如：FormData + XMLHttpRequest 或 fetch API
-                }
-            });
-            
-            // 触发文件选择对话框
-            document.body.appendChild(fileInput);
-            fileInput.click();
-            document.body.removeChild(fileInput);
-        }
-        
-        // 下载模版
-        function handleDownloadTemplate() {
-            // 创建模版数据
-            const templateData = [
-                ['机构名称', '银行卡号', '手机号', '身份证号', '活动编号', '备注'],
-                ['示例银行', '6222021234567890123', '13800138000', '110101199001011234', 'ACT001', '示例数据'],
-                ['', '', '', '', '', ''],
-                ['', '', '', '', '', '说明：'],
-                ['', '', '', '', '', '1. 机构名称：填写具体机构名称'],
-                ['', '', '', '', '', '2. 银行卡号：填写16-19位银行卡号'],
-                ['', '', '', '', '', '3. 手机号：填写11位手机号码'],
-                ['', '', '', '', '', '4. 身份证号：填写18位身份证号码'],
-                ['', '', '', '', '', '5. 活动编号：填写参与的活动编号'],
-                ['', '', '', '', '', '6. 备注：可选填写其他信息']
-            ];
-            
-            // 创建工作簿
-            const ws = XLSX.utils.aoa_to_sheet(templateData);
-            const wb = XLSX.utils.book_new();
-            XLSX.utils.book_append_sheet(wb, ws, '活动报名数据模版');
-            
-            // 设置列宽
-            ws['!cols'] = [
-                {wch: 15}, // 机构名称
-                {wch: 20}, // 银行卡号
-                {wch: 15}, // 手机号
-                {wch: 20}, // 身份证号
-                {wch: 15}, // 活动编号
-                {wch: 30}  // 备注
-            ];
-            
-            // 下载文件
-            XLSX.writeFile(wb, `活动报名数据模版_${new Date().toISOString().slice(0, 10)}.xlsx`);
-            
-            alert('模版下载成功！');
-        }
-        
-        // 全选/取消全选
-        function handleSelectAll() {
-            const isChecked = selectAllCheckbox.checked;
-            const checkboxes = document.querySelectorAll('#resultTableBody input[type="checkbox"]:not(#selectAll)');
-            
-            checkboxes.forEach(checkbox => {
-                checkbox.checked = isChecked;
-                const recordId = parseInt(checkbox.dataset.recordId);
-                
-                if (isChecked) {
-                    selectedItems.add(recordId);
-                } else {
-                    selectedItems.delete(recordId);
-                }
-            });
-            
-            updateExportButtonState();
-        }
-        
-        // 处理单条记录选择
-        function handleRecordSelection(recordId, isChecked) {
-            if (isChecked) {
-                selectedItems.add(recordId);
-            } else {
-                selectedItems.delete(recordId);
-            }
-            
-            // 更新全选复选框状态
-            const totalRecords = filteredRecords.length;
-            const totalPages = Math.ceil(totalRecords / pageSize);
-            const currentPageRecords = Math.min(pageSize, totalRecords - (currentPage - 1) * pageSize);
-            const currentPageStartIndex = (currentPage - 1) * pageSize;
-            const currentPageEndIndex = currentPageStartIndex + currentPageRecords;
-            
-            let allCurrentPageSelected = true;
-            for (let i = currentPageStartIndex; i < currentPageEndIndex; i++) {
-                if (!selectedItems.has(filteredRecords[i].id)) {
-                    allCurrentPageSelected = false;
-                    break;
-                }
-            }
-            
-            selectAllCheckbox.checked = allCurrentPageSelected && currentPageRecords > 0;
-            updateExportButtonState();
-        }
-        
-        // 更新导出按钮状态
-        function updateExportButtonState() {
-            exportBtn.disabled = selectedItems.size === 0;
-        }
-        
-        // 上一页
-        function handlePrevPage() {
-            if (currentPage > 1) {
-                currentPage--;
-                updateTable();
-                updatePagination();
-            }
-        }
-        
-        // 下一页
-        function handleNextPage() {
-            const totalPages = Math.ceil(filteredRecords.length / pageSize);
-            if (currentPage < totalPages) {
-                currentPage++;
-                updateTable();
-                updatePagination();
-            }
-        }
-
-        // 生成历史记录模拟数据
-        function generateHistoryRecords(count) {
-            const results = [];
-            const statuses = ['success', 'error', 'pending'];
-            const operators = ['管理员', '操作员1', '操作员2'];
-            const banks = ['中国工商银行', '中国建设银行', '中国农业银行', '中国银行', '交通银行', '招商银行'];
-            const today = new Date();
-            
-            for (let i = 1; i <= count; i++) {
-                // 随机生成过去30天内的日期
-                const daysAgo = Math.floor(Math.random() * 30);
-                const uploadDate = new Date(today);
-                uploadDate.setDate(today.getDate() - daysAgo);
-                
-                const status = statuses[Math.floor(Math.random() * statuses.length)];
-                const totalCount = Math.floor(Math.random() * 1000) + 100;
-                const successCount = status === 'success' ? totalCount : Math.floor(totalCount * 0.8);
-                const errorCount = status === 'error' ? totalCount : Math.floor(totalCount * 0.1);
-                const pendingCount = totalCount - successCount - errorCount;
-                
-                results.push({
-                    id: i,
-                    batchNo: `BT${String(202400000 + i).padStart(9, '0')}`,
-                    fileName: `校验文件_${uploadDate.toISOString().split('T')[0]}_${i}.csv`,
-                    uploadTime: uploadDate.toLocaleString('zh-CN'),
-                    operator: operators[Math.floor(Math.random() * operators.length)],
-                    institutionBank: banks[Math.floor(Math.random() * banks.length)],
-                    totalCount: totalCount,
-                    successCount: successCount,
-                    errorCount: errorCount,
-                    pendingCount: pendingCount,
-                    status: status
-                });
-            }
-            
-            return results;
-        }
-
-        // 应用筛选条件
-        function applyFilters() {
-            filteredRecords = historyRecords.filter(record => {
-                // 批次号筛选
-                if (filterConditions.batchNo && !record.batchNo.includes(filterConditions.batchNo)) {
-                    return false;
-                }
-                
-                // 文件名筛选
-                if (filterConditions.fileName && !record.fileName.includes(filterConditions.fileName)) {
-                    return false;
-                }
-                
-                // 操作人筛选
-                if (filterConditions.operator && record.operator !== filterConditions.operator) {
-                    return false;
-                }
-                
-                // 校验状态筛选
-                if (filterConditions.validationStatus && record.status !== filterConditions.validationStatus) {
-                    return false;
-                }
-                
-                // 机构银行筛选
-                if (filterConditions.institutionBank) {
-                    const bankMap = {
-                        'icbc': '中国工商银行',
-                        'ccb': '中国建设银行',
-                        'abc': '中国农业银行',
-                        'boc': '中国银行',
-                        'bocom': '交通银行',
-                        'cmb': '招商银行'
+                    const batchId = 'BATCH' + Date.now();
+                    const record = {
+                        batchId: batchId,
+                        fileName: file.name,
+                        bank: document.getElementById('batchFilterBank').value || '未知银行',
+                        uploadTime: new Date().toLocaleString(),
+                        status: 'processing'
                     };
                     
-                    if (record.institutionBank !== bankMap[filterConditions.institutionBank]) {
-                        return false;
-                    }
+                    addBatchRecord(record);
+                    
+                    // 模拟处理完成
+                    setTimeout(() => {
+                        updateBatchRecordStatus(batchId, 'success');
+                    }, 2000);
                 }
-                
-                // 日期范围筛选
-                if (filterConditions.startDate) {
-                    const recordDate = new Date(record.uploadTime);
-                    const startDate = new Date(filterConditions.startDate);
-                    if (recordDate < startDate) {
-                        return false;
-                    }
-                }
-                
-                if (filterConditions.endDate) {
-                    const recordDate = new Date(record.uploadTime);
-                    const endDate = new Date(filterConditions.endDate);
-                    endDate.setHours(23, 59, 59, 999); // 设置为当天结束时间
-                    if (recordDate > endDate) {
-                        return false;
-                    }
-                }
-                
-                return true;
-            });
+            };
+            input.click();
         }
 
-        // 更新表格
-        function updateTable() {
-            const startIndex = (currentPage - 1) * pageSize;
-            const endIndex = Math.min(startIndex + pageSize, filteredRecords.length);
-            const pageData = filteredRecords.slice(startIndex, endIndex);
-
-            if (pageData.length === 0) {
-                resultTableBody.innerHTML = '<tr><td colspan="11" style="text-align: center; color: hsl(var(--muted-foreground));">暂无历史记录</td></tr>';
+        // 处理批量导出
+        function handleBatchExport() {
+            const records = getBatchRecords();
+            if (records.length === 0) {
+                alert('暂无记录可导出');
                 return;
             }
+            
+            // 模拟导出
+            const csvContent = "文件名,机构银行,上传时间,状态\n" + 
+                records.map(r => `${r.fileName},${r.bank},${r.uploadTime},${r.status}`).join('\n');
+            
+            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = '批量上传记录_' + new Date().toLocaleDateString() + '.csv';
+            link.click();
+        }
 
-            let html = '';
-            pageData.forEach((record, index) => {
-                const globalIndex = startIndex + index;
-                const isSelected = selectedItems.has(record.id);
+        // 处理批量查询
+        function handleBatchQuery() {
+            const fileName = document.getElementById('batchFilterFileName').value.toLowerCase();
+            const bank = document.getElementById('batchFilterBank').value;
+            const status = document.getElementById('batchFilterStatus').value;
+            const startDate = document.getElementById('batchFilterStartDate').value;
+            const endDate = document.getElementById('batchFilterEndDate').value;
+            
+            let filteredRecords = getBatchRecords();
+            
+            if (fileName) {
+                filteredRecords = filteredRecords.filter(r => r.fileName.toLowerCase().includes(fileName));
+            }
+            if (bank) {
+                filteredRecords = filteredRecords.filter(r => r.bank === bank);
+            }
+            if (status) {
+                filteredRecords = filteredRecords.filter(r => r.status === status);
+            }
+            if (startDate) {
+                filteredRecords = filteredRecords.filter(r => new Date(r.uploadTime) >= new Date(startDate));
+            }
+            if (endDate) {
+                filteredRecords = filteredRecords.filter(r => new Date(r.uploadTime) <= new Date(endDate + ' 23:59:59'));
+            }
+            
+            displayBatchRecords(filteredRecords);
+        }
+
+        // 处理批量重置
+        function handleBatchReset() {
+            document.getElementById('batchFilterFileName').value = '';
+            document.getElementById('batchFilterBank').value = '';
+            document.getElementById('batchFilterStatus').value = '';
+            document.getElementById('batchFilterStartDate').value = '';
+            document.getElementById('batchFilterEndDate').value = '';
+            
+            loadBatchRecords();
+        }
+
+        // 获取批量记录
+        function getBatchRecords() {
+            const records = localStorage.getItem('batchRecords');
+            return records ? JSON.parse(records) : [];
+        }
+
+        // 保存批量记录
+        function saveBatchRecords(records) {
+            localStorage.setItem('batchRecords', JSON.stringify(records));
+        }
+
+        // 添加批量记录
+        function addBatchRecord(record) {
+            const records = getBatchRecords();
+            records.unshift(record);
+            saveBatchRecords(records);
+            displayBatchRecords(records);
+        }
+
+        // 更新批量记录状态
+        function updateBatchRecordStatus(batchId, status) {
+            const records = getBatchRecords();
+            const record = records.find(r => r.batchId === batchId);
+            if (record) {
+                record.status = status;
+                saveBatchRecords(records);
+                displayBatchRecords(records);
+            }
+        }
+
+        // 显示批量记录
+        function displayBatchRecords(records) {
+            const tbody = document.getElementById('batchRecordsBody');
+            const emptyState = document.getElementById('batchEmptyState');
+            const table = document.getElementById('batchRecordsTable');
+            const count = document.getElementById('batchRecordsCount');
+            
+            count.textContent = `共 ${records.length} 条记录`;
+            
+            if (records.length === 0) {
+                table.style.display = 'none';
+                emptyState.style.display = 'block';
+                return;
+            }
+            
+            table.style.display = 'table';
+            emptyState.style.display = 'none';
+            
+            tbody.innerHTML = records.map(record => {
+                // 根据状态生成操作按钮
+                let actionButtons = '';
                 
-                html += `
+                if (record.status === 'pending' || record.status === 'processing') {
+                    // 待处理或处理中状态：只显示刷新按钮
+                    actionButtons = `<a href="#" class="action-link" onclick="refreshBatchRecord('${record.batchId}'); return false;">刷新</a>`;
+                } else {
+                    // 其他状态（已完成、失败）：显示下载按钮
+                    actionButtons = `<a href="#" class="action-link" onclick="downloadBatchRecord('${record.batchId}'); return false;">下载</a>`;
+                    if (record.status === 'failed') {
+                        // 失败状态额外显示重试按钮
+                        actionButtons += ` <a href="#" class="action-link" onclick="retryBatchUpload('${record.batchId}'); return false;">重试</a>`;
+                    }
+                }
+                
+                return `
                     <tr>
-                        <td class="checkbox-cell">
-                            <input type="checkbox"
-                                   data-record-id="${record.id}"
-                                   ${isSelected ? 'checked' : ''}
-                                   onchange="handleRecordSelection(${record.id}, this.checked)">
-                        </td>
-                        <td>${record.batchNo}</td>
                         <td>${record.fileName}</td>
+                        <td>${record.bank}</td>
                         <td>${record.uploadTime}</td>
-                        <td>${record.operator}</td>
-                        <td>${record.institutionBank}</td>
-                        <td>${record.totalCount}</td>
-                        <td>${record.successCount}</td>
-                        <td>${record.errorCount}</td>
-                        <td><span class="status-badge status-${record.status}">${getStatusText(record.status)}</span></td>
-                        <td class="action-buttons-cell">
-                            <button class="action-button view" onclick="viewRecordDetails(${record.id})">查看</button>
-                            <button class="action-button download" onclick="downloadRecord(${record.id})">下载</button>
+                        <td>
+                            <span class="batch-status-badge batch-status-${record.status}">
+                                ${getStatusText(record.status)}
+                            </span>
+                        </td>
+                        <td>
+                            ${actionButtons}
                         </td>
                     </tr>
                 `;
-            });
-
-            resultTableBody.innerHTML = html;
+            }).join('');
         }
 
         // 获取状态文本
         function getStatusText(status) {
             const statusMap = {
-                'success': '成功',
-                'error': '失败',
-                'pending': '处理中'
+                'success': '已完成',
+                'processing': '处理中',
+                'failed': '失败',
+                'pending': '待处理'
             };
             return statusMap[status] || status;
         }
 
-        // 更新统计数据
-        function updateStats() {
-            totalCount.textContent = filteredRecords.length;
-            successCount.textContent = filteredRecords.filter(item => item.status === 'success').length;
-            errorCount.textContent = filteredRecords.filter(item => item.status === 'error').length;
-            pendingCount.textContent = filteredRecords.filter(item => item.status === 'pending').length;
+        // 加载批量记录
+        function loadBatchRecords() {
+            const records = getBatchRecords();
+            // 如果localStorage中没有数据，使用默认测试数据
+            if (records.length === 0) {
+                const defaultRecords = getDefaultBatchRecords();
+                displayBatchRecords(defaultRecords);
+            } else {
+                displayBatchRecords(records);
+            }
         }
 
-        // 更新分页
-        function updatePagination() {
-            const total = filteredRecords.length;
-            const pages = Math.ceil(total / pageSize);
-            
-            totalPages.textContent = pages;
-            currentPageEl.textContent = currentPage;
-            
-            prevPageBtn.disabled = currentPage <= 1;
-            nextPageBtn.disabled = currentPage >= pages;
+        // 获取默认测试数据
+        function getDefaultBatchRecords() {
+            return [
+                {
+                    batchId: 'BATCH20250120001',
+                    fileName: '商户信息校验文件_20250120_001.xlsx',
+                    bank: '中国建设银行股份有限公司',
+                    uploadTime: '2025-01-20 08:30:25',
+                    status: 'success'
+                },
+                {
+                    batchId: 'BATCH20250120002',
+                    fileName: '商户信息校验文件_20250120_002.xlsx',
+                    bank: '招商银行股份有限公司',
+                    uploadTime: '2025-01-20 09:15:32',
+                    status: 'processing'
+                },
+                {
+                    batchId: 'BATCH20250120003',
+                    fileName: '商户信息校验文件_20250120_003.xlsx',
+                    bank: '中国工商银行股份有限公司',
+                    uploadTime: '2025-01-20 10:45:18',
+                    status: 'success'
+                },
+                {
+                    batchId: 'BATCH20250120004',
+                    fileName: '商户信息校验文件_20250120_004.xlsx',
+                    bank: '中国农业银行股份有限公司',
+                    uploadTime: '2025-01-20 11:20:45',
+                    status: 'pending'
+                },
+                {
+                    batchId: 'BATCH20250120005',
+                    fileName: '商户信息校验文件_20250120_005.xlsx',
+                    bank: '中国银行股份有限公司',
+                    uploadTime: '2025-01-20 12:05:22',
+                    status: 'success'
+                },
+                {
+                    batchId: 'BATCH20250120006',
+                    fileName: '商户信息校验文件_20250120_006.xlsx',
+                    bank: '交通银行股份有限公司',
+                    uploadTime: '2025-01-20 13:30:15',
+                    status: 'processing'
+                },
+                {
+                    batchId: 'BATCH20250120007',
+                    fileName: '商户信息校验文件_20250120_007.xlsx',
+                    bank: '中信银行股份有限公司',
+                    uploadTime: '2025-01-20 14:15:38',
+                    status: 'success'
+                },
+                {
+                    batchId: 'BATCH20250120008',
+                    fileName: '商户信息校验文件_20250120_008.xlsx',
+                    bank: '光大银行股份有限公司',
+                    uploadTime: '2025-01-20 15:40:52',
+                    status: 'success'
+                },
+                {
+                    batchId: 'BATCH20250120009',
+                    fileName: '商户信息校验文件_20250120_009.xlsx',
+                    bank: '民生银行股份有限公司',
+                    uploadTime: '2025-01-20 16:25:08',
+                    status: 'pending'
+                },
+                {
+                    batchId: 'BATCH20250120010',
+                    fileName: '商户信息校验文件_20250120_010.xlsx',
+                    bank: '平安银行股份有限公司',
+                    uploadTime: '2025-01-20 17:10:33',
+                    status: 'processing'
+                }
+            ];
         }
 
-        // 查看记录详情
-        function viewRecordDetails(recordId) {
-            const record = historyRecords.find(r => r.id === recordId);
-            if (!record) return;
+        // 查看批量详情
+        function viewBatchDetail(batchId) {
+            alert('查看批次详情: ' + batchId);
+        }
+
+        // 重试批量上传
+        function retryBatchUpload(batchId) {
+            updateBatchRecordStatus(batchId, 'processing');
+            setTimeout(() => {
+                updateBatchRecordStatus(batchId, 'success');
+            }, 2000);
+        }
+
+        // 批量导出功能
+        function batchExport() {
+            const selectedRows = document.querySelectorAll('.row-checkbox:checked');
+            if (selectedRows.length === 0) {
+                alert('请选择要导出的记录');
+                return;
+            }
             
-            // 创建详情弹窗
-            const detailModal = document.createElement('div');
-            detailModal.className = 'modal-overlay';
-            detailModal.innerHTML = `
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h3>记录详情</h3>
-                        <button class="close-button" onclick="this.closest('.modal-overlay').remove()">✕</button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="detail-row">
-                            <span class="detail-label">批次号:</span>
-                            <span class="detail-value">${record.batchNo}</span>
-                        </div>
-                        <div class="detail-row">
-                            <span class="detail-label">文件名:</span>
-                            <span class="detail-value">${record.fileName}</span>
-                        </div>
-                        <div class="detail-row">
-                            <span class="detail-label">上传时间:</span>
-                            <span class="detail-value">${record.uploadTime}</span>
-                        </div>
-                        <div class="detail-row">
-                            <span class="detail-label">操作人:</span>
-                            <span class="detail-value">${record.operator}</span>
-                        </div>
-                        <div class="detail-row">
-                            <span class="detail-label">机构银行:</span>
-                            <span class="detail-value">${record.institutionBank}</span>
-                        </div>
-                        <div class="detail-row">
-                            <span class="detail-label">总数量:</span>
-                            <span class="detail-value">${record.totalCount}</span>
-                        </div>
-                        <div class="detail-row">
-                            <span class="detail-label">校验通过数量:</span>
-                            <span class="detail-value">${record.successCount}</span>
-                        </div>
-                        <div class="detail-row">
-                            <span class="detail-label">校验失败数量:</span>
-                            <span class="detail-value">${record.errorCount}</span>
-                        </div>
-                        <div class="detail-row">
-                            <span class="detail-label">处理中数量:</span>
-                            <span class="detail-value">${record.pendingCount}</span>
-                        </div>
-                        <div class="detail-row">
-                            <span class="detail-label">校验状态:</span>
-                            <span class="detail-value">
-                                <span class="status-badge status-${record.status}">${getStatusText(record.status)}</span>
-                            </span>
-                        </div>
-                    </div>
-                </div>
-            `;
+            // 模拟导出
+            alert(`已选择 ${selectedRows.length} 条记录进行导出`);
+        }
+
+        // 查询数据
+        function queryData() {
+            // 模拟查询
+            alert('查询功能执行中...');
+        }
+
+        // 重置表单
+        function resetForm() {
+            document.querySelectorAll('.query-form input, .query-form select').forEach(element => {
+                if (element.type === 'date') {
+                    element.value = '2025-01-20';
+                } else {
+                    element.value = '';
+                }
+            });
+        }
+
+        // 刷新记录
+        function refreshRecord(link) {
+            const row = link.closest('tr');
+            const statusCell = row.cells[5]; // 校验状态列
+            const currentStatus = statusCell.querySelector('.status-badge');
             
-            // 添加样式
-            detailModal.style.cssText = `
-                position: fixed;
-                top: 0;
-                left: 0;
-                right: 0;
-                bottom: 0;
-                background-color: rgba(0, 0, 0, 0.5);
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                z-index: 1000;
-            `;
+            // 模拟刷新过程
+            currentStatus.textContent = '刷新中...';
+            currentStatus.className = 'status-badge status-warning';
             
-            const modalContent = detailModal.querySelector('.modal-content');
-            modalContent.style.cssText = `
-                background-color: white;
-                border-radius: 8px;
-                width: 90%;
-                max-width: 500px;
-                max-height: 80vh;
-                overflow-y: auto;
-            `;
-            
-            document.body.appendChild(detailModal);
+            setTimeout(() => {
+                // 随机设置最终状态
+                const statuses = [
+                    { text: '已完成', class: 'status-success' },
+                    { text: '校验失败', class: 'status-danger' },
+                    { text: '已完成', class: 'status-success' }
+                ];
+                const randomStatus = statuses[Math.floor(Math.random() * statuses.length)];
+                
+                currentStatus.textContent = randomStatus.text;
+                currentStatus.className = 'status-badge ' + randomStatus.class;
+                
+                // 更新校验结果
+                const resultCell = row.cells[6]; // 校验结果列
+                if (randomStatus.text === '已完成') {
+                    resultCell.innerHTML = '<span class="status-badge status-success">通过</span>';
+                } else if (randomStatus.text === '校验失败') {
+                    resultCell.innerHTML = '<span class="status-badge status-danger">未通过</span>';
+                }
+                
+                // 移除刷新链接
+                link.style.display = 'none';
+            }, 1500);
         }
 
         // 下载记录
-        function downloadRecord(recordId) {
-            const record = historyRecords.find(r => r.id === recordId);
-            if (!record) return;
-            
+        function downloadRecord(id) {
             // 模拟下载功能
-            console.log('下载记录:', record);
-            alert(`开始下载批次 ${record.batchNo} 的校验结果！`);
+            const data = [
+                ['ID', '机构银行', '商户号', '结算卡号（脱敏）', '校验状态', '校验结果', '文件名', '校验时间', '操作人'],
+                [id, '示例银行', '82220240128000' + id, '6227********1234', '已完成', '通过', '商户信息校验文件_20250120.xlsx', '2025-01-20 08:30:25', '张三']
+            ];
+            
+            const csvContent = data.map(row => row.join(',')).join('\n');
+            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = '商户信息校验记录_' + id + '.csv';
+            link.click();
         }
 
-        // 初始化页面
-        document.addEventListener('DOMContentLoaded', () => {
-            initializeEventListeners();
+        // 批量记录下载
+        function downloadBatchRecord(batchId) {
+            // 模拟批量记录下载
+            console.log('下载批次记录:', batchId);
+            alert('正在下载批次 ' + batchId + ' 的记录文件...');
+        }
+
+        // 批量记录刷新
+        function refreshBatchRecord(batchId) {
+            // 模拟批量记录刷新
+            console.log('刷新批次记录:', batchId);
             
-            // 默认显示银行服务管理子菜单
-            const bankServiceSubmenu = document.getElementById('bank-service-submenu');
-            if (bankServiceSubmenu) {
-                bankServiceSubmenu.classList.add('show');
+            // 查找对应的行并更新状态
+            const rows = document.querySelectorAll('#batchRecordsBody tr');
+            rows.forEach(row => {
+                // 由于移除了批次号列，需要通过其他方式定位记录
+                // 这里使用文件名匹配或其他唯一标识
+                const record = getBatchRecords().find(r => r.batchId === batchId);
+                if (record && row.cells[0].textContent === record.fileName) {
+                    const statusCell = row.cells[3];
+                    const statusBadge = statusCell.querySelector('.batch-status-badge');
+                    
+                    // 模拟刷新过程
+                    statusBadge.textContent = '刷新中...';
+                    statusBadge.className = 'batch-status-badge batch-status-processing';
+                    
+                    setTimeout(() => {
+                        // 随机设置最终状态
+                        const statuses = ['success', 'success', 'failed'];
+                        const randomStatus = statuses[Math.floor(Math.random() * statuses.length)];
+                        
+                        statusBadge.className = 'batch-status-badge batch-status-' + randomStatus;
+                        if (randomStatus === 'success') {
+                            statusBadge.textContent = '已完成';
+                        } else if (randomStatus === 'failed') {
+                            statusBadge.textContent = '失败';
+                        } else {
+                            statusBadge.textContent = '处理中';
+                        }
+                        
+                        // 更新操作列
+                        const actionCell = row.cells[4];
+                        if (randomStatus === 'success') {
+                            // 已完成状态：只显示下载按钮
+                            actionCell.innerHTML = '<a href="#" class="action-link" onclick="downloadBatchRecord(\'' + batchId + '\'); return false;">下载</a>';
+                        } else if (randomStatus === 'failed') {
+                            // 失败状态：显示下载和重试按钮
+                            actionCell.innerHTML = '<a href="#" class="action-link" onclick="downloadBatchRecord(\'' + batchId + '\'); return false;">下载</a> <a href="#" class="action-link" onclick="retryBatchUpload(\'' + batchId + '\'); return false;">重试</a>';
+                        } else {
+                            // 处理中状态：只显示刷新按钮
+                            actionCell.innerHTML = '<a href="#" class="action-link" onclick="refreshBatchRecord(\'' + batchId + '\'); return false;">刷新</a>';
+                        }
+                    }, 1500);
+                }
+            });
+        }
+
+        // 全选/取消全选
+        function toggleSelectAll() {
+            const selectAll = document.getElementById('selectAll');
+            const rowCheckboxes = document.querySelectorAll('.row-checkbox');
+            
+            rowCheckboxes.forEach(checkbox => {
+                checkbox.checked = selectAll.checked;
+            });
+        }
+
+        // 更新全选状态
+        function updateSelectAll() {
+            const selectAll = document.getElementById('selectAll');
+            const rowCheckboxes = document.querySelectorAll('.row-checkbox');
+            const checkedBoxes = document.querySelectorAll('.row-checkbox:checked');
+            
+            selectAll.checked = rowCheckboxes.length === checkedBoxes.length;
+        }
+
+        // 切换子菜单
+        function toggleSubmenu(element) {
+            const submenu = element.nextElementSibling;
+            const arrow = element.querySelector('.menu-arrow');
+            
+            if (submenu && submenu.classList.contains('submenu')) {
+                submenu.classList.toggle('show');
+                arrow.classList.toggle('expanded');
             }
+        }
+
+        // 导航到页面
+        function navigateToPage(page) {
+            console.log('导航到页面:', page);
+            // 实际应用中这里会进行页面跳转
+        }
+
+        // 页面加载完成后初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            // 初始化批量记录
+            loadBatchRecords();
         });
-
-        // 侧边栏导航点击事件
-        document.querySelectorAll('.nav-item').forEach(item => {
-            item.addEventListener('click', function(e) {
-                e.preventDefault();
-
-                // 移除所有活动状态
-                document.querySelectorAll('.nav-item').forEach(navItem => {
-                    navItem.classList.remove('active');
-                });
-
-                // 添加活动状态到当前项
-                this.classList.add('active');
-
-                // 更新面包屑
-                const navText = this.querySelector('span:last-child').textContent;
-                updateBreadcrumb(navText);
-            });
-        });
-
-        // 切换子菜单显示状态
-        function toggleSubmenu(menuItem, submenuId) {
-            e.preventDefault();
-            const submenu = document.getElementById(submenuId);
-            
-            // 切换子菜单显示状态
-            if (submenu.classList.contains('show')) {
-                submenu.classList.remove('show');
-            } else {
-                submenu.classList.add('show');
-            }
-        }
-
-        // 更新面包屑导航
-        function updateBreadcrumb(pageName) {
-            const breadcrumbCurrent = document.querySelector('.breadcrumb-current');
-            if (breadcrumbCurrent) {
-                breadcrumbCurrent.textContent = pageName;
-            }
-        }
-
-        // 切换子菜单显示状态
-        function toggleSubmenu(menuItem, submenuId) {
-            const event = window.event;
-            event.preventDefault();
-            const submenu = document.getElementById(submenuId);
-            
-            // 切换子菜单显示状态
-            if (submenu.classList.contains('show')) {
-                submenu.classList.remove('show');
-            } else {
-                submenu.classList.add('show');
-            }
-        }
-
-        // 设置活动子菜单项
-        function setActiveSubmenu(event, submenuItem, pageName) {
-            event.preventDefault();
-            
-            // 移除所有菜单项的活动状态
-            document.querySelectorAll('.nav-item').forEach(item => {
-                item.classList.remove('active');
-            });
-            
-            // 移除所有子菜单项的活动状态
-            document.querySelectorAll('.nav-subitem').forEach(item => {
-                item.classList.remove('active');
-                // 移除内联样式
-                item.style.removeProperty('background-color');
-                item.style.removeProperty('color');
-            });
-            
-            // 设置当前子菜单项为活动状态
-            submenuItem.classList.add('active');
-            
-            // 更新面包屑
-            updateBreadcrumb(pageName);
-        }
-
-        // 更新面包屑导航
-        function updateBreadcrumb(pageName) {
-            const breadcrumbCurrent = document.querySelector('.breadcrumb-current');
-            if (breadcrumbCurrent) {
-                breadcrumbCurrent.textContent = pageName;
-            }
-        }
-
-        // 查看记录函数
-        function viewRecord(recordId) {
-            // 创建简单的提示信息
-            const message = document.createElement('div');
-            message.style.cssText = `
-                position: fixed;
-                top: 50%;
-                left: 50%;
-                transform: translate(-50%, -50%);
-                background: white;
-                padding: 20px;
-                border-radius: 8px;
-                box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-                z-index: 1000;
-                min-width: 300px;
-            `;
-            message.innerHTML = `
-                <h4 style="margin: 0 0 15px 0; color: #333;">查看记录详情</h4>
-                <p style="margin: 0 0 10px 0; color: #666;">记录ID: ${recordId}</p>
-                <p style="margin: 0 0 15px 0; color: #666;">批次号: BT20240000${recordId}</p>
-                <button onclick="this.parentElement.remove()" style="
-                    background: #3b82f6;
-                    color: white;
-                    border: none;
-                    padding: 8px 16px;
-                    border-radius: 4px;
-                    cursor: pointer;
-                ">确定</button>
-            `;
-            document.body.appendChild(message);
-        }
-
-        // 刷新记录函数
-        function refreshRecord(recordId) {
-            // 创建简单的提示信息
-            const message = document.createElement('div');
-            message.style.cssText = `
-                position: fixed;
-                top: 50%;
-                left: 50%;
-                transform: translate(-50%, -50%);
-                background: white;
-                padding: 20px;
-                border-radius: 8px;
-                box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-                z-index: 1000;
-                min-width: 300px;
-            `;
-            message.innerHTML = `
-                <h4 style="margin: 0 0 15px 0; color: #333;">刷新记录</h4>
-                <p style="margin: 0 0 10px 0; color: #666;">正在刷新记录 ${recordId}...</p>
-                <p style="margin: 0 0 15px 0; color: #666;">批次号: BT20240000${recordId}</p>
-                <button onclick="this.parentElement.remove()" style="
-                    background: #3b82f6;
-                    color: white;
-                    border: none;
-                    padding: 8px 16px;
-                    border-radius: 4px;
-                    cursor: pointer;
-                ">确定</button>
-            `;
-            document.body.appendChild(message);
-        }
-
-        // 下载记录函数
-        function downloadRecord(recordId) {
-            // 创建简单的提示信息
-            const message = document.createElement('div');
-            message.style.cssText = `
-                position: fixed;
-                top: 50%;
-                left: 50%;
-                transform: translate(-50%, -50%);
-                background: white;
-                padding: 20px;
-                border-radius: 8px;
-                box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-                z-index: 1000;
-                min-width: 300px;
-            `;
-            message.innerHTML = `
-                <h4 style="margin: 0 0 15px 0; color: #333;">下载记录</h4>
-                <p style="margin: 0 0 10px 0; color: #666;">正在下载记录 ${recordId}...</p>
-                <p style="margin: 0 0 15px 0; color: #666;">文件名: 校验文件_2024-10-${15-recordId}_${recordId}.csv</p>
-                <button onclick="this.parentElement.remove()" style="
-                    background: #10b981;
-                    color: white;
-                    border: none;
-                    padding: 8px 16px;
-                    border-radius: 4px;
-                    cursor: pointer;
-                ">确定</button>
-            `;
-            document.body.appendChild(message);
-        }
     </script>
 </body>
-
 </html>
