@@ -146,7 +146,8 @@
     <div class="header">
         <h1>商户信息校验控制台需求文档 V1.0</h1>
         <div class="meta">
-            <p>版本：V1.0 | 创建日期：2025年10月16日 | 创建人：呼博</p>
+            <p>版本：V1.0 | 创建日期：2025年10月16日 | 创建人：产品经理 | 状态：待评审</p>
+            <p>最后更新：2025年10月20日</p>
         </div>
     </div>
 
@@ -161,11 +162,11 @@
     <h1>1. 项目概述</h1>
     
     <h3>1.1 项目背景</h3>
-    <p>为提升活动报名数据校验的效率和准确性，需要开发一个专门的校验控制台系统。该系统将支持批量文件上传、实时校验、历史记录查询等功能，为运营人员提供便捷的数据校验管理工具。</p>
+    <p>为提升商户信息数据校验的效率和准确性，需要开发一个专门的校验控制台系统。该系统将支持批量文件上传、实时校验、历史记录查询等功能，为运营人员提供便捷的数据校验管理工具。</p>
 
     <h3>1.2 项目目标</h3>
     <ul>
-        <li><strong>统一平台：</strong>提供统一的活动报名数据校验管理平台</li>
+        <li><strong>统一平台：</strong>提供统一的商户信息数据校验管理平台</li>
         <li><strong>批量处理：</strong>支持批量文件处理和实时校验</li>
         <li><strong>可视化展示：</strong>实现校验结果的可视化展示和统计分析</li>
         <li><strong>完整追踪：</strong>提供完整的操作日志和历史记录追踪</li>
@@ -184,53 +185,174 @@
     
     <h4>2.1.1 数据校验功能</h4>
     <div class="highlight-box">
-        <p><strong>功能描述：</strong>支持上传活动报名文件并进行数据校验</p>
+        <p><strong>功能描述：</strong>支持上传商户信息文件并进行数据校验</p>
         <p><strong>具体需求：</strong></p>
         <ul>
-            <li>支持CSV、Excel格式文件上传</li>
-            <li>文件大小限制：最大50MB</li>
-            <li>支持批量文件上传（最多10个文件）</li>
-            <li>实时显示校验进度和结果</li>
-            <li>校验规则包括：商户号格式、必填字段、数据完整性等</li>
+            <li>支持文件格式：.xlsx、.xls、.csv</li>
+            <li>文件大小限制：最大5MB</li>
+            <li>显示校验进度和结果</li>
+            <li>校验规则包括：数据格式、必填字段、数据完整性等</li>
         </ul>
     </div>
     
     <p><strong>校验规则详情：</strong></p>
     <table>
-        <thead>
-            <tr>
-                <th>校验项目</th>
-                <th>校验规则</th>
-                <th>错误级别</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>银行ID</td>
-                <td>非空</td>
-                <td>错误</td>
-            </tr>
-            <tr>
-                <td>商户号</td>
-                <td>非空</td>
-                <td>错误</td>
-            </tr>
-        </tbody>
-    </table>
+            <thead>
+                <tr>
+                    <th>校验项目</th>
+                    <th>校验规则</th>
+                    <th>错误级别</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>银行ID</td>
+                    <td>非空</td>
+                    <td>错误</td>
+                </tr>
+                <tr>
+                    <td>商户号</td>
+                    <td>非空，822开头</td>
+                    <td>错误</td>
+                </tr>
+            </tbody>
+        </table>
 
-    <h4>2.1.2 历史记录管理</h4>
+    <h4>2.1.2 批量上传功能</h4>
+    <div class="highlight-box">
+        <p><strong>功能描述：</strong>支持批量上传商户信息文件并进行校验</p>
+        <p><strong>批量上传按钮实现要求：</strong></p>
+        <ul>
+            <li><strong>触发方式：</strong>点击"批量上传"按钮打开右侧滑出模态框</li>
+            <li><strong>模态框尺寸：</strong>宽度800px，高度100vh，从右侧滑入</li>
+            <li><strong>支持文件格式：</strong>.xlsx、.xls、.csv</li>
+            <li><strong>文件大小限制：</strong>最大5MB</li>
+            <li><strong>上传流程：</strong>
+                <ol>
+                    <li>点击上传按钮触发文件选择对话框</li>
+                    <li>选择文件后自动开始上传</li>
+                    <li>上传成功后显示"处理中"状态</li>
+                    <li>后台异步执行校验逻辑</li>
+                    <li>校验完成后更新状态为"已完成"或"失败"</li>
+                </ol>
+            </li>
+        </ul>
+        <p><strong>模态框功能组件：</strong></p>
+        <ul>
+            <li>筛选条件区域（文件名、机构银行、校验状态、日期范围）</li>
+            <li>操作按钮区域（上传文件、导出记录、查询、重置）</li>
+            <li>上传记录表格（文件名、机构银行、上传时间、状态、操作）</li>
+        </ul>
+    </div>
+
+    <h4>2.1.3 历史记录管理</h4>
     <div class="highlight-box">
         <p><strong>功能描述：</strong>查询和管理历史校验记录</p>
         <p><strong>具体需求：</strong></p>
         <ul>
-            <li>支持多维度筛选查询（批次号、文件名、操作人、校验状态、机构银行、日期范围）</li>
-            <li>分页展示历史记录（每页10条）</li>
+            <li>支持多维度筛选查询（机构银行、商户号、文件名、校验时间、校验状态、校验结果）</li>
+            <li>分页展示历史记录（每页10/20/50/100条，可调整）</li>
             <li>支持记录的刷新和下载操作</li>
             <li>显示详细的校验统计信息</li>
         </ul>
+        <p><strong>查询筛选条件：</strong></p>
+        <ul>
+            <li>机构银行：文本输入，支持模糊查询</li>
+            <li>文件名：文本输入，支持模糊查询</li>
+            <li>校验时间：日期范围选择器</li>
+            <li>校验状态：下拉选择（待校验、校验中、已完成、校验失败）</li>
+        </ul>
     </div>
 
-    <h4>2.1.3 模版下载功能</h4>
+    <h4>2.1.4 状态字段定义和流转逻辑</h4>
+    <div class="highlight-box">
+        <p><strong>校验状态字段：</strong></p>
+        <table>
+            <thead>
+                <tr>
+                    <th>状态值</th>
+                    <th>状态名称</th>
+                    <th>显示样式</th>
+                    <th>说明</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>processing</td>
+                    <td>处理中</td>
+                    <td>橙色标签</td>
+                    <td>正在进行校验处理</td>
+                </tr>
+                <tr>
+                    <td>completed</td>
+                    <td>已完成</td>
+                    <td>绿色标签</td>
+                    <td>校验已完成</td>
+                </tr>
+                <tr>
+                    <td>failed</td>
+                    <td>校验失败</td>
+                    <td>红色标签</td>
+                    <td>校验过程中发生错误</td>
+                </tr>
+            </tbody>
+        </table>
+        <p><strong>状态流转逻辑：</strong></p>
+        <ol>
+            <li><strong>文件上传</strong> → <code>pending</code>（待处理）</li>
+            <li><code>pending</code> → <code>processing</code>（处理中）</li>
+            <li><code>processing</code> → <code>completed</code>（已完成）或 <code>failed</code>（校验失败）</li>
+            <li><code>completed</code> 状态下显示校验结果：<code>pass</code>、<code>fail</code>、<code>partial</code></li>
+            <li><code>failed</code> 状态可通过"刷新"操作重新触发校验</li>
+        </ol>
+    </div>
+
+    <h4>2.1.5 操作栏功能和交互逻辑</h4>
+    <div class="highlight-box">
+        <p><strong>主表格操作栏：</strong></p>
+        <ul>
+            <li><strong>刷新操作：</strong>
+                <ul>
+                    <li>显示条件：校验状态为"处理中"、"校验失败"、"待处理"</li>
+                    <li>功能：重新查询该记录的最新状态</li>
+                    <li>交互：点击后显示"刷新中..."，1.5秒后更新状态</li>
+                    <li>完成后：如果状态变为"已完成"，隐藏刷新按钮</li>
+                </ul>
+            </li>
+            <li><strong>下载操作：</strong>
+                <ul>
+                    <li>显示条件：校验状态为"已完成"</li>
+                    <li>功能：下载该记录的详细校验结果</li>
+                    <li>格式：CSV文件，包含完整的校验数据</li>
+                </ul>
+            </li>
+        </ul>
+        <p><strong>批量上传模态框操作栏：</strong></p>
+        <ul>
+            <li><strong>刷新操作：</strong>
+                <ul>
+                    <li>显示条件：状态为"处理中"、"待处理"</li>
+                    <li>功能：重新查询批次处理状态</li>
+                    <li>交互：同主表格刷新逻辑</li>
+                </ul>
+            </li>
+            <li><strong>下载操作：</strong>
+                <ul>
+                    <li>显示条件：状态为"已完成"、"失败"</li>
+                    <li>功能：下载该批次的处理结果文件</li>
+                </ul>
+            </li>
+            <li><strong>重试操作：</strong>
+                <ul>
+                    <li>显示条件：状态为"失败"</li>
+                    <li>功能：重新处理失败的批次</li>
+                    <li>交互：点击后状态变为"处理中"，重新执行校验逻辑</li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+
+    <h4>2.1.6 模版下载功能</h4>
     <div class="highlight-box">
         <p><strong>功能描述：</strong>提供标准的数据导入模版</p>
         <p><strong>具体需求：</strong></p>
@@ -244,31 +366,112 @@
     
     <p><strong>模版字段：</strong></p>
     <table>
-        <thead>
-            <tr>
-                <th>字段名</th>
-                <th>字段类型</th>
-                <th>是否必填</th>
-                <th>说明</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>银行ID</td>
-                <td>文本</td>
-                <td>是</td>
-                <td>区分不同的银行</td>
-            </tr>
-            <tr>
-                <td>商户号</td>
-                <td>文本</td>
-                <td>是</td>
-                <td>商户唯一标识号</td>
-            </tr>
-        </tbody>
-    </table>
+            <thead>
+                <tr>
+                    <th>字段名</th>
+                    <th>字段类型</th>
+                    <th>是否必填</th>
+                    <th>说明</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>机构银行</td>
+                    <td>文本</td>
+                    <td>是</td>
+                    <td>银行全称</td>
+                </tr>
+                <tr>
+                    <td>商户号</td>
+                    <td>文本</td>
+                    <td>是</td>
+                    <td>822开头的商户号</td>
+                </tr>
+            </tbody>
+        </table>
 
-    <h3>2.2 辅助功能</h3>
+    <h3>2.2 模态框功能详细说明</h3>
+    
+    <h4>2.2.1 批量上传模态框</h4>
+    <div class="highlight-box">
+        <p><strong>模态框结构：</strong></p>
+        <div class="code-block">
+批量上传模态框 (800px × 100vh)<br>
+├── 头部区域<br>
+│   ├── 标题：批量上传商户信息<br>
+│   └── 关闭按钮<br>
+├── 主体区域<br>
+│   ├── 筛选条件区域<br>
+│   │   ├── 文件名输入框<br>
+│   │   ├── 机构银行下拉选择<br>
+│   │   ├── 校验状态下拉选择<br>
+│   │   ├── 开始日期选择器<br>
+│   │   └── 结束日期选择器<br>
+│   ├── 操作按钮区域<br>
+│   │   ├── 上传文件按钮（主按钮）<br>
+│   │   ├── 导出记录按钮<br>
+│   │   ├── 查询按钮<br>
+│   │   └── 重置按钮<br>
+│   └── 上传记录表格区域<br>
+│       ├── 表格头部（文件名、机构银行、上传时间、状态、操作）<br>
+│       ├── 表格内容（动态加载）<br>
+│       └── 空状态提示<br>
+└── 底部区域（无）
+        </div>
+        <p><strong>模态框交互逻辑：</strong></p>
+        <ol>
+            <li><strong>打开模态框：</strong>
+                <ul>
+                    <li>点击"批量上传"按钮</li>
+                    <li>模态框从右侧滑入，背景显示遮罩层</li>
+                    <li>自动加载历史上传记录</li>
+                </ul>
+            </li>
+            <li><strong>上传文件流程：</strong>
+                <ul>
+                    <li>点击"上传文件"按钮</li>
+                    <li>弹出文件选择对话框</li>
+                    <li>选择文件后自动开始上传</li>
+                    <li>显示上传进度（可选）</li>
+                    <li>上传成功后在表格中新增记录</li>
+                </ul>
+            </li>
+            <li><strong>筛选功能：</strong>
+                <ul>
+                    <li>支持按文件名模糊查询</li>
+                    <li>支持按机构银行筛选</li>
+                    <li>支持按校验状态筛选</li>
+                    <li>支持按日期范围筛选</li>
+                    <li>点击"查询"按钮应用筛选条件</li>
+                    <li>点击"重置"按钮清空所有筛选条件</li>
+                </ul>
+            </li>
+            <li><strong>导出功能：</strong>
+                <ul>
+                    <li>点击"导出记录"按钮</li>
+                    <li>导出当前筛选条件下的所有记录</li>
+                    <li>格式：CSV文件</li>
+                    <li>文件名：批量上传记录_日期.csv</li>
+                </ul>
+            </li>
+            <li><strong>记录操作：</strong>
+                <ul>
+                    <li><strong>刷新</strong>：针对处理中和待处理状态的记录</li>
+                    <li><strong>下载</strong>：针对已完成和失败状态的记录</li>
+                    <li><strong>重试</strong>：针对失败状态的记录</li>
+                </ul>
+            </li>
+            <li><strong>关闭模态框：</strong>
+                <ul>
+                    <li>点击关闭按钮或遮罩层</li>
+                    <li>模态框滑出到右侧，遮罩层消失</li>
+                    <li>恢复页面滚动</li>
+                </ul>
+            </li>
+        </ol>
+    </div>
+
+    <h3>2.3 辅助功能</h3>
     
     <h4>2.2.1 统计面板</h4>
     <div class="success-box">
@@ -295,15 +498,210 @@
         </ul>
     </div>
 
-    <h1>3. 校验逻辑设计</h1>
+    <h1>3. 数据表格字段定义和业务逻辑</h1>
 
-    <h3>3.1 核心校验流程</h3>
+    <h3>3.1 主数据表格字段定义</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>字段名</th>
+                <th>字段类型</th>
+                <th>数据来源</th>
+                <th>显示规则</th>
+                <th>业务逻辑</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>ID</td>
+                <td>数值</td>
+                <td>数据库自增</td>
+                <td>数字</td>
+                <td>唯一标识符</td>
+            </tr>
+            <tr>
+                <td>机构银行</td>
+                <td>文本</td>
+                <td>文件数据</td>
+                <td>银行全称</td>
+                <td>支持模糊查询</td>
+            </tr>
+            <tr>
+                <td>商户号</td>
+                <td>文本</td>
+                <td>文件数据</td>
+                <td>822开头</td>
+                <td>必填，格式校验</td>
+            </tr>
+            <tr>
+                <td>结算卡号（脱敏）</td>
+                <td>文本</td>
+                <td>三代系统查询</td>
+                <td>6227********1234</td>
+                <td>敏感信息脱敏显示</td>
+            </tr>
+            <tr>
+                <td>校验状态</td>
+                <td>枚举</td>
+                <td>校验结果</td>
+                <td>彩色标签</td>
+                <td>pending/processing/completed/failed</td>
+            </tr>
+            <tr>
+                <td>校验结果</td>
+                <td>枚举</td>
+                <td>校验结果</td>
+                <td>彩色标签</td>
+                <td>pass/fail/partial/-</td>
+            </tr>
+            <tr>
+                <td>文件名</td>
+                <td>文本</td>
+                <td>上传文件</td>
+                <td>完整文件名</td>
+                <td>支持模糊查询</td>
+            </tr>
+            <tr>
+                <td>校验时间</td>
+                <td>日期时间</td>
+                <td>系统生成</td>
+                <td>YYYY-MM-DD HH:mm:ss</td>
+                <td>默认当前时间</td>
+            </tr>
+            <tr>
+                <td>操作人</td>
+                <td>文本</td>
+                <td>系统获取</td>
+                <td>用户姓名</td>
+                <td>当前登录用户</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h3>3.2 批量上传记录表格字段定义</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>字段名</th>
+                <th>字段类型</th>
+                <th>数据来源</th>
+                <th>显示规则</th>
+                <th>业务逻辑</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>文件名</td>
+                <td>文本</td>
+                <td>上传文件</td>
+                <td>完整文件名</td>
+                <td>支持模糊查询</td>
+            </tr>
+            <tr>
+                <td>机构银行</td>
+                <td>文本</td>
+                <td>文件数据或筛选条件</td>
+                <td>银行全称</td>
+                <td>支持筛选</td>
+            </tr>
+            <tr>
+                <td>上传时间</td>
+                <td>日期时间</td>
+                <td>系统生成</td>
+                <td>YYYY-MM-DD HH:mm:ss</td>
+                <td>上传完成时间</td>
+            </tr>
+            <tr>
+                <td>商户号</td>
+                <td>文本</td>
+                <td>上传文件</td>
+                <td>完整商户号</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>结算卡号</td>
+                <td>文本</td>
+                <td>三代系统查询</td>
+                <td>6227********1234前四后</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>状态</td>
+                <td>枚举</td>
+                <td>处理结果</td>
+                <td>彩色标签</td>
+                <td>success/processing/failed/pending</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h3>3.3 数据表格业务逻辑</h3>
+    
+    <h4>3.3.1 数据加载逻辑</h4>
+    <div class="code-block">
+1. <strong>初始加载</strong>：<br>
+   - 页面加载时查询最近30天的记录<br>
+   - 默认按校验时间倒序排列<br>
+   - 每页显示10条记录<br>
+<br>
+2. <strong>查询逻辑</strong>：<br>
+   - 支持多条件组合查询<br>
+   - 所有条件均为AND关系<br>
+   - 文本字段支持模糊匹配<br>
+   - 日期范围包含边界值<br>
+<br>
+3. <strong>分页逻辑</strong>：<br>
+   - 支持动态调整每页显示条数（10/20/50/100）<br>
+   - 分页器显示当前页前后2页<br>
+   - 总记录数实时更新
+    </div>
+
+    <h4>3.3.2 数据校验逻辑</h4>
+    <div class="code-block">
+1. <strong>文件格式校验</strong>：<br>
+   ```javascript
+   // 支持的文件格式
+   const allowedFormats = ['.xlsx', '.xls', '.csv'];
+   const maxSize = 5 * 1024 * 1024; // 5MB
+   ```<br>
+<br>
+2. <strong>数据格式校验</strong>：<br>
+   - 商户号：必须以822开头，长度15-20位<br>
+   - 银行名称：必须在支持的银行列表中<br>
+   - 结算卡号：符合银行卡号格式规则<br>
+<br>
+3. <strong>业务逻辑校验</strong>：<br>
+   ```javascript
+   // 校验流程
+   1. 根据银行ID查找可用查询接口
+   2. 使用商户号查询三代系统获取结算卡号
+   3. 调用对应银行校验接口验证卡号
+   4. 记录校验结果并更新状态
+   ```
+    </div>
+
+    <h4>3.3.3 状态更新逻辑</h4>
+    <div class="code-block">
+1. <strong>实时状态更新</strong>：<br>
+   - 使用WebSocket或定时轮询更新状态<br>
+   - 处理中的记录每30秒刷新一次状态<br>
+   - 用户手动刷新立即更新状态<br>
+<br>
+2. <strong>状态持久化</strong>：<br>
+   - 所有状态变更记录到数据库<br>
+   - 支持状态变更历史查询<br>
+   - 异常状态自动告警
+    </div>
+
+    <h1>4. 校验逻辑设计</h1>
+
+    <h3>4.1 核心校验流程</h3>
 
     <div class="highlight-box">
         <p><strong>校验逻辑说明：</strong>商户信息校验采用多步骤验证机制，确保数据的准确性和完整性。</p>
     </div>
 
-    <h4>3.1.1 校验流程设计</h4>
+    <h4>4.1.1 校验流程设计</h4>
     <div class="code-block">
         步骤1：银行接口可用性校验<br>
         ├─ 输入：银行ID<br>
@@ -329,7 +727,7 @@
         └─ 展示：实时更新校验进度和结果
     </div>
 
-    <h4>3.1.2 校验规则矩阵</h4>
+    <h4>4.1.2 校验规则矩阵</h4>
     <table>
         <thead>
             <tr>
@@ -383,7 +781,7 @@
         </tbody>
     </table>
 
-    <h4>3.1.3 异常处理机制</h4>
+    <h4>4.1.3 异常处理机制</h4>
     <div class="warning-box">
         <p><strong>异常场景处理：</strong></p>
         <ul>
@@ -395,9 +793,9 @@
         </ul>
     </div>
 
-    <h3>3.2 数据流转设计</h3>
+    <h3>4.2 数据流转设计</h3>
 
-    <h4>3.2.1 校验数据流程</h4>
+    <h4>4.2.1 校验数据流程</h4>
     <div class="code-block">
         文件上传 → 数据解析 → 批量入队 → 逐条校验 → 结果汇总 → 状态更新<br>
         <br>
@@ -410,7 +808,7 @@
         6. 状态更新：更新数据库状态，向前端推送实时结果
     </div>
 
-    <h4>3.2.2 状态机设计</h4>
+    <h4>4.2.2 状态机设计</h4>
     <table>
         <thead>
             <tr>
@@ -454,9 +852,106 @@
         </tbody>
     </table>
 
-    <h1>4. 界面设计需求</h1>
+    <h1>5. 交互设计需求</h1>
+
+    <h3>5.1 用户操作流程</h3>
     
-    <h3>4.1 整体布局</h3>
+    <h4>5.1.1 批量上传流程</h4>
+    <div class="code-block">
+1. 点击"批量上传"按钮<br>
+2. 右侧滑出模态框（800px宽度）<br>
+3. 在模态框中点击"上传文件"按钮<br>
+4. 选择文件（支持.xlsx、.xls、.csv格式）<br>
+5. 系统验证文件格式和大小（最大5MB）<br>
+6. 开始上传，在表格中新增记录，状态为"处理中"<br>
+7. 后台异步执行校验逻辑<br>
+8. 校验完成后更新记录状态<br>
+9. 可通过"刷新"按钮手动更新状态
+    </div>
+
+    <h4>5.1.2 校验逻辑</h4>
+    <div class="code-block">
+1. <strong>接口可用性检查</strong>：<br>
+   - 根据银行ID查找可用的查询接口<br>
+   - 如果不存在可用接口，直接返回"当前银行不支持校验"<br>
+<br>
+2. <strong>商户信息查询</strong>：<br>
+   - 使用商户号调用三代系统查询接口<br>
+   - 获取商户结算卡号<br>
+   - 如果查询失败，记录错误信息<br>
+<br>
+3. <strong>银行校验调用</strong>：<br>
+   - 根据商户结算卡号和银行ID<br>
+   - 调用对应银行的校验接口<br>
+   - 获取校验结果（通过/未通过）<br>
+<br>
+4. <strong>结果记录</strong>：<br>
+   - 将校验结果记录到数据库<br>
+   - 更新记录状态和校验结果<br>
+   - 在控制台界面展示最新状态
+    </div>
+
+    <h4>5.1.3 数据查询流程</h4>
+    <div class="code-block">
+1. 在查询表单中设置筛选条件<br>
+2. 点击"查询"按钮<br>
+3. 系统执行查询并返回数据<br>
+4. 分页展示查询结果<br>
+5. 支持记录的刷新和下载操作
+    </div>
+
+    <h4>5.1.4 记录操作流程</h4>
+    <div class="code-block">
+1. <strong>刷新操作</strong>：<br>
+   - 点击"刷新"链接<br>
+   - 显示"刷新中..."状态<br>
+   - 1.5秒后更新为最新状态<br>
+   - 如果状态变为"已完成"，隐藏刷新按钮<br>
+<br>
+2. <strong>下载操作</strong>：<br>
+   - 点击"下载"链接<br>
+   - 生成CSV格式的校验结果文件<br>
+   - 自动触发浏览器下载<br>
+<br>
+3. <strong>批量导出</strong>：<br>
+   - 勾选需要导出的记录<br>
+   - 点击"批量导出"按钮<br>
+   - 生成包含所有选中记录的CSV文件
+    </div>
+
+    <h3>5.2 交互反馈</h3>
+    
+    <h4>5.2.1 操作反馈</h4>
+    <div class="code-block">
+- <strong>成功操作</strong>：绿色提示信息（Toast或Alert）<br>
+- <strong>失败操作</strong>：红色错误信息（Toast或Alert）<br>
+- <strong>警告信息</strong>：黄色提示信息（Toast或Alert）<br>
+- <strong>加载状态</strong>：转圈动画+文字提示<br>
+- <strong>模态框</strong>：右侧滑入动画，背景遮罩层
+    </div>
+
+    <h4>5.2.2 表单验证</h4>
+    <div class="code-block">
+- <strong>实时验证</strong>：输入时即时验证格式<br>
+- <strong>提交验证</strong>：查询时统一验证所有条件<br>
+- <strong>错误提示</strong>：具体字段错误信息<br>
+- <strong>成功提示</strong>：操作成功的确认信息
+    </div>
+
+    <h4>5.2.3 状态标识</h4>
+    <div class="code-block">
+- <strong>待校验</strong>：灰色圆点标签<br>
+- <strong>校验中</strong>：橙色圆点标签<br>
+- <strong>已完成</strong>：绿色圆点标签<br>
+- <strong>校验失败</strong>：红色圆点标签<br>
+- <strong>通过</strong>：绿色圆点标签<br>
+- <strong>未通过</strong>：红色圆点标签<br>
+- <strong>部分通过</strong>：黄色圆点标签
+    </div>
+
+    <h1>6. 界面设计需求</h1>
+    
+    <h3>6.1 整体布局</h3>
     <ul>
         <li><strong>顶部导航栏：</strong>包含系统logo、面包屑导航、用户信息</li>
         <li><strong>左侧边栏：</strong>功能菜单导航</li>
@@ -464,19 +959,120 @@
         <li><strong>底部状态栏：</strong>系统状态和版权信息</li>
     </ul>
 
-    <h3>4.2 页面结构</h3>
+    <h3>6.2 页面结构</h3>
     <div class="code-block">
-活动报名校验控制台<br>
-├── 统计面板<br>
-├── 筛选表单<br>
-├── 操作按钮区<br>
-├── 历史记录表格<br>
-└── 分页控件
+商户信息校验控制台<br>
+├── 查询表单区域<br>
+│   ├── 筛选条件行（机构银行、商户号、文件名）<br>
+│   ├── 筛选条件行（校验时间、校验状态、校验结果）<br>
+│   └── 操作按钮行（批量上传、批量导出、查询、重置）<br>
+├── 数据表格区域<br>
+│   ├── 表格头部（标题）<br>
+│   ├── 表格内容（数据行）<br>
+│   └── 分页控件<br>
+└── 批量上传模态框（隐藏状态）
     </div>
+
+    <h1>7. 枚举值定义</h1>
+
+    <h3>7.1 校验状态 (validation_status)</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>枚举值</th>
+                <th>中文名称</th>
+                <th>说明</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>pending</td>
+                <td>待处理</td>
+                <td>文件上传完成，等待开始校验</td>
+            </tr>
+            <tr>
+                <td>processing</td>
+                <td>校验中</td>
+                <td>正在执行校验逻辑</td>
+            </tr>
+            <tr>
+                <td>completed</td>
+                <td>已完成</td>
+                <td>校验已完成</td>
+            </tr>
+            <tr>
+                <td>failed</td>
+                <td>校验失败</td>
+                <td>校验过程中发生错误</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h3>7.2 校验结果 (validation_result)</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>枚举值</th>
+                <th>中文名称</th>
+                <th>说明</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>pass</td>
+                <td>通过</td>
+                <td>所有校验项目均通过</td>
+            </tr>
+            <tr>
+                <td>fail</td>
+                <td>未通过</td>
+                <td>至少一个校验项目未通过</td>
+            </tr>
+            <tr>
+                <td>partial</td>
+                <td>部分通过</td>
+                <td>部分校验项目通过，部分未通过</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h3>7.3 批次状态 (status)</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>枚举值</th>
+                <th>中文名称</th>
+                <th>说明</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>pending</td>
+                <td>待处理</td>
+                <td>批次创建完成，等待处理</td>
+            </tr>
+            <tr>
+                <td>processing</td>
+                <td>处理中</td>
+                <td>正在处理批次数据</td>
+            </tr>
+            <tr>
+                <td>success</td>
+                <td>已完成</td>
+                <td>批次处理完成</td>
+            </tr>
+            <tr>
+                <td>failed</td>
+                <td>失败</td>
+                <td>批次处理失败</td>
+            </tr>
+        </tbody>
+    </table>
 
     <div class="footer">
         <p>© 2025 商户信息校验控制台需求</p>
-        <p>文档版本：V1.0 | 最后更新：2025年10月16日</p>
+        <p>文档版本：V1.0 | 最后更新：2025年10月20日</p>
+        <p>文档维护：产品团队</p>
     </div>
     
     <script>
