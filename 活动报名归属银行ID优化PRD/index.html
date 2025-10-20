@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html xmlns:o='urn:schemas-microsoft-com:office:office' 
+      xmlns:w='urn:schemas-microsoft-com:office:word' 
+      xmlns='http://www.w3.org/TR/REC-html40'>
+<head>
+    <meta charset='utf-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+    <title>活动报名归属银行ID优化 - 需求文档</title>
+    <!--[if gte mso 9]>
+    <xml>
+        <w:WordDocument>
+            <w:View>Print</w:View>
+            <w:Zoom>90</w:Zoom>
+            <w:DoNotPromptForConvert/>
+            <w:DoNotShowInsertionsAndDeletions/>
+        </w:WordDocument>
+    </xml>
+    <![endif]-->
+    <style>
+        body { 
+            font-family: '宋体', SimSun, serif; 
+            font-size: 14pt; 
+            line-height: 1.6; 
+            margin: 1in 10% 1in 10%;
+            background: white;
+        }
+        h1 { 
+            font-size: 20pt; 
+            color: #2c3e50; 
+            border-bottom: 2px solid #007bff; 
+            padding-bottom: 10pt; 
+            margin-top: 20pt;
+            margin-bottom: 15pt;
+            page-break-after: avoid;
+        }
+        h2 { 
+            font-size: 18pt; 
+            color: #007bff; 
+            margin-top: 20pt; 
+            margin-bottom: 10pt;
+            page-break-after: avoid;
+        }
+        h3 { 
+            font-size: 16pt; 
+            color: #495057; 
+            margin-top: 15pt; 
+            margin-bottom: 8pt;
+            page-break-after: avoid;
+        }
+        h4 { 
+            font-size: 14pt; 
+            color: #6c757d; 
+            margin-top: 10pt; 
+            margin-bottom: 6pt;
+            page-break-after: avoid;
+        }
+        p { 
+            margin-bottom: 6pt; 
+            text-align: justify; 
+            text-indent: 0;
+        }
+        ul, ol { 
+            margin-left: 20pt; 
+            margin-bottom: 10pt;
+        }
+        li { 
+            margin-bottom: 3pt; 
+        }
+        table { 
+            border-collapse: collapse; 
+            width: 100%; 
+            margin: 10pt 0; 
+            font-size: 12pt;
+        }
+        th, td { 
+            border: 1pt solid #000; 
+            padding: 6pt; 
+            text-align: left; 
+            vertical-align: top;
+        }
+        th { 
+            background-color: #f0f0f0; 
+            font-weight: bold; 
+        }
+        .code-block { 
+            background-color: #f8f9fa; 
+            border: 1pt solid #ccc; 
+            padding: 10pt; 
+            font-family: 'Courier New', monospace; 
+            font-size: 12pt;
+            margin: 10pt 0;
+        }
+        .highlight-box { 
+            background-color: #e7f3ff; 
+            border: 1pt solid #b3d9ff; 
+            padding: 10pt; 
+            margin: 10pt 0; 
+        }
+        .warning-box { 
+            background-color: #fff3cd; 
+            border: 1pt solid #ffeaa7; 
+            padding: 10pt; 
+            margin: 10pt 0; 
+        }
+        .success-box { 
+            background-color: #d4edda; 
+            border: 1pt solid #c3e6cb; 
+            padding: 10pt; 
+            margin: 10pt 0; 
+        }
+        .header { 
+            text-align: center; 
+            margin-bottom: 30pt; 
+            border-bottom: 3pt solid #007bff; 
+            padding-bottom: 20pt;
+        }
+        .meta { 
+            color: #666; 
+            font-size: 12pt; 
+            margin-top: 10pt;
+        }
+        .footer { 
+            text-align: center; 
+            margin-top: 30pt; 
+            border-top: 2pt solid #ccc; 
+            padding-top: 20pt; 
+            color: #666; 
+            font-size: 12pt;
+        }
+        .api-endpoint { 
+            background-color: #28a745; 
+            color: white; 
+            padding: 4pt 8pt; 
+            font-family: 'Courier New', monospace; 
+            font-size: 12pt;
+        }
+        .parameter-list { 
+            background-color: #f8f9fa; 
+            padding: 8pt; 
+            margin: 8pt 0; 
+            border-left: 3pt solid #007bff;
+        }
+        .url-link {
+            color: #0066cc;
+            text-decoration: underline;
+            font-family: 'Courier New', monospace;
+            font-size: 12pt;
+        }
+        .document-info {
+            background-color: #f8f9fa;
+            border: 1px solid #dee2e6;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+        .document-info table {
+            margin: 0;
+            border: none;
+        }
+        .document-info td {
+            border: none;
+            padding: 5px 10px;
+        }
+        .document-info td:first-child {
+            font-weight: bold;
+            color: #495057;
+        }
+        @page {
+            margin: 1in 10% 1in 10%;
+        }
+        @media print {
+            body { margin: 1in 10% 1in 10%; }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>活动报名归属银行ID优化 - 需求文档</h1>
+        <div class="meta">
+            <p>版本：V1.0 | 创建日期：2025-10-20 | 最后更新：2025-10-20</p>
+        </div>
+    </div>
+
+    <div class="document-info">
+        <table>
+            <tr>
+                <td>文档名称</td>
+                <td>活动报名归属银行ID优化 - 产品需求文档</td>
+            </tr>
+            <tr>
+                <td>文档版本</td>
+                <td>V1.0</td>
+            </tr>
+            <tr>
+                <td>创建日期</td>
+                <td>2025-10-20</td>
+            </tr>
+            <tr>
+                <td>最后更新</td>
+                <td>2025-10-20</td>
+            </tr>
+            <tr>
+                <td>文档状态</td>
+                <td>草稿</td>
+            </tr>
+            <tr>
+                <td>负责人</td>
+                <td>[待定]</td>
+            </tr>
+            <tr>
+                <td>相关人员</td>
+                <td>[产品/设计/开发/测试人员]</td>
+            </tr>
+        </table>
+    </div>
+
+    <h1>1. 项目概述</h1>
+    
+    <h3>1.1 项目背景</h3>
+    <p>当前活动报名系统中，银行归属关系的管理存在以下问题：</p>
+    <ul>
+        <li>活动报名数据中银行ID字段不够准确，导致归属关系混乱</li>
+        <li>银行信息更新不及时，影响活动统计和数据分析</li>
+        <li>缺乏银行ID校验机制，数据质量有待提升</li>
+        <li>跨平台银行信息同步存在延迟和差异</li>
+    </ul>
+
+    <h3>1.2 项目目标</h3>
+    <ul>
+        <li><strong>目标1：</strong>优化活动报名系统中的银行ID字段，确保数据准确性</li>
+        <li><strong>目标2：</strong>建立银行ID校验机制，提升数据质量</li>
+        <li><strong>目标3：</strong>实现银行信息的实时同步和更新</li>
+        <li><strong>目标4：</strong>提供银行归属关系的可视化展示</li>
+    </ul>
+
+    <h3>1.3 成功指标</h3>
+    <ul>
+        <li><strong>业务指标：</strong>银行ID准确率达到99%以上，活动归属关系错误率降低80%</li>
+        <li><strong>用户指标：</strong>用户查询银行信息的响应时间缩短50%，操作满意度提升30%</li>
+        <li><strong>技术指标：</strong>系统稳定性达到99.9%，数据同步延迟控制在5分钟以内</li>
+    </ul>
+
+    <h1>2. 用户画像</h1>
+    
+    <h3>2.1 主要用户群体</h3>
+    <table>
+        <tr>
+            <th>用户群体</th>
+            <th>描述</th>
+            <th>比例</th>
+            <th>核心需求</th>
+        </tr>
+        <tr>
+            <td>活动管理员</td>
+            <td>负责活动的创建、管理和数据统计</td>
+            <td>40%</td>
+            <td>准确的银行归属关系，快速查询活动数据</td>
+        </tr>
+        <tr>
+            <td>数据分析师</td>
+            <td>负责活动数据的分析和报告</td>
+            <td>30%</td>
+            <td>准确的数据源，多维度的数据查询</td>
+        </tr>
+        <tr>
+            <td>银行对接人</td>
+            <td>负责银行信息的维护和更新</td>
+            <td>20%</td>
+            <td>便捷的银行信息管理，实时同步</td>
+        </tr>
+        <tr>
+            <td>系统管理员</td>
+            <td>负责系统维护和问题排查</td>
+            <td>10%</td>
+            <td>系统监控，异常处理</td>
+        </tr>
+    </table>
+
+    <h3>2.2 用户场景</h3>
+    <p>活动管理员在创建活动时需要选择归属银行，确保活动数据能够正确归集到对应的银行机构；数据分析师在进行活动效果分析时，需要准确的银行归属关系来生成各银行的活动报告；银行对接人需要维护银行信息的准确性，确保活动报名时能够正确匹配银行ID。</p>
+
+    <h1>3. 功能需求</h1>
+    
+    <h3>3.1 功能列表</h3>
+    <table>
+        <tr>
+            <th>功能模块</th>
+            <th>功能名称</th>
+            <th>优先级</th>
+            <th>状态</th>
+            <th>备注</th>
+        </tr>
+        <tr>
+            <td>银行信息管理</td>
+            <td>银行ID校验机制</td>
+            <td>高</td>
+            <td>未开始</td>
+            <td>确保银行ID的准确性和有效性</td>
+        </tr>
+        <tr>
+            <td>活动报名管理</td>
+            <td>银行归属优化</td>
+            <td>高</td>
+            <td>未开始</td>
+            <td>优化活动报名时的银行选择和匹配</td>
+        </tr>
+        <tr>
+            <td>数据同步</td>
+            <td>银行信息实时同步</td>
+            <td>中</td>
+            <td>未开始</td>
+            <td>实现跨平台银行信息的实时同步</td>
+        </tr>
+        <tr>
+            <td>数据可视化</td>
+            <td>银行归属关系展示</td>
+            <td>中</td>
+            <td>未开始</td>
+            <td>提供银行归属关系的可视化展示</td>
+        </tr>
+    </table>
+
+    <h3>3.2 功能详述</h3>
+    
+    <h4>3.2.1 银行ID校验机制</h4>
+    <p><strong>功能描述</strong><br>
+    建立银行ID的校验机制，确保活动报名时银行ID的准确性和有效性，防止错误或无效的银行ID进入系统。</p>
+    
+    <p><strong>业务规则</strong><br>
+    - 银行ID必须符合预定义的格式规范<br>
+    - 银行ID必须在银行信息库中存在<br>
+    - 系统应提供银行ID的自动纠错建议<br>
+    - 不符合规范的银行ID应被拒绝并提示错误信息</p>
+    
+    <p><strong>用户流程</strong><br>
+    1. 用户输入银行ID<br>
+    2. 系统实时校验银行ID格式<br>
+    3. 系统查询银行信息库验证有效性<br>
+    4. 如有错误，提供纠错建议<br>
+    5. 验证通过后允许保存</p>
+    
+    <p><strong>界面原型</strong><br>
+    银行ID输入框应包含实时校验提示，错误时显示红色边框和错误信息，正确时显示绿色勾号。</p>
+    
+    <p><strong>数据需求</strong><br>
+    - 输入：银行ID（字符串）<br>
+    - 输出：校验结果（布尔值）、错误信息（字符串）、纠错建议（字符串数组）</p>
+
+    <h4>3.2.2 活动报名银行归属优化</h4>
+    <p><strong>功能描述</strong><br>
+    优化活动报名流程中的银行归属选择，提供更便捷的银行选择方式，确保活动能够正确归属到对应的银行机构。</p>
+    
+    <p><strong>业务规则</strong><br>
+    - 支持银行ID和银行名称两种选择方式<br>
+    - 提供银行名称的智能搜索和自动补全<br>
+    - 记录银行选择的变更历史<br>
+    - 支持批量修改活动的银行归属</p>
+    
+    <p><strong>用户流程</strong><br>
+    1. 用户进入活动报名页面<br>
+    2. 选择银行归属方式（ID/名称）<br>
+    3. 输入银行ID或搜索银行名称<br>
+    4. 系统显示匹配的银行信息<br>
+    5. 用户确认选择并保存</p>
+    
+    <p><strong>界面原型</strong><br>
+    提供下拉选择框和搜索框的组合界面，支持银行名称的模糊搜索和银行ID的直接输入。</p>
+    
+    <p><strong>数据需求</strong><br>
+    - 输入：银行ID/银行名称（字符串）<br>
+    - 输出：银行信息（银行ID、银行名称、银行代码等）</p>
+
+    <h4>3.2.3 银行信息实时同步</h4>
+    <p><strong>功能描述</strong><br>
+    实现银行信息的实时同步，确保各平台间的银行信息保持一致，避免因信息不同步导致的数据归属错误。</p>
+    
+    <p><strong>业务规则</strong><br>
+    - 定时同步银行信息（至少每小时一次）<br>
+    - 支持手动触发的同步操作<br>
+    - 记录同步日志和异常情况<br>
+    - 同步失败时应发送告警通知</p>
+    
+    <p><strong>用户流程</strong><br>
+    1. 系统定时触发同步任务<br>
+    2. 从主数据源获取最新银行信息<br>
+    3. 比较本地银行信息差异<br>
+    4. 更新本地银行信息库<br>
+    5. 记录同步日志</p>
+    
+    <p><strong>界面原型</strong><br>
+    提供同步状态监控页面，显示最近同步时间、同步状态、同步日志等信息。</p>
+    
+    <p><strong>数据需求</strong><br>
+    - 输入：同步触发信号（定时/手动）<br>
+    - 输出：同步结果（成功/失败）、同步日志、更新记录数</p>
+
+    <h4>3.2.4 银行归属关系可视化展示</h4>
+    <p><strong>功能描述</strong><br>
+    提供银行归属关系的可视化展示，帮助用户直观地了解活动在各银行的分布情况，支持多维度的数据分析。</p>
+    
+    <p><strong>业务规则</strong><br>
+    - 支持按银行、地区、时间等维度展示<br>
+    - 提供图表和表格两种展示方式<br>
+    - 支持数据导出功能<br>
+    - 数据应实时更新</p>
+    
+    <p><strong>用户流程</strong><br>
+    1. 用户进入数据可视化页面<br>
+    2. 选择展示维度和筛选条件<br>
+    3. 系统生成相应的图表和表格<br>
+    4. 用户可导出数据或分享链接</p>
+    
+    <p><strong>界面原型</strong><br>
+    提供仪表板式的界面，包含饼图、柱状图、数据表格等多种展示组件。</p>
+    
+    <p><strong>数据需求</strong><br>
+    - 输入：筛选条件（银行、地区、时间范围等）<br>
+    - 输出：可视化图表数据、统计表格数据</p>
+
+    <h1>4. 非功能需求</h1>
+    
+    <h3>4.1 性能需求</h3>
+    <p>- 银行ID校验响应时间不超过1秒<br>
+    - 银行信息搜索响应时间不超过2秒<br>
+- 数据同步处理时间不超过5分钟<br>
+- 可视化页面加载时间不超过3秒</p>
+
+    <h3>4.2 安全需求</h3>
+    <p>- 银行信息访问需要权限控制<br>
+- 数据传输过程需要加密<br>
+- 操作日志需要完整记录<br>
+- 敏感信息需要脱敏处理</p>
+
+    <h3>4.3 可用性需求</h3>
+    <p>- 界面设计简洁直观，操作流程清晰<br>
+- 提供完善的错误提示和帮助信息<br>
+- 支持键盘快捷操作<br>
+- 界面响应式设计，支持多设备访问</p>
+
+    <h3>4.4 兼容性需求</h3>
+    <p>- 支持主流浏览器（Chrome、Firefox、Safari、Edge）<br>
+- 支持移动设备访问<br>
+- 兼容现有的数据接口<br>
+- 支持不同分辨率的显示设备</p>
+
+    <h3>4.5 可扩展性需求</h3>
+    <p>- 支持新增银行信息字段<br>
+- 支持扩展数据可视化维度<br>
+- 支持增加更多的数据源<br>
+- 预留接口供其他系统集成</p>
+
+    <h1>5. 界面设计</h1>
+    
+    <h3>5.1 设计原则</h3>
+    <p>- 简洁明了：界面设计简洁，信息层次清晰<br>- 一致性：保持与现有系统的一致性<br>- 响应式：适配不同设备和屏幕尺寸<br>- 可访问性：考虑特殊用户群体的使用需求</p>
+
+    <h3>5.2 界面原型</h3>
+    <p>界面原型将包含以下主要页面：<br>
+    1. 银行信息管理页面<br>
+    2. 活动报名优化页面<br>
+    3. 数据同步监控页面<br>
+    4. 数据可视化展示页面</p>
+
+    <h3>5.3 交互说明</h3>
+    <p>- 银行ID输入支持实时校验和自动纠错<br>- 银行名称搜索支持模糊匹配和自动补全<br>- 数据可视化支持交互式筛选和钻取<br>- 同步状态支持实时更新和异常告警</p>
+
+    <h1>6. 数据需求</h1>
+    
+    <h3>6.1 数据模型</h3>
+    <p>主要数据实体包括：<br>- 银行信息表（bank_info）：银行ID、银行名称、银行代码、状态等<br>- 活动信息表（activity_info）：活动ID、活动名称、归属银行ID等<br>- 活动报名表（activity_registration）：报名ID、活动ID、用户银行ID等<br>- 同步日志表（sync_log）：同步时间、同步状态、错误信息等</p>
+
+    <h3>6.2 数据字典</h3>
+    <table>
+        <tr>
+            <th>字段名</th>
+            <th>类型</th>
+            <th>长度</th>
+            <th>是否必填</th>
+            <th>默认值</th>
+            <th>描述</th>
+        </tr>
+        <tr>
+            <td>bank_id</td>
+            <td>VARCHAR</td>
+            <td>20</td>
+            <td>是</td>
+            <td></td>
+            <td>银行唯一标识符</td>
+        </tr>
+        <tr>
+            <td>bank_name</td>
+            <td>VARCHAR</td>
+            <td>100</td>
+            <td>是</td>
+            <td></td>
+            <td>银行名称</td>
+        </tr>
+        <tr>
+            <td>bank_code</td>
+            <td>VARCHAR</td>
+            <td>10</td>
+            <td>是</td>
+            <td></td>
+            <td>银行代码</td>
+        </tr>
+        <tr>
+            <td>status</td>
+            <td>INT</td>
+            <td>1</td>
+            <td>是</td>
+            <td>1</td>
+            <td>状态：1-有效，0-无效</td>
+        </tr>
+        <tr>
+            <td>create_time</td>
+            <td>DATETIME</td>
+            <td></td>
+            <td>是</td>
+            <td>NOW()</td>
+            <td>创建时间</td>
+        </tr>
+        <tr>
+            <td>update_time</td>
+            <td>DATETIME</td>
+            <td></td>
+            <td>是</td>
+            <td>NOW()</td>
+            <td>更新时间</td>
+        </tr>
+    </table>
+
+    <h3>6.3 接口需求</h3>
+    <p>- 银行信息查询接口：支持按ID、名称、代码查询银行信息<br>- 银行ID校验接口：验证银行ID的有效性和格式<br>- 数据同步接口：从主数据源同步银行信息<br>- 统计数据接口：获取活动在各银行的分布统计数据</p>
+
+    <h1>7. 测试需求</h1>
+    
+    <h3>7.1 测试策略</h3>
+    <p>- 单元测试：覆盖核心业务逻辑<br>- 集成测试：验证接口间的数据流转<br>- 系统测试：验证完整业务流程<br>- 性能测试：验证系统在高并发下的表现</p>
+
+    <h3>7.2 测试用例</h3>
+    <p>主要测试用例包括：<br>- 银行ID格式校验测试<br>- 银行信息搜索功能测试<br>- 数据同步准确性测试<br>- 数据可视化展示测试</p>
+
+    <h3>7.3 测试环境</h3>
+    <p>- 开发环境：功能验证和调试<br>- 测试环境：集成测试和系统测试<br>- 预生产环境：性能测试和用户验收测试</p>
+
+    <h1>8. 上线计划</h1>
+    
+    <h3>8.1 上线策略</h3>
+    <p>- 采用灰度发布策略，先在部分银行试点<br>- 分阶段上线，优先上线核心功能<br>- 保留回滚方案，确保系统稳定性<br>- 建立监控告警机制，及时发现问题</p>
+
+    <h3>8.2 上线时间</h3>
+    <p>- 第一阶段：银行ID校验机制（预计2周）<br>- 第二阶段：活动报名银行归属优化（预计1周）<br>- 第三阶段：数据同步功能（预计1周）<br>- 第四阶段：数据可视化展示（预计1周）</p>
+
+    <h3>8.3 上线检查清单</h3>
+    <p>- 数据库脚本执行验证<br>- 接口功能验证<br>- 界面功能验证<br>- 性能指标验证<br>- 安全性检查</p>
+
+    <h1>9. 风险与依赖</h1>
+    
+    <h3>9.1 风险评估</h3>
+    <table>
+        <tr>
+            <th>风险描述</th>
+            <th>可能性</th>
+            <th>影响程度</th>
+            <th>应对措施</th>
+        </tr>
+        <tr>
+            <td>银行信息同步失败</td>
+            <td>中</td>
+            <td>高</td>
+            <td>建立重试机制，增加告警通知</td>
+        </tr>
+        <tr>
+            <td>现有数据迁移问题</td>
+            <td>中</td>
+            <td>中</td>
+            <td>制定详细的迁移方案，做好数据备份</td>
+        </tr>
+        <tr>
+            <td>用户接受度不高</td>
+            <td>低</td>
+            <td>中</td>
+            <td>加强用户培训，提供详细的使用文档</td>
+        </tr>
+    </table>
+
+    <h3>9.2 依赖关系</h3>
+    <p>- 依赖主数据系统提供银行信息<br>- 依赖现有活动报名系统的接口<br>- 依赖运维团队提供服务器资源<br>- 依赖测试团队提供测试环境</p>
+
+    <h1>10. 附录</h1>
+    
+    <h3>10.1 术语表</h3>
+    <p>- 银行ID：银行的唯一标识符<br>- 活动归属：活动与银行的关联关系<br>- 数据同步：不同系统间数据的一致性维护</p>
+
+    <h3>10.2 参考文档</h3>
+    <p>- 现有活动报名系统文档<br>- 银行信息管理系统文档<br>- 数据同步规范文档</p>
+
+    <h3>10.3 变更记录</h3>
+    <table>
+        <tr>
+            <th>版本</th>
+            <th>日期</th>
+            <th>变更内容</th>
+            <th>变更人</th>
+        </tr>
+        <tr>
+            <td>V1.0</td>
+            <td>2025-10-20</td>
+            <td>初始版本</td>
+            <td>[待定]</td>
+        </tr>
+    </table>
+
+    <div class="footer">
+        <p>活动报名归属银行ID优化 - 需求文档 | 版权所有 © 2025</p>
+    </div>
+</body>
+</html>
