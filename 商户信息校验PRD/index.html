@@ -252,15 +252,17 @@
         <ul>
             <li>支持多维度筛选查询（机构银行、商户号、文件名、校验时间、校验状态、校验结果）</li>
             <li>分页展示历史记录（每页10/20/50/100条，可调整）</li>
-            <li>支持记录的刷新和下载操作</li>
+            <li>支持记录的下载操作</li>
             <li>显示详细的校验统计信息</li>
         </ul>
         <p><strong>查询筛选条件：</strong></p>
         <ul>
             <li>机构银行：文本输入，支持模糊查询</li>
+            <li>商户号：文本输入，支持模糊查询</li>
             <li>文件名：文本输入，支持模糊查询</li>
             <li>校验时间：日期范围选择器</li>
-            <li>校验状态：下拉选择（待校验、校验中、已完成、校验失败）</li>
+            <li>校验状态：下拉选择（已完成、校验失败）</li>
+            <li>校验结果：下拉选择（通过、未通过）</li>
         </ul>
     </div>
 
@@ -278,12 +280,6 @@
             </thead>
             <tbody>
                 <tr>
-                    <td>processing</td>
-                    <td>处理中</td>
-                    <td>橙色标签</td>
-                    <td>正在进行校验处理</td>
-                </tr>
-                <tr>
                     <td>completed</td>
                     <td>已完成</td>
                     <td>绿色标签</td>
@@ -299,11 +295,9 @@
         </table>
         <p><strong>状态流转逻辑：</strong></p>
         <ol>
-            <li><strong>文件上传</strong> → <code>pending</code>（待处理）</li>
-            <li><code>pending</code> → <code>processing</code>（处理中）</li>
-            <li><code>processing</code> → <code>completed</code>（已完成）或 <code>failed</code>（校验失败）</li>
-            <li><code>completed</code> 状态下显示校验结果：<code>pass</code>、<code>fail</code>、<code>partial</code></li>
-            <li><code>failed</code> 状态可通过"刷新"操作重新触发校验</li>
+            <li><strong>文件上传</strong> → 直接进行校验处理</li>
+            <li>校验完成 → <code>completed</code>（已完成）或 <code>failed</code>（校验失败）</li>
+            <li><code>completed</code> 状态下显示校验结果：<code>pass</code>、<code>fail</code></li>
         </ol>
     </div>
 
@@ -311,42 +305,20 @@
     <div class="highlight-box">
         <p><strong>主表格操作栏：</strong></p>
         <ul>
-            <li><strong>刷新操作：</strong>
+            <li><strong>移除操作栏：</strong>
                 <ul>
-                    <li>显示条件：校验状态为"处理中"、"校验失败"、"待处理"</li>
-                    <li>功能：重新查询该记录的最新状态</li>
-                    <li>交互：点击后显示"刷新中..."，1.5秒后更新状态</li>
-                    <li>完成后：如果状态变为"已完成"，隐藏刷新按钮</li>
-                </ul>
-            </li>
-            <li><strong>下载操作：</strong>
-                <ul>
-                    <li>显示条件：校验状态为"已完成"</li>
-                    <li>功能：下载该记录的详细校验结果</li>
-                    <li>格式：CSV文件，包含完整的校验数据</li>
+                    <li>为简化界面设计，主表格不再显示操作栏</li>
+                    <li>校验记录的状态通过后台异步更新</li>
+                    <li>用户可通过查询功能查看最新状态</li>
                 </ul>
             </li>
         </ul>
         <p><strong>批量上传模态框操作栏：</strong></p>
         <ul>
-            <li><strong>刷新操作：</strong>
-                <ul>
-                    <li>显示条件：状态为"处理中"、"待处理"</li>
-                    <li>功能：重新查询批次处理状态</li>
-                    <li>交互：同主表格刷新逻辑</li>
-                </ul>
-            </li>
             <li><strong>下载操作：</strong>
                 <ul>
                     <li>显示条件：状态为"已完成"、"失败"</li>
                     <li>功能：下载该批次的处理结果文件</li>
-                </ul>
-            </li>
-            <li><strong>重试操作：</strong>
-                <ul>
-                    <li>显示条件：状态为"失败"</li>
-                    <li>功能：重新处理失败的批次</li>
-                    <li>交互：点击后状态变为"处理中"，重新执行校验逻辑</li>
                 </ul>
             </li>
         </ul>
@@ -545,14 +517,14 @@
                 <td>枚举</td>
                 <td>校验结果</td>
                 <td>彩色标签</td>
-                <td>pending/processing/completed/failed</td>
+                <td>completed/failed</td>
             </tr>
             <tr>
                 <td>校验结果</td>
                 <td>枚举</td>
                 <td>校验结果</td>
                 <td>彩色标签</td>
-                <td>pass/fail/partial/-</td>
+                <td>pass/fail</td>
             </tr>
             <tr>
                 <td>文件名</td>
@@ -902,21 +874,15 @@
 
     <h4>5.1.4 记录操作流程</h4>
     <div class="code-block">
-1. <strong>刷新操作</strong>：<br>
-   - 点击"刷新"链接<br>
-   - 显示"刷新中..."状态<br>
-   - 1.5秒后更新为最新状态<br>
-   - 如果状态变为"已完成"，隐藏刷新按钮<br>
-<br>
-2. <strong>下载操作</strong>：<br>
-   - 点击"下载"链接<br>
-   - 生成CSV格式的校验结果文件<br>
-   - 自动触发浏览器下载<br>
-<br>
-3. <strong>批量导出</strong>：<br>
-   - 勾选需要导出的记录<br>
+1. <strong>批量导出</strong>：<br>
    - 点击"批量导出"按钮<br>
-   - 生成包含所有选中记录的CSV文件
+   - 导出所有符合条件的记录<br>
+   - 生成包含所有记录的CSV文件<br>
+<br>
+2. <strong>状态自动更新</strong>：<br>
+   - 校验状态通过后台异步更新<br>
+   - 用户可通过重新查询查看最新状态<br>
+   - 不需要手动刷新操作
     </div>
 
     <h3>5.2 交互反馈</h3>
@@ -986,16 +952,6 @@
         </thead>
         <tbody>
             <tr>
-                <td>pending</td>
-                <td>待处理</td>
-                <td>文件上传完成，等待开始校验</td>
-            </tr>
-            <tr>
-                <td>processing</td>
-                <td>校验中</td>
-                <td>正在执行校验逻辑</td>
-            </tr>
-            <tr>
                 <td>completed</td>
                 <td>已完成</td>
                 <td>校验已完成</td>
@@ -1027,11 +983,6 @@
                 <td>fail</td>
                 <td>未通过</td>
                 <td>至少一个校验项目未通过</td>
-            </tr>
-            <tr>
-                <td>partial</td>
-                <td>部分通过</td>
-                <td>部分校验项目通过，部分未通过</td>
             </tr>
         </tbody>
     </table>
