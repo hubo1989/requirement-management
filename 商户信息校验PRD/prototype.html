@@ -516,7 +516,7 @@
             white-space: nowrap;
         }
         
-        th:last-child, td:last-child {
+th:last-child, td:last-child {
             border-right: none;
         }
 
@@ -529,42 +529,7 @@
             z-index: 10;
         }
 
-        .checkbox-col {
-            width: auto;
-            min-width: 50px;
-            text-align: center;
-        }
-        
-        .checkbox-col input[type="checkbox"] {
-            margin: 0 auto;
-            display: block;
-        }
-
-        .action-col {
-            width: auto;
-            min-width: 200px;
-            position: sticky;
-            right: 0;
-            background-color: #fafafa;
-            z-index: 15;
-            box-shadow: -2px 0 4px rgba(0,0,0,0.1);
-        }
-
-        tbody .action-col {
-            background-color: white;
-            z-index: 15;
-        }
-
-        .action-col::before {
-            content: '';
-            position: absolute;
-            left: 0;
-            top: 0;
-            bottom: 0;
-            width: 1px;
-            background-color: #f0f0f0;
-        }
-
+  
         tr:hover {
             background-color: #f8f9fa;
         }
@@ -1113,8 +1078,6 @@
                         <label>校验状态：</label>
                         <select aria-label="校验状态">
                             <option value="">请选择</option>
-                            <option value="pending">待校验</option>
-                            <option value="processing">校验中</option>
                             <option value="completed">已完成</option>
                             <option value="failed">校验失败</option>
                         </select>
@@ -1144,8 +1107,7 @@
             <!-- 表格功能说明：
                  1. 支持按列排序，点击表头可切换升序/降序
                  2. 数据分页显示，每页最多20条记录
-                 3. 支持全选和批量操作
-                 4. 状态字段根据时间自动计算显示
+                 3. 状态字段根据时间自动计算显示
             -->
             <div class="data-table">
                 <div class="table-header">
@@ -1155,14 +1117,12 @@
                 <div class="table-container">
                     <!-- 表格字段说明：
                          1. 所有时间字段格式：YYYY-MM-DD HH:mm:ss
-                         2. 状态字段支持颜色标识：启用(绿色)、禁用(灰色)、已结束(红色)
-                         3. 操作列根据活动状态和用户权限动态显示可用操作
-                         4. 支持表头点击排序，默认按创建时间倒序
+                         2. 状态字段支持颜色标识：已完成(绿色)、校验失败(红色)
+                         3. 支持表头点击排序，默认按创建时间倒序
                     -->
                     <table>
                         <thead>
                             <tr>
-                                <th class="checkbox-col"><input type="checkbox" id="selectAll" onchange="toggleSelectAll()" aria-label="全选"></th>
                                 <th>ID</th>
                                 <th>机构银行</th>
                                 <th>商户号</th>
@@ -1172,12 +1132,10 @@
                                 <th>文件名</th>
                                 <th>校验时间</th>
                                 <th>操作人</th>
-                                <th class="action-col">操作</th>
                             </tr>
                         </thead>
                     <tbody>
                         <tr>
-                            <td class="checkbox-col"><input type="checkbox" class="row-checkbox" onchange="updateSelectAll()" aria-label="选择此行"></td>
                             <td>1</td>
                             <td>中国建设银行股份有限公司</td>
                             <td>822202401280001</td>
@@ -1187,41 +1145,30 @@
                             <td>商户信息校验文件_20250120.xlsx</td>
                             <td>2025-01-20 08:30:25</td>
                             <td>张三</td>
-                            <td class="action-col">
-                            </td>
                         </tr>
                         <tr>
-                            <td class="checkbox-col"><input type="checkbox" class="row-checkbox" onchange="updateSelectAll()" aria-label="选择此行"></td>
                             <td>2</td>
                             <td>招商银行股份有限公司</td>
                             <td>822202401280002</td>
                             <td>6225********5678</td>
-                            <td><span class="status-badge status-warning">校验中</span></td>
-                            <td><span class="status-badge status-info">-</span></td>
+                            <td><span class="status-badge status-danger">校验失败</span></td>
+                            <td><span class="status-badge status-danger">未通过</span></td>
                             <td>商户信息校验文件_20250120.xlsx</td>
                             <td>2025-01-20 09:15:32</td>
                             <td>李四</td>
-                            <td class="action-col">
-                                <a href="#" class="action-link" onclick="refreshRecord(this); return false;">刷新</a>
-                            </td>
                         </tr>
                         <tr>
-                            <td class="checkbox-col"><input type="checkbox" class="row-checkbox" onchange="updateSelectAll()" aria-label="选择此行"></td>
                             <td>3</td>
                             <td>中国工商银行股份有限公司</td>
                             <td>822202401280003</td>
                             <td>6222********9012</td>
                             <td><span class="status-badge status-danger">校验失败</span></td>
-                            <td><span class="status-badge status-danger">-</span></td>
+                            <td><span class="status-badge status-danger">未通过</span></td>
                             <td>商户信息校验文件_20250120.xlsx</td>
                             <td>2025-01-20 10:45:18</td>
                             <td>王五</td>
-                            <td class="action-col">
-                                <a href="#" class="action-link" onclick="refreshRecord(this); return false;">刷新</a>
-                            </td>
                         </tr>
                         <tr>
-                            <td class="checkbox-col"><input type="checkbox" class="row-checkbox" onchange="updateSelectAll()" aria-label="选择此行"></td>
                             <td>4</td>
                             <td>中国农业银行股份有限公司</td>
                             <td>822202401280004</td>
@@ -1231,26 +1178,19 @@
                             <td>商户信息校验文件_20250120.xlsx</td>
                             <td>2025-01-20 11:20:45</td>
                             <td>赵六</td>
-                            <td class="action-col">
-                            </td>
                         </tr>
                         <tr>
-                            <td class="checkbox-col"><input type="checkbox" class="row-checkbox" onchange="updateSelectAll()" aria-label="选择此行"></td>
                             <td>5</td>
                             <td>中国银行股份有限公司</td>
                             <td>822202401280005</td>
                             <td>6217********7890</td>
-                            <td><span class="status-badge status-info">待校验</span></td>
-                            <td><span class="status-badge status-info">-</span></td>
+                            <td><span class="status-badge status-success">已完成</span></td>
+                            <td><span class="status-badge status-success">通过</span></td>
                             <td>商户信息校验文件_20250120.xlsx</td>
                             <td>2025-01-20 12:05:22</td>
                             <td>孙七</td>
-                            <td class="action-col">
-                                <a href="#" class="action-link" onclick="refreshRecord(this); return false;">刷新</a>
-                            </td>
                         </tr>
                         <tr>
-                            <td class="checkbox-col"><input type="checkbox" class="row-checkbox" onchange="updateSelectAll()" aria-label="选择此行"></td>
                             <td>6</td>
                             <td>交通银行股份有限公司</td>
                             <td>822202401280006</td>
@@ -1260,26 +1200,19 @@
                             <td>商户信息校验文件_20250120.xlsx</td>
                             <td>2025-01-20 13:30:15</td>
                             <td>周八</td>
-                            <td class="action-col">
-                            </td>
                         </tr>
                         <tr>
-                            <td class="checkbox-col"><input type="checkbox" class="row-checkbox" onchange="updateSelectAll()" aria-label="选择此行"></td>
                             <td>7</td>
                             <td>中信银行股份有限公司</td>
                             <td>822202401280007</td>
                             <td>6226****6789</td>
-                            <td><span class="status-badge status-warning">校验中</span></td>
-                            <td><span class="status-badge status-info">-</span></td>
+                            <td><span class="status-badge status-success">已完成</span></td>
+                            <td><span class="status-badge status-success">通过</span></td>
                             <td>商户信息校验文件_20250120.xlsx</td>
                             <td>2025-01-20 14:15:38</td>
                             <td>吴九</td>
-                            <td class="action-col">
-                                <a href="#" class="action-link" onclick="refreshRecord(this); return false;">刷新</a>
-                            </td>
                         </tr>
                         <tr>
-                            <td class="checkbox-col"><input type="checkbox" class="row-checkbox" onchange="updateSelectAll()" aria-label="选择此行"></td>
                             <td>8</td>
                             <td>光大银行股份有限公司</td>
                             <td>822202401280008</td>
@@ -1289,37 +1222,28 @@
                             <td>商户信息校验文件_20250120.xlsx</td>
                             <td>2025-01-20 15:40:52</td>
                             <td>郑十</td>
-                            <td class="action-col">
-                            </td>
                         </tr>
                         <tr>
-                            <td class="checkbox-col"><input type="checkbox" class="row-checkbox" onchange="updateSelectAll()" aria-label="选择此行"></td>
                             <td>9</td>
                             <td>民生银行股份有限公司</td>
                             <td>822202401280009</td>
                             <td>6226****4567</td>
                             <td><span class="status-badge status-danger">校验失败</span></td>
-                            <td><span class="status-badge status-danger">-</span></td>
+                            <td><span class="status-badge status-danger">未通过</span></td>
                             <td>商户信息校验文件_20250120.xlsx</td>
                             <td>2025-01-20 16:25:08</td>
                             <td>冯一</td>
-                            <td class="action-col">
-                                <a href="#" class="action-link" onclick="refreshRecord(this); return false;">刷新</a>
-                            </td>
                         </tr>
                         <tr>
-                            <td class="checkbox-col"><input type="checkbox" class="row-checkbox" onchange="updateSelectAll()" aria-label="选择此行"></td>
                             <td>10</td>
                             <td>平安银行股份有限公司</td>
                             <td>822202401280010</td>
                             <td>6222****8901</td>
                             <td><span class="status-badge status-success">已完成</span></td>
-                            <td><span class="status-badge status-warning">部分通过</span></td>
+                            <td><span class="status-badge status-warning">未通过</span></td>
                             <td>商户信息校验文件_20250120.xlsx</td>
                             <td>2025-01-20 17:10:33</td>
                             <td>陈二</td>
-                            <td class="action-col">
-                            </td>
                         </tr>
                     </tbody>
                 </table>
@@ -1363,59 +1287,13 @@
             <button class="batch-modal-close" onclick="closeBatchUploadModal()">&times;</button>
         </div>
         <div class="batch-modal-body">
-            <!-- 筛选区域 -->
-            <div class="batch-filter-section">
-                <h4 class="batch-filter-title">筛选条件</h4>
-                <div class="batch-filter-form">
-                    <div class="batch-filter-group">
-                        <label class="batch-filter-label">文件名</label>
-                        <input type="text" class="batch-filter-input" placeholder="请输入文件名" id="batchFilterFileName">
-                    </div>
-                    <div class="batch-filter-group">
-                        <label class="batch-filter-label">机构银行</label>
-                        <select class="batch-filter-select" id="batchFilterBank">
-                            <option value="">全部</option>
-                            <option value="icbc">中国工商银行</option>
-                            <option value="ccb">中国建设银行</option>
-                            <option value="abc">中国农业银行</option>
-                            <option value="boc">中国银行</option>
-                            <option value="bocom">交通银行</option>
-                            <option value="cmb">招商银行</option>
-                        </select>
-                    </div>
-                    <div class="batch-filter-group">
-                        <label class="batch-filter-label">校验状态</label>
-                        <select class="batch-filter-select" id="batchFilterStatus">
-                            <option value="success">全部</option>
-                            <option value="success">已完成</option>
-                            <option value="processing">处理中</option>
-                            <option value="pending">待处理</option>
-                        </select>
-                    </div>
-                    <div class="batch-filter-group">
-                        <label class="batch-filter-label">开始日期</label>
-                        <input type="date" class="batch-filter-input" id="batchFilterStartDate">
-                    </div>
-                    <div class="batch-filter-group">
-                        <label class="batch-filter-label">结束日期</label>
-                        <input type="date" class="batch-filter-input" id="batchFilterEndDate">
-                    </div>
-                </div>
-            </div>
-
             <!-- 操作按钮 -->
             <div class="batch-action-section">
                 <button class="batch-btn batch-btn-primary" onclick="handleBatchUpload()">
                     <span>📤</span> 上传文件
                 </button>
                 <button class="batch-btn batch-btn-success" onclick="handleBatchExport()">
-                    <span>📥</span> 导出记录
-                </button>
-                <button class="batch-btn" onclick="handleBatchQuery()">
-                    <span>🔍</span> 查询
-                </button>
-                <button class="batch-btn" onclick="handleBatchReset()">
-                    <span>🔄</span> 重置
+                    <span>📥</span> 下载模版
                 </button>
             </div>
 
@@ -1451,9 +1329,8 @@
                                 <td>商户信息校验文件_20250120_002.xlsx</td>
                                 <td>招商银行股份有限公司</td>
                                 <td>2025-01-20 09:15:32</td>
-                                <td><span class="batch-status-badge batch-status-processing">处理中</span></td>
+                                <td><span class="batch-status-badge batch-status-failed">失败</span></td>
                                 <td>
-                                    <a href="#" class="action-link" onclick="refreshBatchRecord('BATCH20250120002'); return false;">刷新</a>
                                     <a href="#" class="action-link" onclick="downloadBatchRecord('BATCH20250120002'); return false;">下载</a>
                                 </td>
                             </tr>
@@ -1470,9 +1347,8 @@
                                 <td>商户信息校验文件_20250120_004.xlsx</td>
                                 <td>中国农业银行股份有限公司</td>
                                 <td>2025-01-20 11:20:45</td>
-                                <td><span class="batch-status-badge batch-status-pending">待处理</span></td>
+                                <td><span class="batch-status-badge batch-status-failed">失败</span></td>
                                 <td>
-                                    <a href="#" class="action-link" onclick="refreshBatchRecord('BATCH20250120004'); return false;">刷新</a>
                                     <a href="#" class="action-link" onclick="downloadBatchRecord('BATCH20250120004'); return false;">下载</a>
                                 </td>
                             </tr>
@@ -1489,9 +1365,8 @@
                                 <td>商户信息校验文件_20250120_006.xlsx</td>
                                 <td>交通银行股份有限公司</td>
                                 <td>2025-01-20 13:30:15</td>
-                                <td><span class="batch-status-badge batch-status-processing">处理中</span></td>
+                                <td><span class="batch-status-badge batch-status-failed">失败</span></td>
                                 <td>
-                                    <a href="#" class="action-link" onclick="refreshBatchRecord('BATCH20250120006'); return false;">刷新</a>
                                     <a href="#" class="action-link" onclick="downloadBatchRecord('BATCH20250120006'); return false;">下载</a>
                                 </td>
                             </tr>
@@ -1517,9 +1392,8 @@
                                 <td>商户信息校验文件_20250120_009.xlsx</td>
                                 <td>民生银行股份有限公司</td>
                                 <td>2025-01-20 16:25:08</td>
-                                <td><span class="batch-status-badge batch-status-pending">待处理</span></td>
+                                <td><span class="batch-status-badge batch-status-failed">失败</span></td>
                                 <td>
-                                    <a href="#" class="action-link" onclick="refreshBatchRecord('BATCH20250120009'); return false;">刷新</a>
                                     <a href="#" class="action-link" onclick="downloadBatchRecord('BATCH20250120009'); return false;">下载</a>
                                 </td>
                             </tr>
@@ -1527,9 +1401,8 @@
                                 <td>商户信息校验文件_20250120_010.xlsx</td>
                                 <td>平安银行股份有限公司</td>
                                 <td>2025-01-20 17:10:33</td>
-                                <td><span class="batch-status-badge batch-status-processing">处理中</span></td>
+                                <td><span class="batch-status-badge batch-status-failed">失败</span></td>
                                 <td>
-                                    <a href="#" class="action-link" onclick="refreshBatchRecord('BATCH20250120010'); return false;">刷新</a>
                                     <a href="#" class="action-link" onclick="downloadBatchRecord('BATCH20250120010'); return false;">下载</a>
                                 </td>
                             </tr>
@@ -1548,12 +1421,12 @@
     </div>
 
     <script>
-        // 批量上传功能 - 打开模态框
+        // 打开批量上传模态框
         function batchUpload() {
+            console.log("Button clicked");
             document.getElementById('batchUploadOverlay').classList.add('show');
             document.getElementById('batchUploadModal').classList.add('show');
             document.body.classList.add('modal-open');
-            loadBatchRecords();
         }
 
         // 关闭批量上传模态框
@@ -1562,6 +1435,11 @@
             document.getElementById('batchUploadModal').classList.remove('show');
             document.body.classList.remove('modal-open');
         }
+
+        // 将函数暴露到全局作用域
+        window.batchUpload = batchUpload;
+        window.closeBatchUploadModal = closeBatchUploadModal;
+        console.log("batchUpload function is defined");
 
         // 处理批量上传
         function handleBatchUpload() {
@@ -1576,13 +1454,19 @@
                     const record = {
                         batchId: batchId,
                         fileName: file.name,
-                        bank: document.getElementById('batchFilterBank').value || '未知银行',
+                        bank: '未知银行',
                         uploadTime: new Date().toLocaleString(),
                         status: 'processing'
                     };
-                    
+
+                    // 初始化localStorage中的数据
+                    const existingRecords = localStorage.getItem('batchRecords');
+                    if (!existingRecords) {
+                        localStorage.setItem('batchRecords', JSON.stringify([]));
+                    }
+
                     addBatchRecord(record);
-                    
+
                     // 模拟处理完成
                     setTimeout(() => {
                         updateBatchRecordStatus(batchId, 'success');
@@ -1592,269 +1476,52 @@
             input.click();
         }
 
-        // 处理批量导出
+        // 处理下载模版
         function handleBatchExport() {
-            const records = getBatchRecords();
-            if (records.length === 0) {
-                alert('暂无记录可导出');
-                return;
-            }
-            
-            // 模拟导出
-            const csvContent = "文件名,机构银行,上传时间,状态\n" + 
-                records.map(r => `${r.fileName},${r.bank},${r.uploadTime},${r.status}`).join('\n');
-            
+            // 模拟下载模版
+            const csvContent = "机构银行,商户号,结算卡号,商户名称,商户地址,联系人,联系电话\n" +
+                "中国建设银行,822202401280001,6227000000001234,测试商户1,测试地址1,张三,13800138000\n" +
+                "招商银行,822202401280002,6225000000005678,测试商户2,测试地址2,李四,13800138001\n" +
+                "中国工商银行,822202401280003,6222000000009012,测试商户3,测试地址3,王五,13800138002";
+
             const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
             const link = document.createElement('a');
             link.href = URL.createObjectURL(blob);
-            link.download = '批量上传记录_' + new Date().toLocaleDateString() + '.csv';
+            link.download = '商户信息校验模版.csv';
             link.click();
         }
 
-        // 处理批量查询
-        function handleBatchQuery() {
-            const fileName = document.getElementById('batchFilterFileName').value.toLowerCase();
-            const bank = document.getElementById('batchFilterBank').value;
-            const status = document.getElementById('batchFilterStatus').value;
-            const startDate = document.getElementById('batchFilterStartDate').value;
-            const endDate = document.getElementById('batchFilterEndDate').value;
-            
-            let filteredRecords = getBatchRecords();
-            
-            if (fileName) {
-                filteredRecords = filteredRecords.filter(r => r.fileName.toLowerCase().includes(fileName));
-            }
-            if (bank) {
-                filteredRecords = filteredRecords.filter(r => r.bank === bank);
-            }
-            if (status) {
-                filteredRecords = filteredRecords.filter(r => r.status === status);
-            }
-            if (startDate) {
-                filteredRecords = filteredRecords.filter(r => new Date(r.uploadTime) >= new Date(startDate));
-            }
-            if (endDate) {
-                filteredRecords = filteredRecords.filter(r => new Date(r.uploadTime) <= new Date(endDate + ' 23:59:59'));
-            }
-            
-            displayBatchRecords(filteredRecords);
-        }
-
-        // 处理批量重置
-        function handleBatchReset() {
-            document.getElementById('batchFilterFileName').value = '';
-            document.getElementById('batchFilterBank').value = '';
-            document.getElementById('batchFilterStatus').value = '';
-            document.getElementById('batchFilterStartDate').value = '';
-            document.getElementById('batchFilterEndDate').value = '';
-            
-            loadBatchRecords();
-        }
-
-        // 获取批量记录
-        function getBatchRecords() {
-            const records = localStorage.getItem('batchRecords');
-            return records ? JSON.parse(records) : [];
-        }
-
-        // 保存批量记录
-        function saveBatchRecords(records) {
-            localStorage.setItem('batchRecords', JSON.stringify(records));
-        }
-
-        // 添加批量记录
-        function addBatchRecord(record) {
-            const records = getBatchRecords();
-            records.unshift(record);
-            saveBatchRecords(records);
-            displayBatchRecords(records);
-        }
-
-        // 更新批量记录状态
-        function updateBatchRecordStatus(batchId, status) {
-            const records = getBatchRecords();
-            const record = records.find(r => r.batchId === batchId);
-            if (record) {
-                record.status = status;
-                saveBatchRecords(records);
-                displayBatchRecords(records);
-            }
-        }
-
-        // 显示批量记录
-        function displayBatchRecords(records) {
-            const tbody = document.getElementById('batchRecordsBody');
-            const emptyState = document.getElementById('batchEmptyState');
-            const table = document.getElementById('batchRecordsTable');
-            const count = document.getElementById('batchRecordsCount');
-            
-            count.textContent = `共 ${records.length} 条记录`;
-            
-            if (records.length === 0) {
-                table.style.display = 'none';
-                emptyState.style.display = 'block';
-                return;
-            }
-            
-            table.style.display = 'table';
-            emptyState.style.display = 'none';
-            
-            tbody.innerHTML = records.map(record => {
-                // 根据状态生成操作按钮
-                let actionButtons = '';
-                
-                if (record.status === 'pending' || record.status === 'processing') {
-                    // 待处理或处理中状态：只显示刷新按钮
-                    actionButtons = `<a href="#" class="action-link" onclick="refreshBatchRecord('${record.batchId}'); return false;">刷新</a>`;
-                } else {
-                    // 其他状态（已完成、失败）：显示下载按钮
-                    actionButtons = `<a href="#" class="action-link" onclick="downloadBatchRecord('${record.batchId}'); return false;">下载</a>`;
-                    if (record.status === 'failed') {
-                        // 失败状态额外显示重试按钮
-                        actionButtons += ` <a href="#" class="action-link" onclick="retryBatchUpload('${record.batchId}'); return false;">重试</a>`;
-                    }
-                }
-                
-                return `
-                    <tr>
-                        <td>${record.fileName}</td>
-                        <td>${record.bank}</td>
-                        <td>${record.uploadTime}</td>
-                        <td>
-                            <span class="batch-status-badge batch-status-${record.status}">
-                                ${getStatusText(record.status)}
-                            </span>
-                        </td>
-                        <td>
-                            ${actionButtons}
-                        </td>
-                    </tr>
-                `;
-            }).join('');
-        }
-
-        // 获取状态文本
-        function getStatusText(status) {
-            const statusMap = {
-                'success': '已完成',
-                'processing': '处理中',
-                'failed': '失败',
-                'pending': '待处理'
-            };
-            return statusMap[status] || status;
-        }
-
-        // 加载批量记录
-        function loadBatchRecords() {
-            const records = getBatchRecords();
-            // 如果localStorage中没有数据，使用默认测试数据
-            if (records.length === 0) {
-                const defaultRecords = getDefaultBatchRecords();
-                displayBatchRecords(defaultRecords);
-            } else {
-                displayBatchRecords(records);
-            }
-        }
-
-        // 获取默认测试数据
-        function getDefaultBatchRecords() {
-            return [
-                {
-                    batchId: 'BATCH20250120001',
-                    fileName: '商户信息校验文件_20250120_001.xlsx',
-                    bank: '中国建设银行股份有限公司',
-                    uploadTime: '2025-01-20 08:30:25',
-                    status: 'success'
-                },
-                {
-                    batchId: 'BATCH20250120002',
-                    fileName: '商户信息校验文件_20250120_002.xlsx',
-                    bank: '招商银行股份有限公司',
-                    uploadTime: '2025-01-20 09:15:32',
-                    status: 'processing'
-                },
-                {
-                    batchId: 'BATCH20250120003',
-                    fileName: '商户信息校验文件_20250120_003.xlsx',
-                    bank: '中国工商银行股份有限公司',
-                    uploadTime: '2025-01-20 10:45:18',
-                    status: 'success'
-                },
-                {
-                    batchId: 'BATCH20250120004',
-                    fileName: '商户信息校验文件_20250120_004.xlsx',
-                    bank: '中国农业银行股份有限公司',
-                    uploadTime: '2025-01-20 11:20:45',
-                    status: 'pending'
-                },
-                {
-                    batchId: 'BATCH20250120005',
-                    fileName: '商户信息校验文件_20250120_005.xlsx',
-                    bank: '中国银行股份有限公司',
-                    uploadTime: '2025-01-20 12:05:22',
-                    status: 'success'
-                },
-                {
-                    batchId: 'BATCH20250120006',
-                    fileName: '商户信息校验文件_20250120_006.xlsx',
-                    bank: '交通银行股份有限公司',
-                    uploadTime: '2025-01-20 13:30:15',
-                    status: 'processing'
-                },
-                {
-                    batchId: 'BATCH20250120007',
-                    fileName: '商户信息校验文件_20250120_007.xlsx',
-                    bank: '中信银行股份有限公司',
-                    uploadTime: '2025-01-20 14:15:38',
-                    status: 'success'
-                },
-                {
-                    batchId: 'BATCH20250120008',
-                    fileName: '商户信息校验文件_20250120_008.xlsx',
-                    bank: '光大银行股份有限公司',
-                    uploadTime: '2025-01-20 15:40:52',
-                    status: 'success'
-                },
-                {
-                    batchId: 'BATCH20250120009',
-                    fileName: '商户信息校验文件_20250120_009.xlsx',
-                    bank: '民生银行股份有限公司',
-                    uploadTime: '2025-01-20 16:25:08',
-                    status: 'pending'
-                },
-                {
-                    batchId: 'BATCH20250120010',
-                    fileName: '商户信息校验文件_20250120_010.xlsx',
-                    bank: '平安银行股份有限公司',
-                    uploadTime: '2025-01-20 17:10:33',
-                    status: 'processing'
-                }
-            ];
-        }
-
-        // 查看批量详情
-        function viewBatchDetail(batchId) {
-            alert('查看批次详情: ' + batchId);
-        }
-
-        // 重试批量上传
-        function retryBatchUpload(batchId) {
-            updateBatchRecordStatus(batchId, 'processing');
-            setTimeout(() => {
-                updateBatchRecordStatus(batchId, 'success');
-            }, 2000);
-        }
-
-        // 批量导出功能
+        // 批量导出功能（导出所有数据）
         function batchExport() {
-            const selectedRows = document.querySelectorAll('.row-checkbox:checked');
-            if (selectedRows.length === 0) {
-                alert('请选择要导出的记录');
-                return;
-            }
-            
-            // 模拟导出
-            alert(`已选择 ${selectedRows.length} 条记录进行导出`);
+            // 模拟导出所有数据
+            const data = [];
+            const rows = document.querySelectorAll('.data-table tbody tr');
+
+            rows.forEach(tr => {
+                const rowData = [
+                    tr.cells[0].textContent, // ID
+                    tr.cells[1].textContent, // 机构银行
+                    tr.cells[2].textContent, // 商户号
+                    tr.cells[3].textContent, // 结算卡号
+                    tr.cells[4].textContent, // 校验状态
+                    tr.cells[5].textContent, // 校验结果
+                    tr.cells[6].textContent, // 文件名
+                    tr.cells[7].textContent, // 校验时间
+                    tr.cells[8].textContent  // 操作人
+                ];
+                data.push(rowData);
+            });
+
+            // 创建CSV内容
+            const headers = ['ID', '机构银行', '商户号', '结算卡号', '校验状态', '校验结果', '文件名', '校验时间', '操作人'];
+            const csvContent = [headers, ...data].map(row => row.join(',')).join('\n');
+
+            // 创建下载链接
+            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = '商户信息校验记录_' + new Date().toLocaleDateString() + '.csv';
+            link.click();
         }
 
         // 查询数据
@@ -1874,152 +1541,295 @@
             });
         }
 
-        // 刷新记录
-        function refreshRecord(link) {
-            const row = link.closest('tr');
-            const statusCell = row.cells[5]; // 校验状态列
-            const currentStatus = statusCell.querySelector('.status-badge');
-            
-            // 模拟刷新过程
-            currentStatus.textContent = '刷新中...';
-            currentStatus.className = 'status-badge status-warning';
-            
-            setTimeout(() => {
-                // 随机设置最终状态
-                const statuses = [
-                    { text: '已完成', class: 'status-success' },
-                    { text: '校验失败', class: 'status-danger' },
-                    { text: '已完成', class: 'status-success' }
-                ];
-                const randomStatus = statuses[Math.floor(Math.random() * statuses.length)];
-                
-                currentStatus.textContent = randomStatus.text;
-                currentStatus.className = 'status-badge ' + randomStatus.class;
-                
-                // 更新校验结果
-                const resultCell = row.cells[6]; // 校验结果列
-                if (randomStatus.text === '已完成') {
-                    resultCell.innerHTML = '<span class="status-badge status-success">通过</span>';
-                } else if (randomStatus.text === '校验失败') {
-                    resultCell.innerHTML = '<span class="status-badge status-danger">未通过</span>';
-                }
-                
-                // 移除刷新链接
-                link.style.display = 'none';
-            }, 1500);
-        }
+        // 将函数暴露到全局作用域
+        window.batchUpload = batchUpload;
+        window.closeBatchUploadModal = closeBatchUploadModal;
+        window.handleBatchUpload = handleBatchUpload;
+        window.handleBatchExport = handleBatchExport;
+        window.batchExport = batchExport;
+        window.queryData = queryData;
+        window.resetForm = resetForm;
 
-        // 下载记录
-        function downloadRecord(id) {
-            // 模拟下载功能
-            const data = [
-                ['ID', '机构银行', '商户号', '结算卡号（脱敏）', '校验状态', '校验结果', '文件名', '校验时间', '操作人'],
-                [id, '示例银行', '82220240128000' + id, '6227********1234', '已完成', '通过', '商户信息校验文件_20250120.xlsx', '2025-01-20 08:30:25', '张三']
-            ];
-            
-            const csvContent = data.map(row => row.join(',')).join('\n');
-            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
-            const link = document.createElement('a');
-            link.href = URL.createObjectURL(blob);
-            link.download = '商户信息校验记录_' + id + '.csv';
-            link.click();
-        }
-
-        // 批量记录下载
-        function downloadBatchRecord(batchId) {
-            // 模拟批量记录下载
-            console.log('下载批次记录:', batchId);
-            alert('正在下载批次 ' + batchId + ' 的记录文件...');
-        }
-
-        // 批量记录刷新
-        function refreshBatchRecord(batchId) {
-            // 模拟批量记录刷新
-            console.log('刷新批次记录:', batchId);
-            
-            // 查找对应的行并更新状态
-            const rows = document.querySelectorAll('#batchRecordsBody tr');
-            rows.forEach(row => {
-                // 由于移除了批次号列，需要通过其他方式定位记录
-                // 这里使用文件名匹配或其他唯一标识
-                const record = getBatchRecords().find(r => r.batchId === batchId);
-                if (record && row.cells[0].textContent === record.fileName) {
-                    const statusCell = row.cells[3];
-                    const statusBadge = statusCell.querySelector('.batch-status-badge');
-                    
-                    // 模拟刷新过程
-                    statusBadge.textContent = '刷新中...';
-                    statusBadge.className = 'batch-status-badge batch-status-processing';
-                    
-                    setTimeout(() => {
-                        // 随机设置最终状态
-                        const statuses = ['success', 'success', 'failed'];
-                        const randomStatus = statuses[Math.floor(Math.random() * statuses.length)];
-                        
-                        statusBadge.className = 'batch-status-badge batch-status-' + randomStatus;
-                        if (randomStatus === 'success') {
-                            statusBadge.textContent = '已完成';
-                        } else if (randomStatus === 'failed') {
-                            statusBadge.textContent = '失败';
-                        } else {
-                            statusBadge.textContent = '处理中';
-                        }
-                        
-                        // 更新操作列
-                        const actionCell = row.cells[4];
-                        if (randomStatus === 'success') {
-                            // 已完成状态：只显示下载按钮
-                            actionCell.innerHTML = '<a href="#" class="action-link" onclick="downloadBatchRecord(\'' + batchId + '\'); return false;">下载</a>';
-                        } else if (randomStatus === 'failed') {
-                            // 失败状态：显示下载和重试按钮
-                            actionCell.innerHTML = '<a href="#" class="action-link" onclick="downloadBatchRecord(\'' + batchId + '\'); return false;">下载</a> <a href="#" class="action-link" onclick="retryBatchUpload(\'' + batchId + '\'); return false;">重试</a>';
-                        } else {
-                            // 处理中状态：只显示刷新按钮
-                            actionCell.innerHTML = '<a href="#" class="action-link" onclick="refreshBatchRecord(\'' + batchId + '\'); return false;">刷新</a>';
-                        }
-                    }, 1500);
-                }
-            });
-        }
-
-        // 全选/取消全选
-        function toggleSelectAll() {
-            const selectAll = document.getElementById('selectAll');
-            const rowCheckboxes = document.querySelectorAll('.row-checkbox');
-            
-            rowCheckboxes.forEach(checkbox => {
-                checkbox.checked = selectAll.checked;
-            });
-        }
-
-        // 更新全选状态
-        function updateSelectAll() {
-            const selectAll = document.getElementById('selectAll');
-            const rowCheckboxes = document.querySelectorAll('.row-checkbox');
-            const checkedBoxes = document.querySelectorAll('.row-checkbox:checked');
-            
-            selectAll.checked = rowCheckboxes.length === checkedBoxes.length;
-        }
-
-        // 切换子菜单
-        function toggleSubmenu(element) {
-            const submenu = element.nextElementSibling;
-            const arrow = element.querySelector('.menu-arrow');
-            
-            if (submenu && submenu.classList.contains('submenu')) {
-                submenu.classList.toggle('show');
-                arrow.classList.toggle('expanded');
-            }
-        }
-
-        // 导航到页面
-        function navigateToPage(page) {
-            console.log('导航到页面:', page);
-            // 实际应用中这里会进行页面跳转
-        }
-
-        // 页面加载完成后初始化
         document.addEventListener('DOMContentLoaded', function() {
+            console.log("DOMContentLoaded event fired");
+
+            // 获取批量记录
+            function getBatchRecords() {
+                const records = localStorage.getItem('batchRecords');
+                return records ? JSON.parse(records) : [];
+            }
+
+            // 保存批量记录
+            function saveBatchRecords(records) {
+                localStorage.setItem('batchRecords', JSON.stringify(records));
+            }
+
+            // 添加批量记录
+            function addBatchRecord(record) {
+                const records = getBatchRecords();
+                records.unshift(record);
+                saveBatchRecords(records);
+                displayBatchRecords(records);
+            }
+
+            // 更新批量记录状态
+            function updateBatchRecordStatus(batchId, status) {
+                const records = getBatchRecords();
+                const record = records.find(r => r.batchId === batchId);
+                if (record) {
+                    record.status = status;
+                    saveBatchRecords(records);
+                    displayBatchRecords(records);
+                }
+            }
+
+            // 显示批量记录
+            function displayBatchRecords(records) {
+                const tbody = document.getElementById('batchRecordsBody');
+                const emptyState = document.getElementById('batchEmptyState');
+                const table = document.getElementById('batchRecordsTable');
+                const count = document.getElementById('batchRecordsCount');
+                
+                count.textContent = `共 ${records.length} 条记录`;
+                
+                if (records.length === 0) {
+                    table.style.display = 'none';
+                    emptyState.style.display = 'block';
+                    return;
+                }
+                
+                table.style.display = 'table';
+                emptyState.style.display = 'none';
+                
+                tbody.innerHTML = records.map(record => {
+                    // 根据状态生成操作按钮
+                    let actionButtons = '';
+                    
+                    // 已完成状态：显示下载按钮
+                    actionButtons = `<a href="#" class="action-link" onclick="downloadBatchRecord('${record.batchId}'); return false;">下载错误Excel</a>`;
+                    if (record.status === 'failed') {
+                        // 失败状态额外显示刷先按钮
+                        actionButtons += ` <a href="#" class="action-link" onclick="retryBatchUpload('${record.batchId}'); return false;">刷新</a>`;
+                    }
+                    
+                    return `
+                        <tr>
+                            <td>${record.fileName}</td>
+                            <td>${record.bank}</td>
+                            <td>${record.uploadTime}</td>
+                            <td>
+                                <span class="batch-status-badge batch-status-${record.status}">
+                                    ${getStatusText(record.status)}
+                                </span>
+                            </td>
+                            <td>
+                                ${actionButtons}
+                            </td>
+                        </tr>
+                    `;
+                }).join('');
+            }
+
+            // 获取状态文本
+            function getStatusText(status) {
+                const statusMap = {
+                    'success': '已完成',
+                    'failed': '失败'
+                };
+                return statusMap[status] || status;
+            }
+
+            // 加载批量记录
+            function loadBatchRecords() {
+                const records = getBatchRecords();
+                // 如果localStorage中没有数据，使用默认测试数据
+                if (records.length === 0) {
+                    const defaultRecords = getDefaultBatchRecords();
+                    displayBatchRecords(defaultRecords);
+                } else {
+                    displayBatchRecords(records);
+                }
+            }
+
+            // 获取默认测试数据
+            function getDefaultBatchRecords() {
+                return [
+                    {
+                        batchId: 'BATCH20250120001',
+                        fileName: '商户信息校验文件_20250120_001.xlsx',
+                        bank: '中国建设银行股份有限公司',
+                        uploadTime: '2025-01-20 08:30:25',
+                        status: 'success'
+                    },
+                    {
+                        batchId: 'BATCH20250120002',
+                        fileName: '商户信息校验文件_20250120_002.xlsx',
+                        bank: '招商银行股份有限公司',
+                        uploadTime: '2025-01-20 09:15:32',
+                        status: 'failed'
+                    },
+                    {
+                        batchId: 'BATCH20250120003',
+                        fileName: '商户信息校验文件_20250120_003.xlsx',
+                        bank: '中国工商银行股份有限公司',
+                        uploadTime: '2025-01-20 10:45:18',
+                        status: 'success'
+                    },
+                    {
+                        batchId: 'BATCH20250120004',
+                        fileName: '商户信息校验文件_20250120_004.xlsx',
+                        bank: '中国农业银行股份有限公司',
+                        uploadTime: '2025-01-20 11:20:45',
+                        status: 'failed'
+                    },
+                    {
+                        batchId: 'BATCH20250120005',
+                        fileName: '商户信息校验文件_20250120_005.xlsx',
+                        bank: '中国银行股份有限公司',
+                        uploadTime: '2025-01-20 12:05:22',
+                        status: 'success'
+                    },
+                    {
+                        batchId: 'BATCH20250120006',
+                        fileName: '商户信息校验文件_20250120_006.xlsx',
+                        bank: '交通银行股份有限公司',
+                        uploadTime: '2025-01-20 13:30:15',
+                        status: 'failed'
+                    },
+                    {
+                        batchId: 'BATCH20250120007',
+                        fileName: '商户信息校验文件_20250120_007.xlsx',
+                        bank: '中信银行股份有限公司',
+                        uploadTime: '2025-01-20 14:15:38',
+                        status: 'success'
+                    },
+                    {
+                        batchId: 'BATCH20250120008',
+                        fileName: '商户信息校验文件_20250120_008.xlsx',
+                        bank: '光大银行股份有限公司',
+                        uploadTime: '2025-01-20 15:40:52',
+                        status: 'success'
+                    },
+                    {
+                        batchId: 'BATCH20250120009',
+                        fileName: '商户信息校验文件_20250120_009.xlsx',
+                        bank: '民生银行股份有限公司',
+                        uploadTime: '2025-01-20 16:25:08',
+                        status: 'failed'
+                    },
+                    {
+                        batchId: 'BATCH20250120010',
+                        fileName: '商户信息校验文件_20250120_010.xlsx',
+                        bank: '平安银行股份有限公司',
+                        uploadTime: '2025-01-20 17:10:33',
+                        status: 'failed'
+                    }
+                ];
+            }
+
+            // 查看批量详情
+            window.viewBatchDetail = function(batchId) {
+                alert('查看批次详情: ' + batchId);
+            }
+
+            // 重试批量上传
+            window.retryBatchUpload = function(batchId) {
+                updateBatchRecordStatus(batchId, 'processing');
+                setTimeout(() => {
+                    updateBatchRecordStatus(batchId, 'success');
+                }, 2000);
+            }
+
+  
+        
+            // 下载记录
+            window.downloadRecord = function(id) {
+                // 模拟下载功能
+                const data = [
+                    ['ID', '机构银行', '商户号', '结算卡号（脱敏）', '校验状态', '校验结果', '文件名', '校验时间', '操作人'],
+                    [id, '示例银行', '82220240128000' + id, '6227********1234', '已完成', '通过', '商户信息校验文件_20250120.xlsx', '2025-01-20 08:30:25', '张三']
+                ];
+                
+                const csvContent = data.map(row => row.join(',')).join('\n');
+                const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+                const link = document.createElement('a');
+                link.href = URL.createObjectURL(blob);
+                link.download = '商户信息校验记录_' + id + '.csv';
+                link.click();
+            }
+
+            // 批量记录下载
+            window.downloadBatchRecord = function(batchId) {
+                // 模拟批量记录下载
+                console.log('下载批次记录:', batchId);
+                alert('正在下载批次 ' + batchId + ' 的记录文件...');
+            }
+
+            // 批量记录刷新
+            window.refreshBatchRecord = function(batchId) {
+                // 模拟批量记录刷新
+                console.log('刷新批次记录:', batchId);
+                
+                // 查找对应的行并更新状态
+                const rows = document.querySelectorAll('#batchRecordsBody tr');
+                rows.forEach(row => {
+                    // 由于移除了批次号列，需要通过其他方式定位记录
+                    // 这里使用文件名匹配或其他唯一标识
+                    const record = getBatchRecords().find(r => r.batchId === batchId);
+                    if (record && row.cells[0].textContent === record.fileName) {
+                        const statusCell = row.cells[3];
+                        const statusBadge = statusCell.querySelector('.batch-status-badge');
+                        
+                        // 模拟刷新过程
+                        statusBadge.textContent = '刷新中...';
+                        statusBadge.className = 'batch-status-badge batch-status-processing';
+                        
+                        setTimeout(() => {
+                            // 随机设置最终状态
+                            const statuses = ['success', 'success', 'failed'];
+                            const randomStatus = statuses[Math.floor(Math.random() * statuses.length)];
+                            
+                            statusBadge.className = 'batch-status-badge batch-status-' + randomStatus;
+                            if (randomStatus === 'success') {
+                                statusBadge.textContent = '已完成';
+                            } else if (randomStatus === 'failed') {
+                                statusBadge.textContent = '失败';
+                            } else {
+                                statusBadge.textContent = '处理中';
+                            }
+                            
+                            // 更新操作列
+                            const actionCell = row.cells[4];
+                            if (randomStatus === 'success') {
+                                // 已完成状态：只显示下载按钮
+                                actionCell.innerHTML = '<a href="#" class="action-link" onclick="downloadBatchRecord(\'" + batchId + "\'); return false;">下载</a>';
+                            } else if (randomStatus === 'failed') {
+                                // 失败状态：显示下载和重试按钮
+                                actionCell.innerHTML = '<a href="#" class="action-link" onclick="downloadBatchRecord(\'" + batchId + "\'); return false;">下载</a> <a href="#" class="action-link" onclick="retryBatchUpload(\'" + batchId + "\'); return false;">重试</a>';
+                            }
+                        }, 1500);
+                    }
+                });
+            }
+
+          
+            // 切换子菜单
+            window.toggleSubmenu = function(element) {
+                const submenu = element.nextElementSibling;
+                const arrow = element.querySelector('.menu-arrow');
+                
+                if (submenu && submenu.classList.contains('submenu')) {
+                    submenu.classList.toggle('show');
+                    arrow.classList.toggle('expanded');
+                }
+            }
+
+            // 导航到页面
+            window.navigateToPage = function(page) {
+                console.log('导航到页面:', page);
+                // 实际应用中这里会进行页面跳转
+            }
+
             // 初始化批量记录
             loadBatchRecords();
         });
