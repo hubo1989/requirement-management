@@ -4,9 +4,11 @@
   "description": "系统化维护所有需求文档",
   "main": "index.html",
   "scripts": {
-    "dev": "vercel dev",
-    "build": "echo 'No build step required'",
-    "deploy": "vercel --prod"
+    "dev": "python3 -m http.server 8080 --directory . || python -m SimpleHTTPServer 8080 || npx serve . -p 8080",
+    "build": "echo 'No build step required - static files'",
+    "deploy": "vercel --prod",
+    "serve": "npx serve . -p 8080",
+    "preview": "python3 -m http.server 8080 --directory ."
   },
   "keywords": [
     "需求管理",
