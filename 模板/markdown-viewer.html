@@ -462,6 +462,7 @@
             <div class="nav-links">
                 <a href="index.html" class="nav-link">← 返回首页</a>
                 <button class="nav-link" id="printButton">打印文档</button>
+                <button class="nav-link" id="downloadButton">保存文件</button>
             </div>
 
             <div id="content" class="loading">
@@ -475,8 +476,10 @@
         // 获取DOM元素
         const themeToggle = document.getElementById('themeToggle');
         const printButton = document.getElementById('printButton');
+        const downloadButton = document.getElementById('downloadButton');
         const contentDiv = document.getElementById('content');
         const titleElement = document.getElementById('document-title');
+        let currentFilePath = ''; // 存储当前文件路径
 
         // 主题切换
         themeToggle.addEventListener('click', function() {
@@ -490,6 +493,52 @@
         // 打印功能
         printButton.addEventListener('click', function() {
             window.print();
+        });
+
+        // 下载文件功能
+        downloadButton.addEventListener('click', async function() {
+            if (!currentFilePath) {
+                alert('没有可下载的文件');
+                return;
+            }
+
+            try {
+                // 获取文件内容
+                const response = await fetch(currentFilePath, {
+                    headers: {
+                        'Content-Type': 'text/plain'
+                    }
+                });
+
+                if (!response.ok) {
+                    throw new Error(`无法获取文件内容: ${response.status} ${response.statusText}`);
+                }
+
+                const content = await response.text();
+
+                // 获取文件名
+                const fileName = getFileName(currentFilePath);
+
+                // 创建Blob对象
+                const blob = new Blob([content], { type: 'text/markdown;charset=utf-8' });
+
+                // 创建下载链接
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = fileName;
+                document.body.appendChild(a);
+                a.click();
+
+                // 清理
+                window.URL.revokeObjectURL(url);
+                document.body.removeChild(a);
+
+                console.log(`文件 ${fileName} 下载成功`);
+            } catch (error) {
+                console.error('下载错误:', error);
+                alert('下载失败: ' + error.message);
+            }
         });
 
         // 恢复主题偏好
@@ -725,6 +774,9 @@
         // 加载并渲染Markdown文件
         async function loadMarkdownFile(filePath) {
             try {
+                // 存储当前文件路径
+                currentFilePath = filePath;
+
                 // 设置标题
                 const fileName = getFileName(filePath);
                 titleElement.textContent = fileName;
