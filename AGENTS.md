@@ -1,11 +1,17 @@
 # Repository Guidelines / 代码库指南
 
+特别规则：
+
+始终输出中文 / Always output in Chinese
+
 ## Project Structure & Module Organization / 项目结构与模块组织
 
 ### English / 英文
+
 This is a requirements document management system built with static HTML files and deployed on Vercel. The repository follows a documentation-centric structure:
 
 ### 中文 / Chinese
+
 这是一个基于静态HTML文件构建的需求文档管理系统，部署在Vercel平台上。代码库遵循以文档为核心的结构：
 
 ```
@@ -21,14 +27,17 @@ This is a requirements document management system built with static HTML files a
 ```
 
 ### English / 英文
+
 Each requirement folder contains: `原始文档/`, `相关资源/`, `版本历史/`, and `index.html`.
 
 ### 中文 / Chinese
+
 每个需求文件夹包含：`原始文档/`、`相关资源/`、`版本历史/` 和 `index.html`。
 
 ## Build, Test, and Development Commands / 构建、测试和开发命令
 
 ### English / 英文
+
 This is a static site with minimal build requirements:
 
 - `npm run dev` - Start local development server using Vercel CLI
@@ -38,6 +47,7 @@ This is a static site with minimal build requirements:
 For local development, install dependencies with `npm install` then run `npm run dev`.
 
 ### 中文 / Chinese
+
 这是一个静态网站，构建需求极少：
 
 - `npm run dev` - 使用 Vercel CLI 启动本地开发服务器
@@ -51,12 +61,14 @@ For local development, install dependencies with `npm install` then run `npm run
 ### Folder Structure / 文件夹结构
 
 #### English / 英文
+
 - Category folders: Use business module names (e.g., "银行联合营销平台")
 - Requirement folders: `[需求名称]V[版本号]` format (e.g., "机构新增优化需求V1.0")
 - Use underscores `_` instead of spaces
 - Avoid special characters in folder names
 
 #### 中文 / Chinese
+
 - 分类文件夹：使用业务模块名称（例如："银行联合营销平台"）
 - 需求文件夹：`[需求名称]V[版本号]` 格式（例如："机构新增优化需求V1.0"）
 - 使用下划线 `_` 代替空格
@@ -65,11 +77,13 @@ For local development, install dependencies with `npm install` then run `npm run
 ### File Naming / 文件命名
 
 #### English / 英文
+
 - Requirement documents: `[需求名称]_[版本号].[扩展名]`
 - Index files: Always use `index.html`
 - Template files: `[文档类型]_模板.[扩展名]`
 
 #### 中文 / Chinese
+
 - 需求文档：`[需求名称]_[版本号].[扩展名]`
 - 索引文件：始终使用 `index.html`
 - 模板文件：`[文档类型]_模板.[扩展名]`
@@ -77,12 +91,14 @@ For local development, install dependencies with `npm install` then run `npm run
 ### HTML Standards / HTML 标准
 
 #### English / 英文
+
 - Use semantic HTML5 elements
 - Maintain UTF-8 encoding
 - Include proper meta tags for SEO
 - Follow responsive design principles
 
 #### 中文 / Chinese
+
 - 使用语义化 HTML5 元素
 - 保持 UTF-8 编码
 - 包含适当的 SEO 元标签
@@ -91,6 +107,7 @@ For local development, install dependencies with `npm install` then run `npm run
 ## Testing Guidelines / 测试指南
 
 ### English / 英文
+
 This is a documentation system without traditional unit tests. Quality assurance includes:
 
 - Manual verification of navigation links in `index.html`
@@ -102,6 +119,7 @@ This is a documentation system without traditional unit tests. Quality assurance
 Run `npm run dev` locally to test changes before deployment.
 
 ### 中文 / Chinese
+
 这是一个没有传统单元测试的文档系统。质量保证包括：
 
 - 手动验证 `index.html` 中的导航链接
@@ -117,14 +135,18 @@ Run `npm run dev` locally to test changes before deployment.
 ### Commit Message Format / 提交信息格式
 
 #### English / 英文
+
 Use conventional commits with Chinese descriptions:
+
 - `feat: 添加新的需求分类模块`
 - `docs: 更新README文档`
 - `fix: 修复导航链接错误`
 - `refactor: 重构需求文件夹结构`
 
 #### 中文 / Chinese
+
 使用带有中文描述的约定式提交：
+
 - `feat: 添加新的需求分类模块`
 - `docs: 更新README文档`
 - `fix: 修复导航链接错误`
@@ -133,6 +155,7 @@ Use conventional commits with Chinese descriptions:
 ### Pull Request Requirements / 拉取请求要求
 
 #### English / 英文
+
 - Include clear description of changes
 - Reference specific requirement documents if applicable
 - Test all modified navigation links
@@ -140,6 +163,7 @@ Use conventional commits with Chinese descriptions:
 - Update main `index.html` when adding new requirements
 
 #### 中文 / Chinese
+
 - 包含清晰的更改描述
 - 如适用，引用具体的需求文档
 - 测试所有修改的导航链接
@@ -149,14 +173,18 @@ Use conventional commits with Chinese descriptions:
 ### Documentation Updates / 文档更新
 
 #### English / 英文
+
 Always update relevant documentation when:
+
 - Adding new requirement categories
 - Modifying folder structures
 - Changing naming conventions
 - Updating deployment processes
 
 #### 中文 / Chinese
+
 在以下情况下始终更新相关文档：
+
 - 添加新的需求分类
 - 修改文件夹结构
 - 更改命名约定

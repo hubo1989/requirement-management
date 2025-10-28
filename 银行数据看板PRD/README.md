@@ -10,7 +10,7 @@
 银行数据看板PRD/
 ├── README.md                    # 本说明文档
 ├── index.html                   # 产品规格说明书
-├── dashboard.html               # 联合营销平台数据看板原型
+├── prototype.html               # 联合营销平台数据看板原型
 ├── merchant-analysis.html       # 商户维度统计分析页面
 ├── single-bank.html             # 单银行数据看板原型
 ├── markdown-viewer.html         # 增强版Markdown查看器
@@ -74,7 +74,7 @@
 - **结构**：采用Markdown格式，包含完整的PRD章节结构
 - **内容**：涵盖背景与目标、用户与使用场景、功能需求、非功能性需求等
 
-### 2. 联合营销平台数据看板 (dashboard.html)
+### 2. 联合营销平台数据看板 (prototype.html)
 
 - **功能**：多银行数据对比分析看板
 - **交互**：时间范围选择、数据类型选择、图表类型切换、商户维度分析
@@ -231,7 +231,7 @@
 
 1. **产品规格说明书**：直接在浏览器中打开index.html查看完整的产品需求文档
 2. **数据看板原型**：
-   - 联合营销平台：打开dashboard.html查看多银行数据对比分析看板
+   - 联合营销平台：打开prototype.html查看多银行数据对比分析看板
    - 单银行看板：打开single-bank.html查看单个银行交易数据分析看板
 3. **Markdown查看器**：
    - 打开markdown-viewer.html查看增强版Markdown查看器
@@ -280,7 +280,7 @@
    - 更新了README.md文档，详细说明了各文件功能和用途
 
 2. **静态化处理**：
-   - 将index.html、dashboard.html和single-bank.html文件中的动态数据处理逻辑移除
+   - 将index.html、prototype.html和single-bank.html文件中的动态数据处理逻辑移除
    - 使用示例数据直接嵌入HTML文件中，确保原型可以独立运行
    - 保留了基本的交互效果，如图表切换、数据刷新提示等
 
