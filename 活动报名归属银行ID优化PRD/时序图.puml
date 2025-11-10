@@ -1,0 +1,32 @@
+﻿@startuml
+participant 云聚宝 as three
+participant 银行精益化平台 as mgm
+participant 本地数据库 as local
+participant 其他服务 as mgt
+participant MQ as mq
+
+==活动报名mq消息==
+mq->>mgm: 银行精益化平台接收mq的活动审核信息
+mgm->>mgm: 根据推送的信息中的 bankOrgNo 字段进行查询
+mgm->>local: 根据 bankOrgNo 拓客行号 查询 bank_org_info 表 (SELECT * FROM bank_org_info WHERE tk_bank_code = '')
+local-->>mgm: 返回银行机构信息
+alt 如果有
+    mgm->>mgm: 创建银行商户绑定关系 (insert into bank_merchant_ref)
+else 如果没有
+    mgm->>mgt: 根据 templateId 查询所在的银行id
+    mgt-->>mgm: 返回 bank_id 信息
+    mgm->>local: 创建银行商户绑定关系 (insert into bank_merchant_ref)
+end
+
+==银行精益化平台 银行商户 绑定接口==
+
+three->>mgm: 调用商户绑定接口 (目前只有云聚宝类型的才会调用这个接口)
+mgm->>mgm: 根据上送的 bank_id 和 merchant_no进行标记
+
+alt 如果有绑定消息
+    mgm-->>three: 结束处理
+else 如果没有绑定消息
+    mgm->>mgm: 继续绑定处理
+    mgm-->>three: 结束处理
+end
+@enduml

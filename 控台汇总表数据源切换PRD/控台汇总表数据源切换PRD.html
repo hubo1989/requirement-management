@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>控台汇总表数据源切换PRD</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@5.2.0/github-markdown.min.css">
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+        }
+        .markdown-body {
+            box-sizing: border-box;
+            min-width: 200px;
+            max-width: 100%;
+            margin: 0 auto;
+            padding: 45px;
+        }
+        .markdown-body h1, .markdown-body h2, .markdown-body h3, .markdown-body h4, .markdown-body h5, .markdown-body h6 {
+            margin-top: 24px;
+            margin-bottom: 16px;
+            font-weight: 600;
+            line-height: 1.25;
+        }
+        .markdown-body h1 {
+            font-size: 2em;
+            border-bottom: 1px solid #eaecef;
+            padding-bottom: 0.3em;
+            text-align: center;
+            color: #24292e;
+        }
+        .markdown-body h2 {
+            font-size: 1.5em;
+            border-bottom: 1px solid #eaecef;
+            padding-bottom: 0.3em;
+        }
+        .markdown-body table {
+            border-collapse: collapse;
+            width: 100%;
+            margin-bottom: 16px;
+        }
+        .markdown-body table th, .markdown-body table td {
+            border: 1px solid #d0d7de;
+            padding: 6px 13px;
+        }
+        .markdown-body table th {
+            background-color: #f6f8fa;
+            font-weight: 600;
+        }
+        .markdown-body table tr:nth-child(even) {
+            background-color: #f6f8fa;
+        }
+        .markdown-body blockquote {
+            padding: 0 1em;
+            color: #57606a;
+            border-left: 0.25em solid #d0d7de;
+            margin: 0;
+        }
+        .markdown-body code {
+            padding: 0.2em 0.4em;
+            margin: 0;
+            font-size: 85%;
+            background-color: rgba(175,184,193,0.2);
+            border-radius: 6px;
+        }
+        .markdown-body pre {
+            padding: 16px;
+            overflow: auto;
+            font-size: 85%;
+            line-height: 1.45;
+            background-color: #f6f8fa;
+            border-radius: 6px;
+            margin-bottom: 0;
+        }
+        .mermaid {
+            background-color: #f6f8fa;
+            border-radius: 6px;
+            padding: 20px;
+            margin: 20px 0;
+            overflow: auto;
+        }
+        .toc {
+            background-color: #f6f8fa;
+            border: 1px solid #d0d7de;
+            border-radius: 6px;
+            padding: 16px;
+            margin-bottom: 24px;
+        }
+        .toc h3 {
+            margin-top: 0;
+            font-size: 1.2em;
+            color: #24292e;
+        }
+        .toc ul {
+            padding-left: 20px;
+            margin: 0;
+        }
+        .toc li {
+            margin: 8px 0;
+        }
+        .toc a {
+            color: #0969da;
+            text-decoration: none;
+        }
+        .toc a:hover {
+            text-decoration: underline;
+        }
+        .page-header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #eaecef;
+        }
+        .page-title {
+            font-size: 2.5em;
+            color: #24292e;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+        .page-subtitle {
+            color: #57606a;
+            font-size: 1.1em;
+        }
+        .section-header {
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid #eaecef;
+        }
+        .diagram-container {
+            background-color: #ffffff;
+            border: 1px solid #e1e4e8;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        .diagram-title {
+            font-weight: 600;
+            color: #24292e;
+            margin-bottom: 15px;
+            font-size: 1.1em;
+        }
+        @media print {
+            body {
+                padding: 0;
+                background: white;
+            }
+            .markdown-body {
+                padding: 20px;
+                max-width: 100%;
+            }
+            .toc {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="markdown-body">
+        <div class="page-header">
+            <h1 class="page-title">控台汇总表数据源切换PRD</h1>
+            <p class="page-subtitle">产品需求文档 - 数据源优化方案</p>
+        </div>
+
+        <div class="toc">
+            <h3>目录</h3>
+            <ul>
+                <li><a href="#背景与目标">1. 背景与目标</a></li>
+                <li><a href="#功能需求">2. 功能需求</a></li>
+                <li><a href="#数据结构">3. 数据结构</a></li>
+                <li><a href="#统计表逻辑">4. 统计表逻辑</a></li>
+                <li><a href="#时序图">5. 时序图</a></li>
+            </ul>
+        </div>
+
+        <h2 id="背景与目标">1. 背景与目标</h2>
+
+        <h3 id="项目背景">1.1 项目背景</h3>
+
+        <p>当前控台汇总表数据易出现漏统计，导致不准确，影响运营与银行人员的核对工作。</p>
+
+        <h3 id="项目目标">1.2 项目目标</h3>
+
+        <p>实现控台汇总表数据源查询联合营销平台自有统计数据表，实时接收消息更新。</p>
+
+        <h2 id="功能需求" class="section-header">2. 功能需求</h2>
+
+        <h3 id="联合营销平台">2.1 联合营销平台</h3>
+
+        <p>对以下页面数据源做改造，同时去掉筛选项中的"是否排序"。</p>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>功能模块</th>
+                    <th>功能描述</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>活动日汇总</td>
+                    <td>展示一个活动ID的自然日内汇总数据</td>
+                </tr>
+                <tr>
+                    <td>活动月汇总</td>
+                    <td>展示一个活动ID的自然月内汇总数据</td>
+                </tr>
+                <tr>
+                    <td>商户活动日汇总</td>
+                    <td>展示一个商户在一个活动ID的自然日内汇总数据</td>
+                </tr>
+                <tr>
+                    <td>商户活动月汇总</td>
+                    <td>展示一个商户在一个活动ID的自然月内汇总数据</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h4 id="银行联合营销平台">2.2 银行联合营销平台</h4>
+
+        <p>将以下页面从BI页面修改为自建页面</p>
+
+        <h5>2.2.1 活动日汇总、月汇总</h5>
+
+        <p><strong>筛选项为：</strong>银行ID（下拉），政策ID（手输），活动ID（手输），交易日期，交易方向。</p>
+
+        <p><strong>约束条件：</strong>其中交易时间必选；政策ID或活动ID其一必选。</p>
+
+        <p><strong>日期选择：</strong></p>
+        <ul>
+            <li>日汇总页面交易日期为日期段，可选择最长31天的区间</li>
+            <li>月汇总页面交易日期选择自然月</li>
+        </ul>
+
+        <p><strong>功能项：</strong>搜索、重置、下载。点击下载后进入下载中心下载。</p>
+
+        <p><strong>展示字段：</strong>序号、政策ID，政策名称、活动ID、活动名称、交易日期、交易类型、累计商户数、累计交易金额、累计补贴金额、累计手续费、累计交易笔数。</p>
+
+        <h5>2.2.2 商户活动日汇总、月汇总</h5>
+
+        <p><strong>筛选项为：</strong>银行ID（下拉），政策ID（手输），活动ID（手输），商户号，交易日期，交易方向。</p>
+
+        <p><strong>约束条件：</strong>其中交易时间必选；政策ID或活动ID其一必选。</p>
+
+        <p><strong>日期选择：</strong></p>
+        <ul>
+            <li>日汇总页面交易日期为日期段，可选择最长31天的区间</li>
+            <li>月汇总页面交易日期选择自然月</li>
+        </ul>
+
+        <p><strong>功能项：</strong>搜索、重置、下载。点击下载后进入下载中心下载。</p>
+
+        <p><strong>展示字段：</strong>序号、政策ID，政策名称、活动ID、活动名称、商户号、商户名称、交易日期、交易类型、累计交易金额、累计补贴金额、累计手续费、累计交易笔数、银行结算补贴金额、三代机构号、三代机构名。</p>
+
+        <h2 id="数据结构" class="section-header">3. 数据结构</h2>
+
+        <h3 id="数据底表详情">3.1 数据底表详情</h3>
+
+        <h4 id="活动商户补贴汇总日报表">3.1.1 活动商户补贴汇总日报表</h4>
+
+        <p><strong>表名：</strong> <code>bmt_activity_mer_subsidy_sum_d</code></p>
+
+        <p><strong>表注释：</strong> 活动商户补贴汇总日报表</p>
+
+        <p><strong>主键：</strong> (merchant_code, activity_id, trade_type, trans_date)</p>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>字段名</th>
+                    <th>数据类型</th>
+                    <th>长度</th>
+                    <th>是否为空</th>
+                    <th>注释</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>merchant_code</td>
+                    <td>varchar</td>
+                    <td>32</td>
+                    <td>NOT NULL</td>
+                    <td>商户号</td>
+                </tr>
+                <tr>
+                    <td>activity_id</td>
+                    <td>varchar</td>
+                    <td>20</td>
+                    <td>NOT NULL</td>
+                    <td>活动ID</td>
+                </tr>
+                <tr>
+                    <td>activity_name</td>
+                    <td>varchar</td>
+                    <td>255</td>
+                    <td>NULL</td>
+                    <td>活动名称</td>
+                </tr>
+                <tr>
+                    <td>trade_type</td>
+                    <td>varchar</td>
+                    <td>16</td>
+                    <td>NOT NULL</td>
+                    <td>交易方向</td>
+                </tr>
+                <tr>
+                    <td>card_type</td>
+                    <td>varchar</td>
+                    <td>16</td>
+                    <td>NOT NULL</td>
+                    <td>交易卡类型</td>
+                </tr>
+                <tr>
+                    <td>trans_date</td>
+                    <td>date</td>
+                    <td>-</td>
+                    <td>NOT NULL</td>
+                    <td>交易时间yyyy-MM-dd</td>
+                </tr>
+                <tr>
+                    <td>subsidy_cnt</td>
+                    <td>bigint</td>
+                    <td>-</td>
+                    <td>NULL</td>
+                    <td>补贴笔数</td>
+                </tr>
+                <tr>
+                    <td>subsidy_mer_num</td>
+                    <td>varchar</td>
+                    <td>16</td>
+                    <td>NULL</td>
+                    <td>补贴商户数</td>
+                </tr>
+                <tr>
+                    <td>pay_amt</td>
+                    <td>varchar</td>
+                    <td>32</td>
+                    <td>NULL</td>
+                    <td>累计交易金额</td>
+                </tr>
+                <tr>
+                    <td>fee_amount</td>
+                    <td>varchar</td>
+                    <td>32</td>
+                    <td>NULL</td>
+                    <td>累计交易交易手续费</td>
+                </tr>
+                <tr>
+                    <td>shd_subsidy_amt</td>
+                    <td>varchar</td>
+                    <td>32</td>
+                    <td>NULL</td>
+                    <td>累计交易应结补贴金额</td>
+                </tr>
+                <tr>
+                    <td>subsidy_amount</td>
+                    <td>varchar</td>
+                    <td>32</td>
+                    <td>NULL</td>
+                    <td>累计交易补贴金额</td>
+                </tr>
+                <tr>
+                    <td>data_type</td>
+                    <td>varchar</td>
+                    <td>16</td>
+                    <td>NULL</td>
+                    <td>数据类型 1:昨日有效(每天) 2:结束日期为昨日(每天) 3:截至当前有效(每月1号) 4：结束日期为上月(每月1号)</td>
+                </tr>
+                <tr>
+                    <td>owner_id</td>
+                    <td>varchar</td>
+                    <td>8</td>
+                    <td>NULL</td>
+                    <td>业主ID</td>
+                </tr>
+                <tr>
+                    <td>owner_name</td>
+                    <td>varchar</td>
+                    <td>255</td>
+                    <td>NULL</td>
+                    <td>业主机构名称</td>
+                </tr>
+                <tr>
+                    <td>templet_id</td>
+                    <td>varchar</td>
+                    <td>32</td>
+                    <td>NULL</td>
+                    <td>政策ID</td>
+                </tr>
+                <tr>
+                    <td>templet_name</td>
+                    <td>varchar</td>
+                    <td>255</td>
+                    <td>NULL</td>
+                    <td>政策名称</td>
+                </tr>
+                <tr>
+                    <td>organ_id</td>
+                    <td>varchar</td>
+                    <td>32</td>
+                    <td>NULL</td>
+                    <td>三代机构号</td>
+                </tr>
+                <tr>
+                    <td>organ_name</td>
+                    <td>varchar</td>
+                    <td>255</td>
+                    <td>NULL</td>
+                    <td>三代机构名称</td>
+                </tr>
+                <tr>
+                    <td>merchant_name</td>
+                    <td>varchar</td>
+                    <td>255</td>
+                    <td>NULL</td>
+                    <td>商户名称</td>
+                </tr>
+                <tr>
+                    <td>gmt_create</td>
+                    <td>datetime</td>
+                    <td>-</td>
+                    <td>NULL</td>
+                    <td>创建时间</td>
+                </tr>
+                <tr>
+                    <td>create_by</td>
+                    <td>varchar</td>
+                    <td>255</td>
+                    <td>NULL</td>
+                    <td>创建人</td>
+                </tr>
+                <tr>
+                    <td>etl_dt</td>
+                    <td>varchar</td>
+                    <td>16</td>
+                    <td>NULL</td>
+                    <td>数据部同步时间</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h4 id="补贴交易明细表">3.1.2 补贴交易明细表</h4>
+
+        <p><strong>表名：</strong> <code>msa_activity_subsidy_record</code></p>
+
+        <h3 id="字段与指标定义">3.2 字段与指标定义</h3>
+
+        <h4 id="活动日月汇总">3.2.1 活动日、月汇总</h4>
+
+        <p><strong>维度字段（Group By）：</strong></p>
+
+        <ul>
+            <li>activity_id</li>
+            <li>txn_time（取交易时间的对应日期or月份）</li>
+            <li>trade_type（交易类型：1正向，2反向）</li>
+            <li>card_type （交易卡类型：01,-全部,02-微信, 03-支付宝, 04-银联二维码,05-刷卡）</li>
+        </ul>
+
+        <p><strong>指标字段：</strong></p>
+
+        <ul>
+            <li><strong>txn_count：</strong>交易笔数 = count(distinct log_no txn_id)</li>
+            <li><strong>mer_count：</strong>商户数 = count(distinct merc_no user_id)</li>
+            <li><strong>pay_amt_sum：</strong>交易金额汇总 = sum(pay_amt)，反向交易控台展示为-</li>
+            <li><strong>subsidy_amount_sum：</strong>补贴金额汇总 = sum(subsidy_amount)，反向交易控台展示为-</li>
+            <li><strong>fee_amount_sum：</strong>手续费金额汇总 = sum(fee_amount)，反向交易控台展示为-</li>
+        </ul>
+
+        <h4 id="商户活动日月汇总">3.2.2 商户活动日、月汇总</h4>
+
+        <p><strong>维度字段（Group By）：</strong></p>
+
+        <ul>
+            <li>merc_no</li>
+            <li>activity_id</li>
+            <li>txn_time（取交易时间的对应日期or月份）</li>
+            <li>trade_type（交易类型：1正向，2反向）</li>
+            <li>card_type （交易卡类型：01,-全部,02-微信, 03-支付宝, 04-银联二维码,05-刷卡）</li>
+        </ul>
+
+        <p><strong>指标字段：</strong></p>
+
+        <ul>
+            <li><strong>txn_count：</strong>交易笔数 = count(distinct log_no txn_id)</li>
+            <li><strong>pay_amt_sum：</strong>交易金额汇总 = sum(pay_amt)，反向交易控台展示为-</li>
+            <li><strong>subsidy_amount_sum：</strong>补贴金额汇总 = sum(subsidy_amount)，反向交易控台展示为-</li>
+            <li><strong>fee_amount_sum：</strong>手续费金额汇总 = sum(fee_amount)，反向交易控台展示为-</li>
+            <li><strong>reserve3_amount_sum:</strong>银行结算补贴金额汇总 = sum(reserve3_fee_amount)，反向交易控台展示为-</li>
+        </ul>
+
+        <h2 id="统计表逻辑" class="section-header">4. 统计表逻辑</h2>
+
+        <ul>
+            <li>2025.10月以前的数据，从现有数据部提供的数据库复制使用，缺失的维度字段交易卡类型，初始化存储为全部</li>
+            <li>上线时将2025.11开始的数据重新统计到统计表，并从上线后开始，将所有的补贴交易消息，收到后实时增加到统计表，补贴交易消息接口文档：</li>
+            <li>收到补贴交易消息时，使用交易流水号到三代系统查询三代机构号+三代机构名同时落到数据库，供控台显示</li>
+        </ul>
+
+        <h3 id="统计表数据处理流程图">4.1 统计表数据处理流程图</h3>
+
+        <div class="diagram-container">
+            <div class="diagram-title">系统整体数据处理流程</div>
+            <div class="mermaid" id="main-flow-chart">
+                flowchart TD
+                    Start([系统上线]) --> Init{初始化处理}
+
+                    %% 历史数据处理
+                    Init -->|历史数据| HistoryData[2025.10月以前数据]
+                    HistoryData --> CopyData[从数据部数据库复制]
+                    CopyData --> SetDefault[缺失字段设置默认值<br/>交易卡类型=全部]
+                    SetDefault --> InsertStat[插入统计表]
+
+                    %% 新数据重新统计
+                    Init -->|新数据重新统计| NewData[2025.11月开始数据]
+                    NewData --> ReStat[重新统计到统计表]
+                    ReStat --> RealTime[启动实时处理]
+
+                    %% 实时消息处理
+                    RealTime --> ReceiveMsg[收到补贴交易消息]
+                    ReceiveMsg --> GetLogNo[提取交易流水号]
+                    GetLogNo --> QueryThreeGen[查询三代系统]
+                    QueryThreeGen --> GetOrgInfo[获取三代机构号+机构名]
+                    GetOrgInfo --> InsertRecord[插入统计表记录]
+                    InsertRecord --> UpdateDisplay[更新控台显示]
+
+                    %% 循环处理
+                    UpdateDisplay --> ReceiveMsg
+
+                    %% 结束节点
+                    InsertStat --> End([数据初始化完成])
+                    RealTime --> End
+
+                    %% 样式设置
+                    style Start fill:#e1f5fe
+                    style End fill:#c8e6c9
+                    style HistoryData fill:#fff3e0
+                    style NewData fill:#fff3e0
+                    style QueryThreeGen fill:#ffebee
+                    style InsertRecord fill:#e8f5e8
+            </div>
+        </div>
+
+        <h3 id="详细处理逻辑说明">4.2 详细处理逻辑说明</h3>
+
+        <h4>阶段一：历史数据处理</h4>
+
+        <div class="diagram-container">
+            <div class="diagram-title">历史数据处理流程</div>
+            <div class="mermaid" id="history-flow-chart">
+                flowchart LR
+                    A[数据部数据库] --> B[筛选2025.10月前数据]
+                    B --> C[复制到联合营销平台]
+                    C --> D[检查交易卡类型字段]
+                    D --> E{字段是否缺失?}
+                    E -->|是| F[设置默认值:全部]
+                    E -->|否| G[保持原值]
+                    F --> H[插入统计表]
+                    G --> H
+            </div>
+        </div>
+
+        <h4>阶段二：实时消息处理</h4>
+
+        <div class="diagram-container">
+            <div class="diagram-title">实时消息处理流程</div>
+            <div class="mermaid" id="realtime-flow-chart">
+                flowchart TD
+                    A[补贴交易消息] --> B[解析消息内容]
+                    B --> C[提取交易流水号]
+                    C --> D[调用三代系统接口]
+                    D --> E{三代系统响应}
+                    E -->|成功| F[获取机构号+机构名]
+                    E -->|失败| G[记录错误日志]
+                    F --> H[组合完整数据]
+                    G --> I[设置默认机构信息]
+                    H --> J[插入统计表]
+                    I --> J
+                    J --> K[更新控台显示]
+                    K --> L[等待下一条消息]
+                    L --> A
+            </div>
+        </div>
+
+        <h4>阶段三：数据一致性保障</h4>
+
+        <div class="diagram-container">
+            <div class="diagram-title">数据一致性保障流程</div>
+            <div class="mermaid" id="consistency-flow-chart">
+                flowchart TD
+                    A[数据写入] --> B[验证数据完整性]
+                    B --> C{数据验证通过?}
+                    C -->|是| D[提交事务]
+                    C -->|否| E[回滚事务]
+                    D --> F[记录操作日志]
+                    E --> G[记录错误日志]
+                    F --> H[通知监控告警]
+                    G --> H
+                    H --> I[数据同步完成]
+            </div>
+        </div>
+
+        <h2 id="时序图" class="section-header">5. 时序图</h2>
+
+        <div class="diagram-container">
+            <div class="diagram-title">系统交互时序图（待补充）</div>
+            <p><em>时序图内容待后续补充完善...</em></p>
+        </div>
+
+        <div style="margin-top: 60px; padding-top: 20px; border-top: 1px solid #eaecef; text-align: center; color: #57606a; font-size: 0.9em;">
+            <p>本文档版本：V1.0 | 最后更新：2025年1月</p>
+            <p>© 控台汇总表数据源切换项目组</p>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10.6.1/dist/mermaid.min.js"></script>
+    <script>
+        mermaid.initialize({
+            startOnLoad: true,
+            theme: 'default',
+            themeVariables: {
+                primaryColor: '#e1f5fe',
+                primaryTextColor: '#24292e',
+                primaryBorderColor: '#0366d6',
+                lineColor: '#586069',
+                sectionBkgColor: '#f6f8fa',
+                altSectionBkgColor: '#ffffff',
+                gridColor: '#e1e4e8',
+                secondaryColor: '#fff3e0',
+                tertiaryColor: '#ffebee'
+            },
+            flowchart: {
+                useMaxWidth: true,
+                htmlLabels: true,
+                curve: 'basis'
+            },
+            securityLevel: 'loose'
+        });
+
+        // 确保所有mermaid图表都能正确渲染
+        document.addEventListener('DOMContentLoaded', function() {
+            const mermaidElements = document.querySelectorAll('.mermaid');
+            mermaidElements.forEach(function(element) {
+                const graphDefinition = element.textContent;
+                mermaid.render('mermaid-' + Math.random().toString(36).substr(2, 9), graphDefinition, function(svgCode) {
+                    element.innerHTML = svgCode;
+                });
+            });
+        });
+
+        // 平滑滚动到锚点
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>

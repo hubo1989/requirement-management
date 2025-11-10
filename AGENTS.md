@@ -211,3 +211,91 @@ Ensure all file paths use relative references for proper deployment functionalit
 - 自定义域名配置可在 Vercel 仪表板中设置
 
 确保所有文件路径使用相对引用以实现正确的部署功能。
+
+## System Workflow / 系统工作流程
+
+### 需求文档管理系统流程图
+
+```mermaid
+flowchart TD
+    A[新需求提出] --> B{需求类型判断}
+    B -->|新需求| C[创建需求文件夹]
+    B -->|更新需求| D[修改现有需求]
+    B -->|归档需求| E[移动到归档文件夹]
+
+    C --> F[标准文件夹结构]
+    F --> G[原始文档/]
+    F --> H[相关资源/]
+    F --> I[版本历史/]
+    F --> J[index.html]
+
+    D --> K[更新版本号]
+    K --> L[更新版本历史]
+    L --> M[修改index.html]
+
+    E --> N[备份到归档/]
+    N --> O[从主目录移除]
+
+    G --> P[编写需求文档]
+    H --> Q[添加附件资源]
+    I --> R[记录变更日志]
+    J --> S[生成导航页面]
+
+    S --> T{本地测试}
+    T -->|npm run dev| U[验证功能]
+    U -->|测试通过| V[提交代码]
+    U -->|测试失败| W[修复问题]
+    W --> T
+
+    V --> X[推送到主分支]
+    X --> Y[Vercel自动部署]
+    Y --> Z[生产环境访问]
+
+    style A fill:#e1f5fe
+    style Z fill:#c8e6c9
+    style T fill:#fff3e0
+    style Y fill:#f3e5f5
+```
+
+### 流程说明 / Flow Description
+
+#### 中文 / Chinese
+
+1. **需求创建阶段**：
+   - 根据需求类型选择创建、更新或归档操作
+   - 遵循标准文件夹结构组织文档
+   - 生成对应的导航页面
+
+2. **开发测试阶段**：
+   - 本地使用 `npm run dev` 进行功能验证
+   - 测试通过后提交代码到版本库
+
+3. **部署阶段**：
+   - 推送到主分支触发自动部署
+   - Vercel 平台处理静态文件服务
+   - 生产环境立即可访问
+
+#### English / 英文
+
+1. **Requirement Creation Phase**:
+   - Select create, update, or archive operations based on requirement type
+   - Organize documents following standard folder structure
+   - Generate corresponding navigation pages
+
+2. **Development Testing Phase**:
+   - Use `npm run dev` locally for functionality verification
+   - Commit code to repository after tests pass
+
+3. **Deployment Phase**:
+   - Push to main branch triggers automatic deployment
+   - Vercel platform handles static file serving
+   - Production environment immediately accessible
+
+### 关键检查点 / Key Checkpoints
+
+- ✅ 文件夹结构标准化
+- ✅ 命名规范遵循
+- ✅ 导航链接完整性
+- ✅ 本地功能测试
+- ✅ 版本控制提交
+- ✅ 自动部署成功

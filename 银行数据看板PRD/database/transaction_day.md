@@ -11,55 +11,61 @@
 ## 表结构详细信息
 
 
-| 序号 | 字段名称                 | 数据类型      | 约束条件                                              | 字段描述                              |
-| ---- | ------------------------ | ------------- | ----------------------------------------------------- | ------------------------------------- |
-| 1    | id                       | bigint        | PRIMARY KEY, AUTO_INCREMENT                           | 主键ID                                |
-| 2    | stat_date                | date          | NOT NULL                                              | 统计日期                              |
-| 3    | bank_code                | string        |                                                       | 银行代码                              |
-| 4    | bank_name                | string        |                                                       | 银行名称                              |
-| 5    | mcc_code                 | string        |                                                       | 商户mcc                               |
-| 6    | merchant_type            | string        |                                                       | 商户类型（实体商户/资金商户）         |
-| 7    | trans_channel            | string        |                                                       | 交易渠道（all/online/offline/mobile） |
-| 8    | total_trans_count        | bigint        | DEFAULT 0                                             | 总交易笔数                            |
-| 9    | total_trans_amount       | decimal(20,3) | DEFAULT 0                                             | 总交易金额（分）                      |
-| 10   | success_trans_count      | bigint        | DEFAULT 0                                             | 成功交易笔数                          |
-| 11   | success_trans_amount     | decimal(20,3) | DEFAULT 0                                             | 成功交易金额（分）                    |
-| 12   | failed_trans_count       | bigint        | DEFAULT 0                                             | 失败交易笔数                          |
-| 13   | failed_trans_amount      | decimal(20,3) | DEFAULT 0                                             | 失败交易金额（分）                    |
-| 14   | qualified_trans_count    | bigint        | DEFAULT 0                                             | 达标交易笔数                          |
-| 15   | qualified_trans_amount   | decimal(20,3) | DEFAULT 0                                             | 达标交易金额（分）                    |
-| 16   | qualified_merchant_count | bigint        | DEFAULT 0                                             | 达标商户数                            |
-| 17   | avg_trans_amount         | decimal(14,3) | DEFAULT 0                                             | 平均交易金额（分）                    |
-| 18   | max_trans_amount         | decimal(20,3) | DEFAULT 0                                             | 最大交易金额（分）                    |
-| 19   | min_trans_amount         | decimal(20,3) | DEFAULT 0                                             | 最小交易金额（分）                    |
-| 20   | total_fee_amount         | decimal(14,3) | DEFAULT 0                                             | 总手续费金额（分）                    |
-| 21   | debit_card_count         | bigint        | DEFAULT 0                                             | 借记卡交易笔数                        |
-| 22   | credit_card_count        | bigint        | DEFAULT 0                                             | 贷记卡交易笔数                        |
-| 23   | debit_card_amount        | decimal(20,3) | DEFAULT 0                                             | 借记卡交易金额（分）                  |
-| 24   | credit_card_amount       | decimal(20,3) | DEFAULT 0                                             | 贷记卡交易金额（分）                  |
-| 25   | unique_merchant_count    | bigint        | DEFAULT 0                                             | 活跃商户数                            |
-| 26   | total_merchant_count     | bigint        | DEFAULT 0                                             | 交易商户数                            |
-| 27   | created_time             | timestamp     | DEFAULT CURRENT_TIMESTAMP                             | 创建时间                              |
-| 28   | updated_time             | timestamp     | DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP | 更新时间                              |
-| 29   | consume_trans_count      | bigint        | DEFAULT 0                                             | 消费交易笔数                          |
-| 30   | consume_trans_amount     | decimal(20,3) | DEFAULT 0                                             | 消费交易金额（分）                    |
-| 31   | refund_trans_count       | bigint        | DEFAULT 0                                             | 退款交易笔数                          |
-| 32   | refund_trans_amount      | decimal(20,3) | DEFAULT 0                                             | 退款交易金额（分）                    |
-| 33   | preauth_complete_count   | bigint        | DEFAULT 0                                             | 预授权完成撤销交易笔数                |
-| 34   | preauth_complete_amount  | decimal(20,3) | DEFAULT 0                                             | 预授权完成撤销交易金额（分）          |
-| 35   | wechat_pay_count         | bigint        | DEFAULT 0                                             | 微信支付笔数                          |
-| 36   | wechat_pay_amount        | decimal(20,3) | DEFAULT 0                                             | 微信支付金额（分）                    |
-| 37   | alipay_count             | bigint        | DEFAULT 0                                             | 支付宝支付笔数                        |
-| 38   | alipay_amount            | decimal(20,3) | DEFAULT 0                                             | 支付宝支付金额（分）                  |
-| 39   | bank_card_count          | bigint        | DEFAULT 0                                             | 银行卡刷卡笔数                        |
-| 40   | bank_card_amount         | decimal(20,3) | DEFAULT 0                                             | 银行卡刷卡金额（分）                  |
-| 41   | preauth_finish_count     | bigint        | DEFAULT 0                                             | 预授权完成笔数                        |
+| 序号 | 字段名称                 | 数据类型      | 约束条件                                              | 字段描述                                          |
+| ---- | ------------------------ | ------------- | ----------------------------------------------------- | ------------------------------------------------- |
+| 1    | id                       | bigint        | PRIMARY KEY, AUTO_INCREMENT                           | 主键ID                                            |
+| 2    | stat_date                | date          | NOT NULL                                              | 统计日期                                          |
+| 3    | bank_code                | string        |                                                       | 银行代码                                          |
+| 4    | bank_name                | string        |                                                       | 银行名称                                          |
+| 5    | mcc_code                 | string        |                                                       | 商户mcc                                           |
+| 6    | merchant_type            | string        |                                                       | 商户类型（实体商户/资金商户），与原数据组逻辑一致 |
+| 7    | trans_channel            | string        |                                                       | 交易渠道（all/online/offline/mobile）             |
+| 8    | total_trans_count        | bigint        | DEFAULT 0                                             | 总交易笔数                                        |
+| 9    | total_trans_amount       | decimal(20,3) | DEFAULT 0                                             | 总交易金额（分）                                  |
+| 10   | success_trans_count      | bigint        | DEFAULT 0                                             | 成功交易笔数                                      |
+| 11   | success_trans_amount     | decimal(20,3) | DEFAULT 0                                             | 成功交易金额（分）                                |
+| 12   | failed_trans_count       | bigint        | DEFAULT 0                                             | 失败交易笔数                                      |
+| 13   | failed_trans_amount      | decimal(20,3) | DEFAULT 0                                             | 失败交易金额（分）                                |
+| 14   | qualified_trans_count    | bigint        | DEFAULT 0                                             | 达标交易笔数                                      |
+| 15   | qualified_trans_amount   | decimal(20,3) | DEFAULT 0                                             | 达标交易金额（分）                                |
+| 16   | qualified_merchant_count | bigint        | DEFAULT 0                                             | 达标商户数                                        |
+| 17   | avg_trans_amount         | decimal(14,3) | DEFAULT 0                                             | 平均交易金额（分）                                |
+| 18   | max_trans_amount         | decimal(20,3) | DEFAULT 0                                             | 最大交易金额（分）                                |
+| 19   | min_trans_amount         | decimal(20,3) | DEFAULT 0                                             | 最小交易金额（分）                                |
+| 20   | total_fee_amount         | decimal(14,3) | DEFAULT 0                                             | 总手续费金额（分）                                |
+| 21   | debit_card_count         | bigint        | DEFAULT 0                                             | 借记卡交易笔数                                    |
+| 22   | credit_card_count        | bigint        | DEFAULT 0                                             | 贷记卡交易笔数                                    |
+| 23   | debit_card_amount        | decimal(20,3) | DEFAULT 0                                             | 借记卡交易金额（分）                              |
+| 24   | credit_card_amount       | decimal(20,3) | DEFAULT 0                                             | 贷记卡交易金额（分）                              |
+| 25   | unique_merchant_count    | bigint        | DEFAULT 0                                             | 活跃商户数                                        |
+| 26   | total_merchant_count     | bigint        | DEFAULT 0                                             | 交易商户数                                        |
+| 27   | created_time             | timestamp     | DEFAULT CURRENT_TIMESTAMP                             | 创建时间                                          |
+| 28   | updated_time             | timestamp     | DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP | 更新时间                                          |
+| 29   | consume_trans_count      | bigint        | DEFAULT 0                                             | 消费交易笔数                                      |
+| 30   | consume_trans_amount     | decimal(20,3) | DEFAULT 0                                             | 消费交易金额（分）                                |
+| 31   | refund_trans_count       | bigint        | DEFAULT 0                                             | 退款交易笔数                                      |
+| 32   | refund_trans_amount      | decimal(20,3) | DEFAULT 0                                             | 退款交易金额（分）                                |
+| 33   | preauth_complete_count   | bigint        | DEFAULT 0                                             | 预授权完成撤销交易笔数                            |
+| 34   | preauth_complete_amount  | decimal(20,3) | DEFAULT 0                                             | 预授权完成撤销交易金额（分）                      |
+| 35   | wechat_pay_count         | bigint        | DEFAULT 0                                             | 微信支付笔数                                      |
+| 36   | wechat_pay_amount        | decimal(20,3) | DEFAULT 0                                             | 微信支付金额（分）                                |
+| 37   | alipay_count             | bigint        | DEFAULT 0                                             | 支付宝支付笔数                                    |
+| 38   | alipay_amount            | decimal(20,3) | DEFAULT 0                                             | 支付宝支付金额（分）                              |
+| 39   | bank_card_count          | bigint        | DEFAULT 0                                             | 银行卡刷卡笔数                                    |
+| 40   | bank_card_amount         | decimal(20,3) | DEFAULT 0                                             | 银行卡刷卡金额（分）                              |
+| 41   | preauth_finish_count     | bigint        | DEFAULT 0                                             | 预授权完成笔数                                    |
 
 ## 字段分类说明
 
 ### 1. 基础标识字段 (1-7)
 
-主键、统计日期、银行信息、商户类别（mcc）和商户类型等基础标识字段。
+主键、统计日期、银行信息、商户类别（mcc）和商户类型等基础标识字段。商户类型字段，与原数据组区分逻辑一致：实体商户为分公司和渠道的真商机构。资金商户为机构大类限制营销中心、全网自营，机构小类为：
+
+- 渠道部-s
+- ﻿渠道部-好拓客
+- 渠道部-直拓客
+- 客户满意部
+- ﻿渠道部-代理
 
 ### 2. 交易总量统计字段 (8-13)
 
