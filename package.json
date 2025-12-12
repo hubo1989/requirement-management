@@ -18,6 +18,6 @@
   "author": "产品团队",
   "license": "MIT",
   "devDependencies": {
-    "vercel": "^32.4.1"
+    "vercel": "^48.9.0"
   }
 }
